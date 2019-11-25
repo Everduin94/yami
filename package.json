@@ -7,13 +7,14 @@
     "build": "ng build",
     "test": "jest",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "cypress open"
   },
   "jest": {
     "preset": "jest-preset-angular",
     "setupFilesAfterEnv": [
       "./setupJest.ts"
-    ]
+    ],
+    "modulePathIgnorePatterns": ["./cypress/"]
   },
   "private": true,
   "dependencies": {
