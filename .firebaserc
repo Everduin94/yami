@@ -1,11 +1,14 @@
 {
   "targets": {
-    "flamelink-starter": {
+    "yami": {
       "hosting": {
-        "flamelink-starter": [
-          "flamelink-starter"
+        "yami": [
+          "yami"
         ]
       }
     }
+  },
+  "projects": {
+    "default": "yami-backend"
   }
 }
