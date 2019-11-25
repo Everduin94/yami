@@ -5,6 +5,7 @@ build:
   cache:
     paths:
       - node_modules/
+      - cache/Cypress
   script:
     - npm install --quiet
     - npm run build
@@ -20,6 +21,7 @@ test:
     policy: pull
     paths:
       - node_modules/
+      - cache/Cypress
   script:
     - npm run test
     - npm install -g wait-on --quiet
