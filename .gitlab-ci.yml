@@ -22,7 +22,8 @@ test:
     policy: pull
     paths:
       - node_modules/
-      - cache/Cypress
+      - .cache/Cypress
+      - $CI_PROJECT_DIR/cache/Cypress
   script:
     - npm run test
     - npm install -g wait-on --quiet
