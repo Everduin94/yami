@@ -23,7 +23,7 @@ test:
   script:
     - npm run test
     - npm install -g wait-on --quiet
-    - npm start & wait-on http://localhost:4200
+    - npm start & wait-on http://localhost:4200 &
     - npm run cy:run
 
 deploy_prod:
