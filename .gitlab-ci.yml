@@ -22,6 +22,8 @@ test:
       - node_modules/
   script:
     npm run test
+    npm start & wait-on http://localhost:4200
+    npm run cy:run
 
 deploy_prod:
   stage: deploy
