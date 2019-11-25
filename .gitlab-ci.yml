@@ -7,7 +7,6 @@ build:
       - node_modules/
   script:
     - npm install --quiet
-    - npm install -g wait-on --quiet
     - npm run build
   artifacts:
     paths:
@@ -23,6 +22,7 @@ test:
       - node_modules/
   script:
     - npm run test
+    - npm install -g wait-on --quiet
     - npm start & wait-on http://localhost:4200
     - npm run cy:run
 
