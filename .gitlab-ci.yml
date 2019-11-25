@@ -5,7 +5,8 @@ build:
   cache:
     paths:
       - node_modules/
-      - cache/Cypress
+      - .cache/Cypress
+      - $CI_PROJECT_DIR/cache/Cypress
   script:
     - npm install --quiet
     - npm run build
