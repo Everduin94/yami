@@ -1,14 +1,18 @@
 image: node:10
 
+variables:
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+
 build:
   stage: build
   cache:
     paths:
       - node_modules/
-      - .cache/Cypress
-      - $CI_PROJECT_DIR/cache/Cypress
+      - cache/Cypress
+      - $CI_PROJECT_DIR/.cache/Cypress
+      - ${CI_PROJECT_DIR}/.cache/Cypress
   script:
-    - npm install --quiet
+    - npm install
     - npm run build
   artifacts:
     paths:
@@ -22,8 +26,9 @@ test:
     policy: pull
     paths:
       - node_modules/
-      - .cache/Cypress
-      - $CI_PROJECT_DIR/cache/Cypress
+      - cache/Cypress
+      - $CI_PROJECT_DIR/.cache/Cypress
+      - ${CI_PROJECT_DIR}/.cache/Cypress
   script:
     - npm run test
     - npm install -g wait-on --quiet
