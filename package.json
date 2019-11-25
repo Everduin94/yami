@@ -8,7 +8,7 @@
     "test": "jest",
     "lint": "ng lint",
     "e2e": "cypress open",
-    "deploy": "firebase deploy --token $FIREBASE_TOKEN --non-interactive"
+    "deploy": "firebase deploy --token $FIREBASE_TOKEN --non-interactive --only hosting"
   },
   "jest": {
     "preset": "jest-preset-angular",
