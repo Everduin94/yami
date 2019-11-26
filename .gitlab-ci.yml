@@ -26,10 +26,10 @@ test:
       - node_modules/
       - ~/.cache/Cypress
   script:
+    - npm run test
     - npm install -g wait-on --quiet
     - npm install cypress
     - npm start & wait-on http://localhost:4200 &
-    - npm run test
     - npm run cy:run
 
 deploy_prod:

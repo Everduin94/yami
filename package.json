@@ -17,7 +17,9 @@
       "./setupJest.ts"
     ],
     "modulePathIgnorePatterns": [
-      "./cypress/"
+      "./cypress/",
+      "cache/Cypress/",
+      "/Cypress/"
     ]
   },
   "private": true,
