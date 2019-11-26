@@ -1,16 +1,36 @@
 image: node:10
 
+variables:
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+
 build:
   stage: build
   cache:
     paths:
       - node_modules/
+      - ~/.cache/Cypress
   script:
     - npm install --quiet
     - npm run build
   artifacts:
     paths:
       - dist/yami/
+
+test:
+  image: cypress/base:10
+  stage: test
+  dependencies:
+    - build
+  cache:
+    policy: pull
+    paths:
+      - node_modules/
+      - ~/.cache/Cypress
+  script:
+    - npm run test
+    - npm install -g wait-on --quiet
+    - npm install cypress
+    - npm start & wait-on http-get://localhost:4200/ && npm run cy:run
 
 deploy_prod:
   stage: deploy

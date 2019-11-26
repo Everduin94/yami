@@ -8,6 +8,7 @@
     "test": "jest",
     "lint": "ng lint",
     "e2e": "cypress open",
+    "cy:run": "cypress run",
     "deploy": "firebase deploy --token $FIREBASE_TOKEN --non-interactive --only hosting"
   },
   "jest": {
@@ -15,7 +16,11 @@
     "setupFilesAfterEnv": [
       "./setupJest.ts"
     ],
-    "modulePathIgnorePatterns": ["./cypress/"]
+    "modulePathIgnorePatterns": [
+      "./cypress/",
+      "cache/Cypress/",
+      "/Cypress/"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -38,6 +43,7 @@
     "marked": "^0.7.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
+    "wait-on": "^3.3.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
