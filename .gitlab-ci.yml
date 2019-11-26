@@ -17,6 +17,7 @@ build:
       - dist/yami/
 
 test:
+  image: cypress/base:10
   stage: test
   dependencies:
     - build
