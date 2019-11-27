@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from './appComponents/page-not-found/page-not-f
 import { LoginComponent } from './appComponents/login/login.component';
 import { ShellComponent } from './appComponents/header/shell.component';
 import { MainComponent } from './appComponents/main/main.component';
+import { FlashCardsGuard } from './guards/flash-cards.guard';
 
 const routes: Routes = [
   {
@@ -11,16 +12,14 @@ const routes: Routes = [
     component: ShellComponent,
     children: [
       {
-        path: 'home',
-        component: MainComponent,
-        children: [
-          {
-            path: 'examples',
-            loadChildren: () => import('./featureComponents/examples/examples.module').then(mod => mod.ExamplesModule),
-          },
-        ]
+        path: 'examples',
+        loadChildren: () => import('./featureComponents/examples/examples.module').then(mod => mod.ExamplesModule),
       },
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      {
+        path: 'flashCards',
+        loadChildren: () => import('./featureComponents/flash-cards/flash-cards.module').then(mod => mod.FlashCardsModule),
+        canLoad: [FlashCardsGuard]
+      }
     ]
   },
   { path: 'login', component: LoginComponent },

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
+import { AngularFirestore, CollectionReference, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class FirestoreService {
     return this.af.collection(tableName);
   }
 
-  get(tableName, id) {
+  get(tableName, id): AngularFirestoreDocument<any> {
     return this.getAll(tableName).doc(id);
   }
 

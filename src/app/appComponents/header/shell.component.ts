@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from 'src/app/services/theme.service';
+import { Theme } from '../../models/theme.model';
 
 @Component({
   selector: 'app-shell',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShellComponent implements OnInit {
 
-  constructor() { }
+  constructor(private themeService: ThemeService) { }
 
   ngOnInit() {
   }
 
+
+  testLight() {
+    this.themeService.toggleTheme(Theme.LIGHT);
+  }
+
+  testDark() {
+    this.themeService.toggleTheme(Theme.DARK);
+  }
 }

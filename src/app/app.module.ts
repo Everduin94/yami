@@ -17,6 +17,7 @@ import { ShellComponent } from './appComponents/header/shell.component';
 import { MainComponent } from './appComponents/main/main.component';
 import { MdToHtmlPipe } from './pipes/md-to-html.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FlashCardsComponent } from './featureComponents/flash-cards/flash-cards.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     LoginComponent,
     ShellComponent,
     MainComponent,
-    MdToHtmlPipe
+    MdToHtmlPipe,
   ],
   imports: [
     BrowserModule,
