@@ -11,9 +11,12 @@ import 'firebase/auth';
 })
 export class LoginComponent implements OnInit {
 
+  errors$;
+
   constructor(private auth: FirebaseAuthService) { }
 
   ngOnInit() {
+    this.errors$ = this.auth.errors$;
   }
 
   googleLogin() {

@@ -1,4 +1,9 @@
 <div class="login-container">
     <button (click)="googleLogin()">Google</button>
     <button (click)="githubLogin()">Github</button>
+    <div style="color: crimson" *ngIf="errors$ | async as errors" class="errors">
+        {{errors.message}}
+        <hr>
+        {{errors.exception}}
+    </div>
 </div>

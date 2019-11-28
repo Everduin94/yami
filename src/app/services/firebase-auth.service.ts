@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { switchMap, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -12,6 +12,9 @@ import { User } from '../models/user.model';
 export class FirebaseAuthService {
 
   user$;
+  private errors = new BehaviorSubject(null);
+  public errors$ = this.errors.asObservable();
+
   userId;
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {
@@ -26,10 +29,11 @@ export class FirebaseAuthService {
   async signIn(provider) {
     try {
       const credential = await this.afAuth.auth.signInWithPopup(provider);
+      this.errors.next(null);
       this.updateUserData(credential.user);
       this.router.navigate(['/']);
     } catch (e) {
-      console.log('caught ya! hehe!')
+      this.errors.next({message: "Failed to Login!", exception: e})
     }
   }
 
