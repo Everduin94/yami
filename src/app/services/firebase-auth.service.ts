@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { auth } from 'firebase/app';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -12,14 +11,6 @@ import { User } from '../models/user.model';
 })
 export class FirebaseAuthService {
 
-  /**
-   * Test cases:
-   * - Log out and log in
-   * - Switch users
-   * - start logged in
-   * - start not logged in
-   */
-
   user$;
   userId;
 
@@ -29,19 +20,22 @@ export class FirebaseAuthService {
       switchMap(
         user => user ? this.afs.doc<User>(`users/${user.uid}`).valueChanges() : of(null)
       )
-    );
+    )
   }
 
-  async googleSignin() {
-    const provider = new auth.GoogleAuthProvider();
-    const credential = await this.afAuth.auth.signInWithPopup(provider);
-    this.updateUserData(credential.user);
-    this.router.navigate(['/']);
+  async signIn(provider) {
+    try {
+      const credential = await this.afAuth.auth.signInWithPopup(provider);
+      this.updateUserData(credential.user);
+      this.router.navigate(['/']);
+    } catch (e) {
+      console.log('caught ya! hehe!')
+    }
   }
 
   async signOut() {
     await this.afAuth.auth.signOut();
-    return this.router.navigate(['/login']);
+    return this.router.navigate(['/']);
   }
 
   updateUserData(user) {

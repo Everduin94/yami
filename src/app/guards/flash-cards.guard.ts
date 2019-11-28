@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, CanLoad, Route, UrlSegment } from '@angular/router';
+import { Router, CanLoad, Route, UrlSegment, CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FirebaseAuthService } from '../services/firebase-auth.service';
 import { take, map, tap } from 'rxjs/operators';
@@ -7,7 +7,15 @@ import { take, map, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class FlashCardsGuard implements CanLoad {
+export class FlashCardsGuard implements CanLoad, CanActivate {
+  
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    return this.auth.user$.pipe(
+      take(1),
+      map(user => !!user),
+      tap(loggedIn => !loggedIn ? this.router.navigate(['/']) : null)
+    );
+  }
   
   constructor(private auth: FirebaseAuthService, private router: Router) {}
 
@@ -15,7 +23,7 @@ export class FlashCardsGuard implements CanLoad {
     return this.auth.user$.pipe(
       take(1),
       map(user => !!user),
-      tap(loggedIn => !loggedIn ? this.router.navigate(['/login']) : null)
+      tap(loggedIn => !loggedIn ? this.router.navigate(['/']) : null)
     );
   }
 }

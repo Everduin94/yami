@@ -4,7 +4,10 @@
     <button (click)="testDark()">Test Dark</button>
     <a [routerLink]="['/examples']">Load Examples</a>
     <a [routerLink]="['/flashCards']">Flash Cards</a>
-    <a [routerLink]="['/login']">Logout</a>
+    <!-- Replace with component -->
+    <button (click)="logout()">Logout</button>
+    <a [routerLink]="['/login']">Login</a>
+    <span *ngIf="auth.user$ | async as user">{{user.displayName}}</span>
 </div>
 
 <router-outlet></router-outlet>

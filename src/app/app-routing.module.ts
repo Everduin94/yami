@@ -18,7 +18,8 @@ const routes: Routes = [
       {
         path: 'flashCards',
         loadChildren: () => import('./featureComponents/flash-cards/flash-cards.module').then(mod => mod.FlashCardsModule),
-        canLoad: [FlashCardsGuard]
+        canLoad: [FlashCardsGuard],
+        canActivate: [FlashCardsGuard]
       }
     ]
   },

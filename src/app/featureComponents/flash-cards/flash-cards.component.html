@@ -1,3 +1,5 @@
-<p>
-  flash-cards works!
-</p>
+<ng-container *ngIf="cards$ | async as cards">
+  <div *ngFor="let card of cards">
+    <pre>{{card.question}}</pre>
+  </div>
+</ng-container>

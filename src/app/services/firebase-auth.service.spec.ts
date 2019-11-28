@@ -15,7 +15,12 @@ const fbAuthStub = {
     memberStatus: 1,
     email: "Test@gmail.com",
     displayName: "Erik Test"
-  })
+  }),
+
+  auth: {
+    signOut: function () { console.log('signing out') },
+    signInWithPopup: function (provider) { console.log('signing in') }
+  }
 };
 
 const fbStoreStub = {

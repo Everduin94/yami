@@ -8,10 +8,12 @@ import { FlashCardsService } from 'src/app/services/flash-cards.service';
 })
 export class FlashCardsComponent implements OnInit {
 
+  cards$;
+
   constructor(private fs: FlashCardsService) { }
 
   ngOnInit() {
-    this.fs.getUsersCards();
+    this.cards$ = this.fs.getUsersCards();
   }
 
 }
