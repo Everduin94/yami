@@ -1,5 +1,7 @@
-<ng-container *ngIf="cards$ | async as cards">
-  <div *ngFor="let card of cards">
-    <pre>{{card.question}}</pre>
-  </div>
-</ng-container>
+<div class="container">
+    <ng-container *ngIf="cards$ | async as cards">
+        <div *ngFor="let card of cards">
+            <app-flash-card [card]="card"></app-flash-card>
+        </div>
+  </ng-container>
+</div>

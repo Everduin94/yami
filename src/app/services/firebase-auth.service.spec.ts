@@ -18,8 +18,13 @@ const fbAuthStub = {
   }),
 
   auth: {
-    signOut: function () { console.log('signing out') },
-    signInWithPopup: function (provider) { console.log('signing in') }
+    signOut: function () {
+      return Promise.resolve()
+    },
+    signInWithPopup: function (provider) {
+      if (!provider) throw "sign in failed"
+      return { user: {} };
+    },
   }
 };
 
@@ -28,23 +33,50 @@ const fbStoreStub = {
 }
 
 const routerStub = {
-
+  navigate: function () { return Promise.resolve() }
 }
 
 describe('FirebaseAuthService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [
-      RouterTestingModule
-    ],
-    providers: [
-      { provide: AngularFireAuth, useValue: fbAuthStub},
-      { provide: AngularFirestore, useValue: fbStoreStub},
-      { provide: Router, useValue: routerStub},
-    ]
-  }));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
+      providers: [
+        { provide: AngularFireAuth, useValue: fbAuthStub },
+        { provide: AngularFirestore, useValue: fbStoreStub },
+        { provide: Router, useValue: routerStub },
+      ]
+    });
+  }
+  );
 
-  test('create-fb-auth', () => {
+  test('test-1', () => {
     const service: FirebaseAuthService = TestBed.get(FirebaseAuthService);
     expect(service).toBeTruthy();
+
+    jest.spyOn(service, 'updateUserData').mockImplementation(() => Promise.resolve());
+    const routerSpy = jest.spyOn(routerStub, 'navigate');
+    let provider = null;
+    service.signIn(provider); // Fail
+    service.errors$.subscribe(val => {
+      expect(val).toBeTruthy();
+      expect(routerSpy).not.toHaveBeenCalled();
+    }).unsubscribe();
+
+    provider = 'supplied';
+    service.signIn(provider); // Succeed
+    service.errors$.subscribe(val => { 
+      expect(val).toBe(null);
+      expect(routerSpy).toHaveBeenCalledTimes(1);
+    }).unsubscribe();
+    service.signOut();
+    service.errors$.subscribe(val => {
+       expect(val).toBe(null)
+       expect(routerSpy).toHaveBeenCalledTimes(2);
+    }).unsubscribe();
+    
   });
+
+
 });

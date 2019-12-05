@@ -1,0 +1,5 @@
+<div class="question-answer">
+  <div *ngIf="!card?.active"> question: {{card.question}}</div>
+  <div *ngIf="card?.active"> answer: {{card.answer}}</div>
+</div>
+<button (click)="card.active = !card.active">Answer</button>

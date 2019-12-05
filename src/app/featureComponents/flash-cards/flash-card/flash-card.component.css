@@ -1,0 +1,13 @@
+:host {
+    display: grid;
+    height: 200px;
+    width: 400px;
+    background: var(--primary-color);
+    grid-template-rows: 9fr 1fr;
+}
+
+.question-answer {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}

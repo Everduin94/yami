@@ -17,7 +17,7 @@ import { ShellComponent } from './appComponents/header/shell.component';
 import { MainComponent } from './appComponents/main/main.component';
 import { MdToHtmlPipe } from './pipes/md-to-html.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FlashCardsComponent } from './featureComponents/flash-cards/flash-cards.component';
+import { PrototypeModule } from './appComponents/prototype/prototype.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { FlashCardsComponent } from './featureComponents/flash-cards/flash-cards
     LoginComponent,
     ShellComponent,
     MainComponent,
-    MdToHtmlPipe,
+    MdToHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -36,7 +36,8 @@ import { FlashCardsComponent } from './featureComponents/flash-cards/flash-cards
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    PrototypeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

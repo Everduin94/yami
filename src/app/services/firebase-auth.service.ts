@@ -15,6 +15,7 @@ export class FirebaseAuthService {
   private errors = new BehaviorSubject(null);
   public errors$ = this.errors.asObservable();
 
+  // TODO: Cover userID in test-suite
   userId;
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {
@@ -26,6 +27,7 @@ export class FirebaseAuthService {
     )
   }
 
+  // TODO: Global error handler + Logging on Backend
   async signIn(provider) {
     try {
       const credential = await this.afAuth.auth.signInWithPopup(provider);
@@ -38,8 +40,13 @@ export class FirebaseAuthService {
   }
 
   async signOut() {
-    await this.afAuth.auth.signOut();
-    return this.router.navigate(['/']);
+    try {
+      await this.afAuth.auth.signOut();
+      this.errors.next(null);
+      this.router.navigate(['/']);
+    } catch (e) {
+      this.errors.next({message: "Failed to Sign-out!", exception: e});
+    }
   }
 
   updateUserData(user) {

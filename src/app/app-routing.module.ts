@@ -5,6 +5,7 @@ import { LoginComponent } from './appComponents/login/login.component';
 import { ShellComponent } from './appComponents/header/shell.component';
 import { MainComponent } from './appComponents/main/main.component';
 import { FlashCardsGuard } from './guards/flash-cards.guard';
+import { PrototypeComponent } from './appComponents/prototype/prototype.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
         loadChildren: () => import('./featureComponents/flash-cards/flash-cards.module').then(mod => mod.FlashCardsModule),
         canLoad: [FlashCardsGuard],
         canActivate: [FlashCardsGuard]
-      }
+      },
+      { path: 'prototype', component: PrototypeComponent },
     ]
   },
   { path: 'login', component: LoginComponent },
