@@ -1,13 +1,38 @@
 :host {
     display: grid;
-    grid-template-rows: 75px 0fr 1fr;
+    grid-template-rows: 64px 0fr 1fr;
     height: 100%;
 }
 
-.theme-test {
-    display:grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 20px;
+.container {
+    display:flex;
+    padding: 16px;
+    align-items: center;
 
     background: var(--primary-color);
+}
+
+.item {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.container__title {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 600;
+    display: grid;
+    justify-items: center;
+}
+
+.login-img {
+    height: 30px;
+    width: 50px;
+    border-radius: 8px;
+    margin-right: 2px;
+    margin-left: 2px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
 }

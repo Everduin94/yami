@@ -15,7 +15,7 @@ export class PrototypeComponent implements OnInit {
   constructor(private ps: PrototypeService, private fs: FlashCardsService) { }
 
   ngOnInit() {
-   this.cards$ = this.fs.getUsersCards();
+  //  this.cards$ = this.fs.getUsersCards();
   }
 
 }

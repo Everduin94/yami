@@ -9,6 +9,6 @@ export class PrototypeService {
   constructor(private fs: FlashCardsService) { }
 
   getCards() {
-    return this.fs.getUsersCards();
+    // return this.fs.getUsersCards();
   }
 }

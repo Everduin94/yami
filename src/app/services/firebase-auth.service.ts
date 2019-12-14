@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { switchMap, tap } from 'rxjs/operators';
-import { of, BehaviorSubject } from 'rxjs';
+import { switchMap, tap, map, shareReplay, take } from 'rxjs/operators';
+import { of, BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -15,16 +15,17 @@ export class FirebaseAuthService {
   private errors = new BehaviorSubject(null);
   public errors$ = this.errors.asObservable();
 
-  // TODO: Cover userID in test-suite
-  userId;
+  userId$: Observable<any>;
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {
     this.user$ = afAuth.authState.pipe(
-      tap(user => this.userId = user ? user.uid : null ),
-      switchMap(
-        user => user ? this.afs.doc<User>(`users/${user.uid}`).valueChanges() : of(null)
-      )
+      switchMap(user => user ? this.afs.doc<User>(`users/${user.uid}`).valueChanges() : of(null))
     )
+
+    this.userId$ = afAuth.authState.pipe(
+      map(user => user ? user.uid : null),
+      shareReplay(1)
+    );
   }
 
   // TODO: Global error handler + Logging on Backend
@@ -35,7 +36,7 @@ export class FirebaseAuthService {
       this.updateUserData(credential.user);
       this.router.navigate(['/']);
     } catch (e) {
-      this.errors.next({message: "Failed to Login!", exception: e})
+      this.errors.next({ message: "Failed to Login!", exception: e })
     }
   }
 
@@ -45,7 +46,7 @@ export class FirebaseAuthService {
       this.errors.next(null);
       this.router.navigate(['/']);
     } catch (e) {
-      this.errors.next({message: "Failed to Sign-out!", exception: e});
+      this.errors.next({ message: "Failed to Sign-out!", exception: e });
     }
   }
 

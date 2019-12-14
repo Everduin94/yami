@@ -1,14 +1,35 @@
-<div class="theme-test">
-    <a [routerLink]="['/']">🤠</a>
-    <button (click)="testLight()">Test Light</button>
-    <button (click)="testDark()">Test Dark</button>
-    <a [routerLink]="['/examples']">Load Examples</a>
-    <a [routerLink]="['/flashCards']">Flash Cards</a>
-    <a [routerLink]="['/prototype']">Prototype</a>
-    <!-- Replace with component -->
-    <button (click)="logout()">Logout</button>
-    <a [routerLink]="['/login']">Login</a>
-    <span *ngIf="auth.user$ | async as user">{{user.displayName}}</span>
+<div class="container">
+    
+    <a class="item" [routerLink]="['/']">🤠</a>
+
+    <a class="item" [routerLink]="['/flashCards']">Flash Cards</a>
+
+    <a class="item" [routerLink]="['/prototype']">Prototype</a>
+
+    <span class="container__title">
+        YAMI
+    </span>
+
+    <span class="item">
+        <button (click)="testLight()">🌞</button>
+        <button (click)="testDark()">🌚</button>
+    </span>
+
+    <ng-container *ngIf="auth.user$ | async as user; then authenticated else not"></ng-container>
+
+    <ng-template #authenticated>
+        <span class="item" *ngIf="auth.user$ | async as user">
+            <img src="{{user.photoURL}}" alt="Avatar" class="login-img">
+            <button (click)="logout()">Logout</button>
+        </span>
+    </ng-template>
+
+    <ng-template #not>
+        <a class="item" [routerLink]="['/login']">Login</a>
+    </ng-template>
+    
+
+    
 </div>
 
 <router-outlet></router-outlet>

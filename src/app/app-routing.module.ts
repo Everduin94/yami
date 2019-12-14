@@ -13,10 +13,6 @@ const routes: Routes = [
     component: ShellComponent,
     children: [
       {
-        path: 'examples',
-        loadChildren: () => import('./featureComponents/examples/examples.module').then(mod => mod.ExamplesModule),
-      },
-      {
         path: 'flashCards',
         loadChildren: () => import('./featureComponents/flash-cards/flash-cards.module').then(mod => mod.FlashCardsModule),
         canLoad: [FlashCardsGuard],
