@@ -4,6 +4,8 @@ import { AddBaseComponent } from './add-base.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AddCardComponent } from './add-card/add-card.component';
 
+import { MatSliderModule } from '@angular/material/slider';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +23,7 @@ const routes: Routes = [
   declarations: [AddBaseComponent, AddCardComponent],
   imports: [
     CommonModule,
+    MatSliderModule,
     RouterModule.forChild(routes)
   ]
 })

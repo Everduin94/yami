@@ -7,7 +7,7 @@
     grid-row: 1 / -1;
     /* This is a work around to make full screen (grid) + router animations work smoothly */
 
-    background: var(--secondary-color);
+    background: var(--background-color);
 }
 
 .container {

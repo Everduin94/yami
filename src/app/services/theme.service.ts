@@ -20,14 +20,29 @@ export class ThemeService {
     '--text-color': '#DDDDDD'
   };
 
-  constructor() { }
+  constructor() {
+    this.toggleTheme(Theme.DARK);
+   }
 
+   /**
+    * Only concern is if the material theme and local theme get out of sync.
+    * 
+    * @param theme My CSS Properties Theme
+    */
   toggleTheme(theme: Theme) {
     if (!document) return;
 
+    const body = document.querySelector('body');
     let options = this.dark; // Default
-    if (Theme.DARK === theme) options = this.dark;
-    if (Theme.LIGHT === theme) options = this.light;
+    if (Theme.DARK === theme) {
+      options = this.dark;
+      body.classList.add('dark-mode');
+    } 
+    if (Theme.LIGHT === theme) {
+      options = this.light;
+      body.classList.remove('dark-mode');
+    } 
+
     Object.entries(options).forEach(([k,v]) => document.documentElement.style.setProperty(k, v));
   }
 }

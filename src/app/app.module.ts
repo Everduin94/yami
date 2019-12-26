@@ -20,8 +20,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PrototypeModule } from './appComponents/prototype/prototype.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddCardComponent } from './featureComponents/add-base/add-card/add-card.component';
-import { AddBaseComponent } from './featureComponents/add-base/add-base.component';
 
 @NgModule({
   declarations: [
