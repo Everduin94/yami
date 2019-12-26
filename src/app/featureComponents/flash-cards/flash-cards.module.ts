@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FlashCardsComponent } from './flash-cards.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FlashCardComponent } from './flash-card/flash-card.component';
+import { QuillComponent } from '../quill/quill.component';
 
 const FLASHCARD_ROUTES: Routes = [
   {
@@ -13,7 +14,7 @@ const FLASHCARD_ROUTES: Routes = [
 ];
 
 @NgModule({
-  declarations: [FlashCardsComponent, FlashCardComponent],
+  declarations: [FlashCardsComponent, FlashCardComponent, QuillComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(FLASHCARD_ROUTES)

@@ -1,7 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* TODO: Can we switch this at run-time? */
+@import '~highlight.js/styles/atom-one-dark.css';
+
 :root {
-    --primary-color: #0074D9;
-    --secondary-color: #01FF70;
+    --primary-color: hsl(217, 71%, 53%);
+    --secondary-color: hsl(141, 53%, 53%);
     --background-color: #111111;
     --text-color: #DDDDDD;
 }
@@ -15,4 +19,5 @@ body {
     box-sizing: border-box;
     background-color: var(--background-color);
     color: var(--text-color);
+    box-sizing: border-box;
 }

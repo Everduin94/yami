@@ -1,28 +1,47 @@
 :host {
     display: grid;
-    grid-template-rows: 64px 0fr 1fr;
+    grid-template-rows: 64px 1fr;
     height: 100%;
 }
 
-.container {
+/* .container {
     display:flex;
     padding: 16px;
     align-items: center;
 
     background: var(--primary-color);
+} */
+
+.container {
+    display:grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    background: var(--primary-color);
+}
+
+
+.center {
+    justify-self: center;
+    align-self: center;
+}
+
+
+.right {
+    display: flex;
+    justify-self: right;
+    align-self: center;
+}
+
+
+.left {
+    display: flex;
+    align-self: center;
 }
 
 .item {
     margin-left: 5px;
     margin-right: 5px;
-}
-
-.container__title {
-    flex: 1;
-    font-size: 16px;
-    font-weight: 600;
-    display: grid;
-    justify-items: center;
 }
 
 .login-img {
@@ -35,4 +54,21 @@
     grid-template-columns: 1fr 1fr;
     align-items: center;
     justify-items: center;
+}
+
+.inner-host {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+}
+
+
+button {
+    background: transparent;
+    border: solid 1px var(--background-color);
+    transition: border  0.3s ease-in;
+}
+
+button:hover {
+    border: solid 1px var(--secondary-color);
 }

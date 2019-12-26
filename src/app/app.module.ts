@@ -19,6 +19,10 @@ import { MdToHtmlPipe } from './pipes/md-to-html.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PrototypeModule } from './appComponents/prototype/prototype.module';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddCardComponent } from './featureComponents/add-base/add-card/add-card.component';
+import { AddBaseComponent } from './featureComponents/add-base/add-base.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,10 +30,11 @@ import { PrototypeModule } from './appComponents/prototype/prototype.module';
     LoginComponent,
     ShellComponent,
     MainComponent,
-    MdToHtmlPipe
+    MdToHtmlPipe,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features

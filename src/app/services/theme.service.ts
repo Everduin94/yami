@@ -7,15 +7,15 @@ import { Theme } from '../models/theme.model';
 export class ThemeService {
 
   light = {
-    '--primary-color': '#0074D9',
-    '--secondary-color': '#01FF70',
+    '--primary-color': 'hsl(217, 71%, 53%)',
+    '--secondary-color': 'hsl(141, 53%, 53%)',
     '--background-color': '#DDDDDD',
     '--text-color': '#111111'
   };
 
   dark = {
-    '--primary-color': '#0074D9',
-    '--secondary-color': '#01FF70',
+    '--primary-color': 'hsl(217, 71%, 53%)',
+    '--secondary-color': 'hsl(141, 53%, 53%)',
     '--background-color': '#111111',
     '--text-color': '#DDDDDD'
   };

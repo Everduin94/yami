@@ -2,11 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ThemeService } from 'src/app/services/theme.service';
 import { Theme } from '../../models/theme.model';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
+import { RouterOutlet } from '@angular/router';
+import { fader } from 'src/app/route-animations';
 
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.css']
+  styleUrls: ['./shell.component.css'],
+  animations: [
+    fader
+  ]
 })
 export class ShellComponent implements OnInit {
 
@@ -26,5 +31,12 @@ export class ShellComponent implements OnInit {
 
   logout() {
     this.auth.signOut();
+  }
+
+  
+  
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData; // && outlet.activatedRouteData['animation']
   }
 }

@@ -6,6 +6,7 @@ import { ShellComponent } from './appComponents/header/shell.component';
 import { MainComponent } from './appComponents/main/main.component';
 import { FlashCardsGuard } from './guards/flash-cards.guard';
 import { PrototypeComponent } from './appComponents/prototype/prototype.component';
+import { AddCardComponent } from './featureComponents/add-base/add-card/add-card.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,12 @@ const routes: Routes = [
       {
         path: 'flashCards',
         loadChildren: () => import('./featureComponents/flash-cards/flash-cards.module').then(mod => mod.FlashCardsModule),
+        canLoad: [FlashCardsGuard],
+        canActivate: [FlashCardsGuard]
+      },
+      {
+        path: 'add',
+        loadChildren: () => import('./featureComponents/add-base/add-base.module').then(mod => mod.AddBaseModule),
         canLoad: [FlashCardsGuard],
         canActivate: [FlashCardsGuard]
       },
