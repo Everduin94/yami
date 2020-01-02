@@ -1,7 +1,31 @@
-<form class="container">
-  <input type="text" name="test" id="test1">
-  <input type="text" name="test" id="test2">
-  <input type="text" name="test" id="test3">
-  <input type="text" name="test" id="test4">
-  <input type="text" name="test" id="test5">
+<form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <app-quill label="Question" formControlName="question"></app-quill>
+  <app-quill label="Answer" formControlName="answer"></app-quill>
+  <div>
+    <mat-form-field style="margin-right: 5px;">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <ng-container *ngIf="categories$ | async as categories">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{category}}
+          </mat-option>
+        </ng-container>
+
+      </mat-select>
+    </mat-form-field>
+
+    <!-- TODO:
+    1) Hide -- Until Button Click
+    2) On Submit
+      2.1) Add Reference to FireBase
+      2.2) Set Reference in Select
+      2.3) Hide Input -->
+    <mat-form-field>
+      <input matInput placeholder="Add Topic">
+    </mat-form-field>
+    <button mat-raised-button color="secondary" (click)="addCategory($event)">Add</button>
+  </div>
+  <button mat-raised-button color="primary">Submit</button>
+
 </form>

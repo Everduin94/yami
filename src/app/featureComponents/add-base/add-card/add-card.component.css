@@ -8,5 +8,5 @@
     justify-items: center;
     display: grid;
     gap: 20px;
-    grid-template-rows: repeat(auto-fill, 30px);
+    grid-template-rows: repeat(auto-fit, minmax(30px, min-content));
 }

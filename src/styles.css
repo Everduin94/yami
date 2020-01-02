@@ -19,7 +19,15 @@ body {
     box-sizing: border-box;
     background-color: var(--background-color);
     color: var(--text-color);
-    box-sizing: border-box;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* This works, the hover and active do not. */
+.ql-snow .ql-stroke {
+    stroke: var(--text-color);
+}
+
+.ql-picker-label {
+    color: var(--text-color);
+}

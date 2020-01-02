@@ -1,4 +1,10 @@
-div {
-    width: 100%;
-    min-height: 200px;
-} /* TODO: Update */
+:host {
+    display: block;
+}
+
+.quill {
+    height: 200px;
+}
+
+
+/* grid-template-rows: repeat(auto-fit, minmax(30px, max-content)); */
