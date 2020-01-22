@@ -4,14 +4,20 @@
 @import '~highlight.js/styles/atom-one-dark.css';
 
 :root {
-    --primary-color: hsl(217, 71%, 53%);
-    --secondary-color: hsl(141, 53%, 53%);
-    --background-color: #111111;
-    --text-color: #DDDDDD;
+    --primary-color: #2979ff;
+    --secondary-color: #1de9b6;
+    --yellow: #ffea00;
+    --purple: #d500f9;
+    --red: #ff1744;
+    --orange: #ff3d00;
+    --indigo: #3d5afe;
+    --background-color: #212834;
+    --box-color: #111111;
+    --text-color: #ffffff;
+    --border-color:#ffffff;
 }
 
 body {
-
     height: 100vh;
     width: 100vw;
     padding: 0;
@@ -25,9 +31,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* This works, the hover and active do not. */
 .ql-snow .ql-stroke {
-    stroke: var(--text-color);
+    stroke: var(--border-color);
 }
 
 .ql-picker-label {
+    color: var(--border-color);
+}
+
+div.ql-editor {
+    background: var(--box-color);
+    color: var(--text-color);
+}
+
+div.ql-container.ql-snow {
+    border: solid 3px var(--border-color);
+    box-shadow: -6px 6px 1px var(--secondary-color);
+}
+
+div.ql-toolbar.ql-snow {
+    background: var(--box-color);
+    border: solid 3px var(--border-color);
     color: var(--text-color);
 }

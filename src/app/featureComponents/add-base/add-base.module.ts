@@ -12,6 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 
 import { QuillModule } from '../quill/quill.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BoxRouteLinkModule } from 'src/app/libraryComponents/box-route-link/box-route-link.module';
 
 const routes: Routes = [
   {
@@ -20,6 +21,14 @@ const routes: Routes = [
     children: [
       {
         path: 'card',
+        component: AddCardComponent
+      },
+      {
+        path: 'test1',
+        component: AddCardComponent
+      },
+      {
+        path: 'test2',
         component: AddCardComponent
       }
     ]
@@ -38,6 +47,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     QuillModule,
+    BoxRouteLinkModule,
     RouterModule.forChild(routes)
   ]
 })

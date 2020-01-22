@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
-import { switchMap, take, map, tap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { AddFlashCardsService } from 'src/app/services/add-flash-cards.service';
 
 @Component({
@@ -12,6 +12,7 @@ import { AddFlashCardsService } from 'src/app/services/add-flash-cards.service';
 export class AddCardComponent implements OnInit {
 
   form: FormGroup;
+  showAddCategory = false;
   
   categories$;
 
@@ -20,8 +21,7 @@ export class AddCardComponent implements OnInit {
   ngOnInit() {
     this.categories$ = this.auth.userId$.pipe(
       switchMap(userId => this.afs.getCategories(userId))
-    )
-
+    );
 
     this.form = this.fb.group({
       question: '',
@@ -32,25 +32,18 @@ export class AddCardComponent implements OnInit {
     this.form.valueChanges.subscribe(console.log);
   }
 
-  onSubmit() {
+  onSubmit(userId) {
       const payload = {
         question: JSON.stringify(this.question.value),
         answer: JSON.stringify(this.answer.value),
         category: this.category.value      
       };
 
-      console.log('hey this is payload speaking: ', payload)
+      this.afs.postCard(userId, payload);
   }
 
-  async addCategory(ev: Event) {
-    console.log('this is is add category')
-    this.auth.userId$.pipe(
-      tap(val => console.log(val)),
-      map(userId => this.afs.postCategory(userId, {active: true, value: 'TEST!'}))
-    ).subscribe();
-    
-    ev.preventDefault();
-    
+  addCategory(inputValue: string, userId) {
+    this.afs.postCategory(userId, {active: true, value: inputValue})
   }
 
 

@@ -4,6 +4,7 @@ import { FlashCardsComponent } from './flash-cards.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FlashCardComponent } from './flash-card/flash-card.component';
 import { QuillModule } from '../quill/quill.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 const FLASHCARD_ROUTES: Routes = [
   {
@@ -18,6 +19,7 @@ const FLASHCARD_ROUTES: Routes = [
   imports: [
     CommonModule,
     QuillModule,
+    FormsModule,
     RouterModule.forChild(FLASHCARD_ROUTES)
   ]
 })

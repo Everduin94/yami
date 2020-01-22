@@ -9,9 +9,14 @@ export class FlashCardComponent implements OnInit {
 
   @Input() card;
 
+  question;
+  answer;
+
   constructor() { }
 
   ngOnInit() {
+    this.question = JSON.parse(this.card.question);
+    this.answer = JSON.parse(this.card.answer);
   }
 
 }

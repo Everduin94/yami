@@ -12,11 +12,11 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$yami-primary: mat-palette($mat-light-blue, A400);
-$yami-accent: mat-palette($mat-green, A400);
+$yami-primary: mat-palette($mat-blue, A400);
+$yami-accent: mat-palette($mat-teal, A400);
 
 // The warn palette is optional (defaults to red).
-$yami-warn: mat-palette($mat-red);
+$yami-warn: mat-palette($mat-red, A400);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $yami-theme: mat-light-theme($yami-primary, $yami-accent, $yami-warn);

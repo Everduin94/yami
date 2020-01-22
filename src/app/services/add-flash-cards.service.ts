@@ -11,9 +11,8 @@ export class AddFlashCardsService {
   constructor(private fs: FirestoreService) { }
 
   getCategories(userId) {
-    if (!userId) return of(null); // TODO: Update from get to some form of 'changes'
+    if (!userId) return of(null);
     return this.fs.get(`categories`, userId).collection('items').valueChanges().pipe(
-      tap(val => console.log('hey from inside my query')),
       map(item => item.filter(val => val.active).map(val => val.value), 
       shareReplay(1))
     )
@@ -24,8 +23,9 @@ export class AddFlashCardsService {
     this.fs.createItemsEntryById("categories", userId, entry);
   }
 
-  postCard(userId) {
+  postCard(userId, entry) {
     if (!userId) return;
+    this.fs.createItemsEntryById("flash_cards", userId, entry);
   }
 }
 

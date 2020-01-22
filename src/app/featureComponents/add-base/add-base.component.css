@@ -12,16 +12,59 @@
 
 .container {
     display: grid;
-    grid-template-rows: 75px 0 1fr;
+    grid-template-rows: 165px 0 1fr;
     justify-items: center;
     align-items: center;
 }
 
-.item {
-    margin: 20px;
+.button-row {
+    display: grid;
+    justify-items: center;
+    height: 100%;
+    width: 100%;
+    max-width: 500px;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
 }
 
-.button-row {
-    display: flex;
+.box {
+    color: var(--text);
+    background: var(--box-color);
+    border: 3px solid var(--border-color);
+    text-decoration: none;
+    grid-column: span;
+
+    display: grid;
     justify-items: center;
+    align-items: center;
+    
+    width: 100%;
+
+    margin-top: 45px;
+    margin-bottom: 45px;
+    height: 75px;
+
+    transition: all .3s;
+}
+
+.back-button {
+    grid-column: 2fr;
+    box-shadow: -6px 6px 1px var(--purple);
+}
+
+.add-button {
+    box-shadow: -6px 6px 1px var(--yellow);
+}
+
+.test1-button {
+    box-shadow: -6px 6px 1px var(--orange);
+}
+
+.test2-button {
+    box-shadow: -6px 6px 1px var(--indigo);
+}
+
+.span-two {
+    grid-column: span 2;
 }

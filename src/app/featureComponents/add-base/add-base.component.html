@@ -1,8 +1,27 @@
 <div class="container">
   <div class="button-row">
-    <a class="item" [routerLink]="['/add']">Back</a>
-    <a class="item" [routerLink]="['/add/card']">Card</a>
-    <mat-slider min="1" max="100" step="1" value="1"></mat-slider>
+
+    <a 
+    class="back-button box" 
+    [routerLink]="['/add']" 
+    routerLinkActive="span-two"
+    [routerLinkActiveOptions]="{exact: true}">Back</a>
+    <a 
+    class="add-button box" 
+    [routerLink]="['/add/card']" 
+    routerLinkActive="span-two"
+    [routerLinkActiveOptions]="{exact: true}">Card</a>
+    <a 
+    class="test2-button box" 
+    [routerLink]="['/add/test1']" 
+    routerLinkActive="span-two"
+    [routerLinkActiveOptions]="{exact: true}">Other</a>
+    <a 
+    class="test1-button box"
+    [routerLink]="['/add/test2']" 
+    routerLinkActive="span-two"
+    [routerLinkActiveOptions]="{exact: true}">Something</a>
+  
   </div>
   <router-outlet></router-outlet>
 </div>

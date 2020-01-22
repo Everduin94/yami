@@ -10,3 +10,11 @@
     gap: 20px;
     grid-template-rows: repeat(auto-fit, minmax(30px, min-content));
 }
+
+.form__topic-controls {
+    width: 376px;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    justify-items: center;
+    align-items: center;
+}

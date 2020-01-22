@@ -1,5 +1,6 @@
 <div class="question-answer">
-  <div *ngIf="!card?.active"> question: {{card.question}}</div>
-  <div *ngIf="card?.active"> answer: {{card.answer}}</div>
+  <!-- TODO: Temporary! -- Use just one -->
+  <app-quill *ngIf="!card?.active" [(ngModel)]="question"></app-quill>
+  <app-quill *ngIf="card?.active" [(ngModel)]="answer"></app-quill>
 </div>
 <button (click)="card.active = !card.active">Answer</button>

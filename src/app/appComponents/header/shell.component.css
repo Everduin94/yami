@@ -17,13 +17,15 @@
 
     grid-template-columns: repeat(3, 1fr);
 
-    background: var(--primary-color);
+    background: transparent;
 }
 
 
 .center {
     justify-self: center;
     align-self: center;
+    width: 100%;
+    text-align: center;
 }
 
 
