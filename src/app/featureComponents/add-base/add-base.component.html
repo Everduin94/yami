@@ -3,25 +3,14 @@
 
     <a 
     class="back-button box" 
-    [routerLink]="['/add']" 
+    [routerLink]="['/flashCards']" 
     routerLinkActive="span-two"
-    [routerLinkActiveOptions]="{exact: true}">Back</a>
+    [routerLinkActiveOptions]="{exact: true}">Practice</a>
     <a 
     class="add-button box" 
     [routerLink]="['/add/card']" 
     routerLinkActive="span-two"
-    [routerLinkActiveOptions]="{exact: true}">Card</a>
-    <a 
-    class="test2-button box" 
-    [routerLink]="['/add/test1']" 
-    routerLinkActive="span-two"
-    [routerLinkActiveOptions]="{exact: true}">Other</a>
-    <a 
-    class="test1-button box"
-    [routerLink]="['/add/test2']" 
-    routerLinkActive="span-two"
-    [routerLinkActiveOptions]="{exact: true}">Something</a>
-  
+    [routerLinkActiveOptions]="{exact: true}">Add New Card</a>
   </div>
   <router-outlet></router-outlet>
 </div>

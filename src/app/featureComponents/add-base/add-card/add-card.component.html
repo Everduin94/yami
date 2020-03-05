@@ -1,8 +1,8 @@
 <ng-container *ngIf="auth.userId$ | async as userId">
   <form class="container" [formGroup]="form" (ngSubmit)="onSubmit(userId)">
 
-    <app-quill label="Question" formControlName="question"></app-quill>
-    <app-quill label="Answer" formControlName="answer"></app-quill>
+    <app-quill style="width: 400px" label="Question" formControlName="question"></app-quill>
+    <app-quill style="width: 400px" label="Answer" formControlName="answer"></app-quill>
     <div class="form__topic-controls">
   
       <ng-container *ngIf="!showAddCategory">
@@ -19,13 +19,6 @@
         </mat-form-field>
         <button mat-raised-button color="accent" (click)="showAddCategory = !showAddCategory">New Category</button>
       </ng-container>
-      
-      <!-- TODO:
-      1) Hide -- Until Button Click
-      2) On Submit
-        2.1) Add Reference to FireBase
-        2.2) Set Reference in Select
-        2.3) Hide Input -->
   
       <ng-container *ngIf="showAddCategory">
         <mat-form-field>

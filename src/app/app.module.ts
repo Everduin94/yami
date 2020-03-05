@@ -20,7 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PrototypeModule } from './appComponents/prototype/prototype.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BoxRouteLinkComponent } from './libraryComponents/box-route-link/box-route-link.component';
+import { StartModule } from './featureComponents/start/start.module';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,8 @@ import { BoxRouteLinkComponent } from './libraryComponents/box-route-link/box-ro
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
     ReactiveFormsModule,
     FontAwesomeModule,
-    PrototypeModule
+    PrototypeModule,
+    StartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

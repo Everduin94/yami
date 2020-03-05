@@ -50,19 +50,11 @@
 
 .back-button {
     grid-column: 2fr;
-    box-shadow: -6px 6px 1px var(--purple);
+    box-shadow: -6px 6px 1px var(--primary-color);
 }
 
 .add-button {
-    box-shadow: -6px 6px 1px var(--yellow);
-}
-
-.test1-button {
-    box-shadow: -6px 6px 1px var(--orange);
-}
-
-.test2-button {
-    box-shadow: -6px 6px 1px var(--indigo);
+    box-shadow: -6px 6px 1px var(--primary-color);
 }
 
 .span-two {

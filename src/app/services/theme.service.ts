@@ -15,7 +15,7 @@ export class ThemeService {
     '--orange': '#ff3d00',
     '--indigo': '#3d5afe',
     '--background-color': '#f0f0f0',
-    '--box-color': '#ffffff',
+    '--box-color': '#ffffffed',
     '--text-color': '#111111',
     '--border-color': '#111111',
   };
@@ -29,7 +29,7 @@ export class ThemeService {
     '--orange': '#ff3d00',
     '--indigo': '#3d5afe',
     '--background-color': '#212834',
-    '--box-color': '#111111',
+    '--box-color': '#11111170',
     '--text-color': '#ffffff',
     '--border-color': '#ffffff',
   };

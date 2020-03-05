@@ -12,19 +12,23 @@
     --orange: #ff3d00;
     --indigo: #3d5afe;
     --background-color: #212834;
-    --box-color: #111111;
+    --box-color: #11111170;
     --text-color: #ffffff;
     --border-color:#ffffff;
 }
 
 body {
     height: 100vh;
-    width: 100vw;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    
     background-color: var(--background-color);
     color: var(--text-color);
+
+    /* TODO: Hack, figure it out -- only on vert-scroll */
+    width: 99vw;
+    overflow-x: hidden;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -45,7 +49,6 @@ div.ql-editor {
 
 div.ql-container.ql-snow {
     border: solid 3px var(--border-color);
-    box-shadow: -6px 6px 1px var(--secondary-color);
 }
 
 div.ql-toolbar.ql-snow {

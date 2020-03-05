@@ -1,0 +1,30 @@
+<mat-form-field style="margin-right: 5px;">
+  <mat-label>Category</mat-label>
+  <mat-select formControlName="category">
+    <ng-container *ngIf="categories$ | async as categories">
+      <mat-option *ngFor="let category of categories" [value]="category">
+        {{category}}
+      </mat-option>
+    </ng-container>
+  </mat-select>
+</mat-form-field>
+
+
+<!--<ng-container *ngIf="">
+</ng-container>
+
+<ng-container *ngIf="">
+</ng-container>
+
+<ng-container *ngIf="">
+</ng-container>
+
+<ng-container *ngIf="">
+</ng-container>
+
+<ng-container *ngIf="">
+</ng-container>
+
+
+<ng-container *ngIf="">
+</ng-container>-->
