@@ -1,2 +1,50 @@
-<a [routerLink]="['/login']">Logout</a>
-<router-outlet></router-outlet>
+<div class="container">
+
+    <div class="left">
+
+        <a class="item" [routerLink]="['/']">🤠</a>
+
+        <a class="item" [routerLink]="['/flashCards']" style="margin-right: 5px;">Flash Cards</a>
+        <a class="item" [routerLink]="['/add/card']">Add</a>
+
+
+        <a class="item" [routerLink]="['/prototype']">Prototype</a>
+
+    </div>
+
+
+    <div class="center">
+
+        <span class="container__title">
+            YAMI
+        </span>
+
+    </div>
+
+
+    <div class="right">
+
+        <button class="item" (click)="testLight()">🌞</button>
+
+        <button class="item" (click)="testDark()">🌚</button>
+
+        <ng-container *ngIf="auth.user$ | async as user; then authenticated else not"></ng-container>
+
+        <ng-template #authenticated>
+            <ng-container  *ngIf="auth.user$ | async as user">
+                <img src="{{user.photoURL}}" alt="Avatar" class="login-img item">
+                <button class="item" (click)="logout()">Logout</button>
+            </ng-container>
+        </ng-template>
+
+        <ng-template #not>
+            <a class="item" [routerLink]="['/login']">Login</a>
+        </ng-template>
+
+    </div>
+
+</div>
+
+<div [@routeAnimations]="prepareRoute(outlet)" class="inner-host">
+    <router-outlet #outlet="outlet"></router-outlet>
+</div>

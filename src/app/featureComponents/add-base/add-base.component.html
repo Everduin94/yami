@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="button-row">
+
+    <a 
+    class="back-button box" 
+    [routerLink]="['/flashCards']" 
+    routerLinkActive="span-two"
+    [routerLinkActiveOptions]="{exact: true}">Practice</a>
+    <a 
+    class="add-button box" 
+    [routerLink]="['/add/card']" 
+    routerLinkActive="span-two"
+    [routerLinkActiveOptions]="{exact: true}">Add New Card</a>
+  </div>
+  <router-outlet></router-outlet>
+</div>

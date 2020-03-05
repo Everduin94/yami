@@ -1,0 +1,24 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 3px solid var(--border-color);
+}
+
+:host:active {
+    transition: all .3s;
+}
+
+.box {
+    color: var(--text);
+    background: var(--box-color);
+    text-decoration: none;
+    grid-column: span;
+
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    
+    width: 100%;
+    height: 100%;
+}

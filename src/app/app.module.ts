@@ -17,6 +17,10 @@ import { ShellComponent } from './appComponents/header/shell.component';
 import { MainComponent } from './appComponents/main/main.component';
 import { MdToHtmlPipe } from './pipes/md-to-html.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PrototypeModule } from './appComponents/prototype/prototype.module';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StartModule } from './featureComponents/start/start.module';
 
 @NgModule({
   declarations: [
@@ -25,17 +29,20 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     LoginComponent,
     ShellComponent,
     MainComponent,
-    MdToHtmlPipe
+    MdToHtmlPipe,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
     ReactiveFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    PrototypeModule,
+    StartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

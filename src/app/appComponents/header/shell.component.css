@@ -1,0 +1,76 @@
+:host {
+    display: grid;
+    grid-template-rows: 64px 1fr;
+    height: 100%;
+}
+
+/* .container {
+    display:flex;
+    padding: 16px;
+    align-items: center;
+
+    background: var(--primary-color);
+} */
+
+.container {
+    display:grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    background: transparent;
+}
+
+
+.center {
+    justify-self: center;
+    align-self: center;
+    width: 100%;
+    text-align: center;
+}
+
+
+.right {
+    display: flex;
+    justify-self: right;
+    align-self: center;
+}
+
+
+.left {
+    display: flex;
+    align-self: center;
+}
+
+.item {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.login-img {
+    height: 30px;
+    width: 50px;
+    border-radius: 8px;
+    margin-right: 2px;
+    margin-left: 2px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.inner-host {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+}
+
+
+button {
+    background: transparent;
+    border: solid 1px var(--background-color);
+    transition: border  0.3s ease-in;
+}
+
+button:hover {
+    border: solid 1px var(--secondary-color);
+}

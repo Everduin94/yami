@@ -1,1 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* TODO: Can we switch this at run-time? */
+@import '~highlight.js/styles/atom-one-dark.css';
+
+:root {
+    --primary-color: #2979ff;
+    --secondary-color: #1de9b6;
+    --yellow: #ffea00;
+    --purple: #d500f9;
+    --red: #ff1744;
+    --orange: #ff3d00;
+    --indigo: #3d5afe;
+    --background-color: #212834;
+    --box-color: #11111170;
+    --text-color: #ffffff;
+    --border-color:#ffffff;
+}
+
+body {
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+    background-color: var(--background-color);
+    color: var(--text-color);
+
+    /* TODO: Hack, figure it out -- only on vert-scroll */
+    width: 99vw;
+    overflow-x: hidden;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* This works, the hover and active do not. */
+.ql-snow .ql-stroke {
+    stroke: var(--border-color);
+}
+
+.ql-picker-label {
+    color: var(--border-color);
+}
+
+div.ql-editor {
+    background: var(--box-color);
+    color: var(--text-color);
+}
+
+div.ql-container.ql-snow {
+    border: solid 3px var(--border-color);
+}
+
+div.ql-toolbar.ql-snow {
+    background: var(--box-color);
+    border: solid 3px var(--border-color);
+    color: var(--text-color);
+}
