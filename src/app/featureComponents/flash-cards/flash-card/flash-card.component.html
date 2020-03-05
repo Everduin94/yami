@@ -3,4 +3,4 @@
   <app-quill *ngIf="!card?.active" [(ngModel)]="question"></app-quill>
   <app-quill *ngIf="card?.active" [(ngModel)]="answer"></app-quill>
 </div>
-<button (click)="card.active = !card.active">Answer</button>
+<button class="flash-card__answer-btn" mat-raised-button color="primary" (click)="card.active = !card.active">Answer</button>

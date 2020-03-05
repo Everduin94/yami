@@ -14,22 +14,18 @@ export class AddCardComponent implements OnInit {
   form: FormGroup;
   showAddCategory = false;
   
-  categories$;
+  categories$ = this.auth.userId$.pipe(
+    switchMap(userId => this.afs.getCategories(userId))
+  );
 
   constructor(private fb: FormBuilder, private auth: FirebaseAuthService, private afs: AddFlashCardsService) { }
 
   ngOnInit() {
-    this.categories$ = this.auth.userId$.pipe(
-      switchMap(userId => this.afs.getCategories(userId))
-    );
-
     this.form = this.fb.group({
       question: '',
       answer: '',
       category: ''
     });
-
-    this.form.valueChanges.subscribe(console.log);
   }
 
   onSubmit(userId) {
@@ -44,6 +40,7 @@ export class AddCardComponent implements OnInit {
 
   addCategory(inputValue: string, userId) {
     this.afs.postCategory(userId, {active: true, value: inputValue})
+    this.form.patchValue({category: inputValue})
   }
 
 
