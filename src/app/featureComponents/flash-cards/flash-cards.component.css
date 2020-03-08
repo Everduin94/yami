@@ -17,6 +17,6 @@
 }
 
 .filler {
-    border: 2px solid var(--primary-color);
+    border: 1px solid var(--box-shadow);
     border-left: none;
 }

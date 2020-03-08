@@ -18,13 +18,24 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "extractCss": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
               "src/styles.css",
-              "src/custom-theme.scss"
+              "src/custom-theme.scss",
+              {
+                "input": "./node_modules/highlight.js/styles/dracula.css",
+                "bundleName": "dark-theme",
+                "lazy": true
+              },
+              {
+                "input": "./node_modules/highlight.js/styles/atom-one-light.css",
+                "bundleName": "light-theme",
+                "lazy": true
+              }
             ],
             "scripts": []
           },

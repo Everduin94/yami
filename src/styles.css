@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* TODO: Can we switch this at run-time? */
-@import '~highlight.js/styles/atom-one-dark.css';
+/*@import '~highlight.js/styles/atom-one-dark.css';*/
 
 :root {
     --primary-color: #2979ff;
@@ -24,7 +24,6 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    
     background-color: var(--background-color);
     color: var(--text-color);
     font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -36,8 +35,7 @@ body > * {
 }
 
 pre {
-    box-shadow: inset 0 0 2px var(--box-shadow);
-    padding: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.38);
 }
 
 .fill-in-blank {

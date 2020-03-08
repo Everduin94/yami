@@ -6,9 +6,9 @@
 }
 
 .filter__header, .filter__body {
-    border: var(--primary-color) 2px solid;
+    border: var(--box-shadow) 1px solid;
 }
-
+    
 .filter__body {
     border-top: none;
     overflow-y: auto;

@@ -15,10 +15,9 @@ export class MdToHtmlPipe implements PipeTransform {
   transform(value: any, args?: any): any {
 
     marked.setOptions({
+      langPrefix: 'hljs ',
       highlight: function(code, language) {
-        console.log('language:', language);
         const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
-        console.log('result language: ', validLanguage);
         const highlights = hljs.highlight(validLanguage, code).value;
         console.log(highlights)
         return highlights;

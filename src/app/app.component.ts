@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,6 @@ export class AppComponent {
 
   title = 'Yami';
 
-  constructor() {
-  }
-  
+  constructor() {}
 
 }
