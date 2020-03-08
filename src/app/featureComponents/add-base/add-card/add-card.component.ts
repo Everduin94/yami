@@ -32,8 +32,8 @@ export class AddCardComponent implements OnInit {
   onSubmit(userId) {
       const payload = {
         title: this.title.value,
-        question: JSON.stringify(this.question.value),
-        answer: JSON.stringify(this.answer.value),
+        question: this.question.value,
+        answer: this.answer.value,
         category: this.category.value      
       };
 

@@ -20,7 +20,9 @@
 
 body {
     height: 100vh;
+    max-height: 100vh;
     width: 100vw;
+    max-width: 100vw;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -84,3 +86,23 @@ div.ql-toolbar.ql-snow {
     border: solid 3px var(--border-color);
     color: var(--text-color);
 }
+
+/* Chromium */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--background-color);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--box-color);
+  }
+  
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--box-color) var(--background-color);
+  }

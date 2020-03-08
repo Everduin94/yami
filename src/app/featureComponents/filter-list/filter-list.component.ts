@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FlashCardsService } from 'src/app/services/flash-cards.service';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { switchMap, tap, map } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AddFlashCardsService } from 'src/app/services/add-flash-cards.service';
-import { Subject, merge, combineLatest } from 'rxjs';
+import { Subject, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-filter-list',
@@ -12,6 +12,8 @@ import { Subject, merge, combineLatest } from 'rxjs';
   styleUrls: ['./filter-list.component.css']
 })
 export class FilterListComponent implements OnInit {
+
+  @Output() clickedEvent = new EventEmitter();
 
   form: FormGroup;
   
@@ -27,7 +29,6 @@ export class FilterListComponent implements OnInit {
     // should return only authorized cards given authorized
    * 
    */
-
   categoryChangeEvent = new Subject();
   categoryChangeEvent$ = this.categoryChangeEvent.asObservable();
   cards$ = combineLatest([this.categoryChangeEvent$, this.auth.userId$]).pipe(
@@ -52,5 +53,9 @@ export class FilterListComponent implements OnInit {
         console.log(val);
       })
     ).subscribe(); // TODO: Handle sub
+  }
+
+  raiseClickedEvent(content) {
+    this.clickedEvent.emit(content);
   }
 }

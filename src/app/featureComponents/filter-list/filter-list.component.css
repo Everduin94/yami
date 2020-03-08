@@ -2,13 +2,13 @@
     display: grid;
     height: 100%;
     width: 100%;
-    grid-template-rows: 150px 1fr;
+    grid-template-rows: 150px minmax(0,1fr);
 }
 
 .filter__header, .filter__body {
     border: var(--box-shadow) 1px solid;
 }
-    
+
 .filter__body {
     border-top: none;
     overflow-y: auto;

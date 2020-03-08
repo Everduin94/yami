@@ -1,0 +1,10 @@
+:host {
+    display: contents;
+}
+
+.question-content {
+    padding: 12px;
+    min-height: 0;
+    overflow-y: auto;
+    box-shadow:  0 4px 3px -3px var(--box-shadow);
+}

@@ -22,7 +22,7 @@
   <div class="body__content">
     <ng-container *ngIf="cards$ | async as cards; else choose">
       <div class="filter__body__card" *ngFor="let card of cards; let i = index">
-          <button mat-raised-button color="accent" [attr.data-cy]="'card-' + i"><h3>{{card.title}}</h3></button>
+          <button (click)="raiseClickedEvent(card)" mat-raised-button color="accent" [attr.data-cy]="'card-' + i"><h3>{{card.title}}</h3></button>
       </div>        
     </ng-container>
   </div>

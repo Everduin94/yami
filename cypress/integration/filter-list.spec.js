@@ -22,6 +22,28 @@ describe('Practice Route', () => {
             cy.get('[data-cy=card-1]').should('be.visible');
             cy.get('[data-cy=card-2]').should('not.be.visible');
         });
+
+        it('should activate a card given a content-button is clicked', () => {
+            cy.get('[data-cy=card-0]').click();
+            cy.get('[data-cy=question-content').should('be.visible');
+        });
+
+        it('should show the answer given the show-answer-button is clicked', () => {
+            cy.get('[data-cy=show-answer-button]').click();
+            cy.get('[data-cy=answer-content').should('be.visible');
+        });
+
+        it('should remove the answer given a new content button is clicked', () => {
+            cy.get('[data-cy=card-1]').click();
+            cy.get('[data-cy=answer-content').should('not.be.visible');
+        });
+
+        it('should hide the answer given the show-answer-button is clicked while showing', () => {
+            cy.get('[data-cy=show-answer-button]').contains('Show Answer').click();
+            cy.get('[data-cy=answer-content').should('be.visible');
+            cy.get('[data-cy=show-answer-button]').contains('Hide Answer').click();
+            cy.get('[data-cy=answer-content').should('not.be.visible');
+        });
     });
 
     describe('Question Section', () => {
