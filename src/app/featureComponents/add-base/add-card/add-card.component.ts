@@ -22,6 +22,7 @@ export class AddCardComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
+      title: '',
       question: '',
       answer: '',
       category: ''
@@ -30,6 +31,7 @@ export class AddCardComponent implements OnInit {
 
   onSubmit(userId) {
       const payload = {
+        title: this.title.value,
         question: JSON.stringify(this.question.value),
         answer: JSON.stringify(this.answer.value),
         category: this.category.value      
@@ -45,6 +47,10 @@ export class AddCardComponent implements OnInit {
 
 
   /* Getters */
+  get title() {
+    return this.form.get('title');
+  }
+
   get question() {
     return this.form.get('question');
   }

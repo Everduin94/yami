@@ -18,6 +18,17 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class QuillComponent implements OnInit, ControlValueAccessor {
 
+  toolbarOptions: any[] = [
+    ['bold', 'italic', 'underline', 'strike'], 
+    ['blockquote', 'code-block'],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'color': [] }, { 'background': [] }],       
+    [{ 'align': [] }],
+    ['clean']                                         
+  ];
+
+
+
   @Input() label;
 
   editor: Quill;
@@ -28,14 +39,29 @@ export class QuillComponent implements OnInit, ControlValueAccessor {
   ngOnInit() {
     this.editor = new Quill(this.location.nativeElement,
       {
+        modules: {
+          toolbar: this.toolbarOptions,
+        },
         theme: 'snow'
       }
     );
 
     this.editor.on('editor-change', (ev, ...args) => {
       this.onChange(this.editor.getContents());
+      console.log(this.editor.root.innerHTML);
     })
 
+    this.editor.on('selection-change', (ev, ...args) => {
+      console.log(ev);
+    })
+    
+
+  }
+
+  insertHTML() {
+    this.editor.root.innerHTML += `<p class="test"><input type="text">wooooooooooooo</p>`
+    this.editor.pasteHTML(0, ``)
+    this.editor.clipboard.dangerouslyPasteHTML(`<input type="text">`)
   }
 
   /* Reactive Form Behavior */

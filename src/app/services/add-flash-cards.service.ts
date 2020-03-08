@@ -12,8 +12,8 @@ export class AddFlashCardsService {
 
   getCategories(userId) {
     if (!userId) return of(null);
-    return this.fs.get(`categories`, userId).collection('items').valueChanges().pipe(
-      map(item => item.filter(val => val.active).map(val => val.value), 
+    return this.fs.get(`categories`, userId).collection('items').valueChanges({idField: 'id'}).pipe(
+      map(item => item.filter(val => val.active).map(val => ({value: val.value, id: val.id})), 
       shareReplay(1))
     )
   }

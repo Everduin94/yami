@@ -1,0 +1,36 @@
+<div class="filter__header">
+  <app-header-span dataCy="filters-header" label="Filters"></app-header-span>
+  <div class="header__content">
+    <form style="display:contents" [formGroup]="form">
+      <mat-form-field style="margin-right: 5px;">
+        <mat-label>Category</mat-label>
+        <mat-select data-cy="category" formControlName="category">
+          <ng-container *ngIf="categories$ | async as categories">
+            <mat-option *ngFor="let category of categories" [value]="category.value">
+              {{category.value}}
+            </mat-option>
+          </ng-container>
+      
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+
+<div class="filter__body">
+  <app-header-span dataCy="content-header" label="Content"></app-header-span>
+  <div class="body__content">
+    <ng-container *ngIf="cards$ | async as cards; else choose">
+      <div class="filter__body__card" *ngFor="let card of cards; let i = index">
+          <button mat-raised-button color="accent" [attr.data-cy]="'card-' + i"><h3>{{card.title}}</h3></button>
+      </div>        
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #choose>
+  <h3 style="padding: 8px; text-align: center;">
+    Choose a category!
+  </h3>
+</ng-template>
+

@@ -48,3 +48,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Testing
+serviceAccount.json
+cypress.env.json

@@ -1,1 +1,6 @@
-{}
+{
+    "CYPRESS_BASE_URL": "http://localhost:4200",
+    "baseUrl": "http://localhost:4200",
+    "viewportWidth": 1200,
+    "viewportHeight": 820
+}

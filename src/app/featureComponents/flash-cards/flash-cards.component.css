@@ -10,5 +10,13 @@
 
 .container {
     display: grid;
-    gap: 20px;
+    grid-template-columns: 2fr 4fr 4fr;
+    grid-template-rows: 1fr;
+    height: 100%;
+    width: 100%;
+}
+
+.filler {
+    border: 2px solid var(--primary-color);
+    border-left: none;
 }

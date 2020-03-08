@@ -2,13 +2,11 @@
 
     <div class="left">
 
-        <a class="item" [routerLink]="['/']">🤠</a>
-
-        <a class="item" [routerLink]="['/flashCards']" style="margin-right: 5px;">Flash Cards</a>
-        <a class="item" [routerLink]="['/add/card']">Add</a>
-
-
-        <a class="item" [routerLink]="['/prototype']">Prototype</a>
+        <a class="item item--link" [routerLink]="['/flashCards']" routerLinkActive="item--link--active" style="margin-right: 5px;">Practice</a>
+        <span class="item--link__divider">|</span>
+        <a class="item item--link" [routerLink]="['/add/card']" routerLinkActive="item--link--active">Add</a>
+        <span class="item--link__divider">|</span>
+        <a class="item item--link" [routerLink]="['/prototype']" routerLinkActive="item--link--active">Prototype</a>
 
     </div>
 

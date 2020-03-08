@@ -1,6 +1,6 @@
 :host {
     display: grid;
-    grid-template-rows: 64px 1fr;
+    grid-template-rows: 64px minmax(0, 1fr);
     height: 100%;
 }
 
@@ -60,8 +60,24 @@
 
 .inner-host {
     display: grid;
-    grid-template-rows: 1fr;
+    min-height: 0;
+    grid-template-rows: 0 minmax(0,1fr);
     grid-template-columns: 1fr;
+}
+
+.item--link, .item--link__divider, .container__title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-color);
+    text-decoration: underline;
+}
+
+.container__title {
+    text-decoration: none;
+}
+
+.item--link--active {
+    color: var(--primary-color);
 }
 
 

@@ -1,8 +1,10 @@
 <div class="container">
-    <ng-container *ngIf="cards$ | async as cards">
-        <ng-container *ngFor="let card of cards">
-            <app-flash-card [card]="card"></app-flash-card>
-            <!-- <app-quill></app-quill> -->
-        </ng-container>        
-  </ng-container>
+    <app-filter-list></app-filter-list>
+    <div class="filler">
+        <app-header-span dataCy="question-header" label="Question"></app-header-span>
+        <div style="padding: 12px" [innerHTML]="markdownString | mdToHtml"></div>
+    </div>
+    <div class="filler">
+        <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
+    </div>
 </div>

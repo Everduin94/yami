@@ -1,0 +1,33 @@
+:host {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-rows: 150px 1fr;
+}
+
+.filter__header, .filter__body {
+    border: var(--primary-color) 2px solid;
+}
+
+.filter__body {
+    border-top: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.header__content, .body__content {
+    padding: 8px;
+}
+
+.filter__body__card {
+    width:100%;
+    padding-bottom: 4px;
+}
+
+button, mat-form-field {
+    width: 100%;
+}
+
+.filter__body__card:last-child {
+    padding-bottom: 0px;
+}

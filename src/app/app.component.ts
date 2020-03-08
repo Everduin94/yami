@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { fader } from './route-animations';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +7,11 @@ import { fader } from './route-animations';
    
 })
 export class AppComponent {
-  title = 'angular-firebase-contentful starter';
+
+  title = 'Yami';
+
+  constructor() {
+  }
+  
+
 }

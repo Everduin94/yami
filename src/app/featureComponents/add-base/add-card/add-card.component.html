@@ -1,8 +1,9 @@
 <ng-container *ngIf="auth.userId$ | async as userId">
   <form class="container" [formGroup]="form" (ngSubmit)="onSubmit(userId)">
 
-    <app-quill style="width: 400px" label="Question" formControlName="question"></app-quill>
-    <app-quill style="width: 400px" label="Answer" formControlName="answer"></app-quill>
+    <input type="text" style="width: 400px" label="Title" formControlName="title">
+    <textarea style="width: 400px" label="Question" formControlName="question"></textarea>
+    <textarea style="width: 400px" label="Answer" formControlName="answer"></textarea>
     <div class="form__topic-controls">
   
       <ng-container *ngIf="!showAddCategory">
@@ -10,8 +11,8 @@
           <mat-label>Category</mat-label>
           <mat-select formControlName="category">
             <ng-container *ngIf="categories$ | async as categories">
-              <mat-option *ngFor="let category of categories" [value]="category">
-                {{category}}
+              <mat-option *ngFor="let category of categories" [value]="category.value">
+                {{category.value}}
               </mat-option>
             </ng-container>
     

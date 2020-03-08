@@ -15,23 +15,41 @@
     --box-color: #11111170;
     --text-color: #ffffff;
     --border-color:#ffffff;
+    --box-shadow: #111111;
 }
 
 body {
     height: 100vh;
+    width: 100vw;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     
     background-color: var(--background-color);
     color: var(--text-color);
-
-    /* TODO: Hack, figure it out -- only on vert-scroll */
-    width: 99vw;
-    overflow-x: hidden;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html { height: 100%; }
+
+body > * {
+    box-sizing: border-box;
+}
+
+pre {
+    box-shadow: inset 0 0 2px var(--box-shadow);
+    padding: 8px;
+}
+
+.fill-in-blank {
+    background: var(--primary-color);
+    border: none;
+    font-weight: 600;
+    text-align: center;
+    padding: 8px;
+    border-radius: 4px;
+    appearance: none;
+    color: whitesmoke;
+}
 
 /* This works, the hover and active do not. */
 .ql-snow .ql-stroke {
@@ -45,6 +63,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 div.ql-editor {
     background: var(--box-color);
     color: var(--text-color);
+}
+
+div.ql-editor strong {
+    visibility: hidden;
+    width: 0px;
+}
+
+div.ql-editor strong::after {
+    color: white;
+    width:10px;
+    visibility: visible;
+    content:'...';
 }
 
 div.ql-container.ql-snow {
