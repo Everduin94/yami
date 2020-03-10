@@ -19,12 +19,12 @@ export class MdToHtmlPipe implements PipeTransform {
       highlight: function(code, language) {
         const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
         const highlights = hljs.highlight(validLanguage, code).value;
-        console.log(highlights)
         return highlights;
       }
     });
-    // const purifiedString = DOMPurify.sanitize(value);
-    return this.sanitizer.bypassSecurityTrustHtml(MarkdownPreProcessor.questionParser(marked(value)));
+  
+
+    return this.sanitizer.bypassSecurityTrustHtml(MarkdownPreProcessor.questionParser(DOMPurify.sanitize(marked(value))));
   }
 
 }
