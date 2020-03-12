@@ -13,6 +13,11 @@ import {MatButtonModule} from '@angular/material/button';
 import { QuillModule } from '../quill/quill.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BoxRouteLinkModule } from 'src/app/libraryComponents/box-route-link/box-route-link.module';
+import { FilterListModule } from '../filter-list/filter-list.module';
+import { HeaderSpanModule } from 'src/app/libraryComponents/header-span/header-span.module';
+import { QuestionContentModule } from '../question-content/question-content.module';
+import { AnswerContentModule } from '../answer-content/answer-content.module';
+import { DetailsFormModule } from '../details-form/details-form.module';
 
 const routes: Routes = [
   {
@@ -48,6 +53,11 @@ const routes: Routes = [
     ReactiveFormsModule,
     QuillModule,
     BoxRouteLinkModule,
+    FilterListModule,
+    HeaderSpanModule,
+    QuestionContentModule,
+    AnswerContentModule,
+    DetailsFormModule,
     RouterModule.forChild(routes)
   ]
 })

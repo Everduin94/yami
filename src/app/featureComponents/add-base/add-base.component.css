@@ -1,20 +1,21 @@
 :host {
     /* TODO: Extract to base component */
     display: grid;
-    width: 100%;
-    height: 100%;
+    justify-items: center;
+    align-items: center;
     grid-column: 1 / -1;
     grid-row: 1 / -1;
-    /* This is a work around to make full screen (grid) + router animations work smoothly */
-
-    background: var(--background-color);
+    min-height: 0;
+    overflow: hidden;
 }
 
 .container {
     display: grid;
-    grid-template-rows: 165px 0 1fr;
-    justify-items: center;
-    align-items: center;
+    overflow: auto;
+    grid-template-columns: 2fr 4fr 4fr;
+    grid-template-rows: minmax(0,1fr) minmax(0,1fr);
+    height: 100%;
+    width: 100%;
 }
 
 .button-row {
@@ -60,3 +61,19 @@
 .span-two {
     grid-column: span 2;
 }
+
+.container__filter-list{
+    grid-row: span 2;
+}
+
+.container__meta-data {
+    grid-column: span 2;
+}
+
+.container__question, .container__answer {
+    display: grid;
+    grid-template-rows: min-content minmax(0,1fr);
+    border: 1px solid var(--box-shadow);
+    border-left: none;
+}
+

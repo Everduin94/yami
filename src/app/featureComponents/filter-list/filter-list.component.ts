@@ -22,11 +22,10 @@ export class FilterListComponent implements OnInit {
    * Output: List of cards by category
    * 
    * Rules: Only query if a category is selected
-    // should return all DEMO cards given 'DEMO' category
-    // should reutrn all cards given 'ALL' category
-    // should return no cards given 'NONE' category (Optional)
-    // should return no cards given not authorized
-    // should return only authorized cards given authorized
+    * should return all DEMO cards given 'DEMO' category
+    * should reutrn all cards given 'ALL' category
+    * should return no cards given not authorized
+    * should return only authorized cards given authorized
    * 
    */
   categoryChangeEvent = new Subject();

@@ -1,16 +1,33 @@
-<div class="container">
-  <div class="button-row">
+<ng-container *ngIf="auth.userId$ | async as userId">
+  <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(userId)">
+    <div class="container">
+      <app-filter-list (clickedEvent)="activeContent = $event; activeAnswer = $event" class="container__filter-list">
+      </app-filter-list>
 
-    <a 
-    class="back-button box" 
-    [routerLink]="['/flashCards']" 
-    routerLinkActive="span-two"
-    [routerLinkActiveOptions]="{exact: true}">Practice</a>
-    <a 
-    class="add-button box" 
-    [routerLink]="['/add/card']" 
-    routerLinkActive="span-two"
-    [routerLinkActiveOptions]="{exact: true}">Add New Card</a>
-  </div>
-  <router-outlet></router-outlet>
-</div>
+      <div class="container__meta-data">
+        <app-header-span dataCy="meta-header" label="Details"></app-header-span>
+
+      </div>
+
+      <div class="container__question">
+        <app-header-span dataCy="question-header" label="Question"></app-header-span>
+        <ng-container *ngIf="activeContent; else fillerDiv">
+          <app-question-content [activeContent]="activeContent"></app-question-content>
+        </ng-container>
+      </div>
+
+
+      <div class="container__answer">
+        <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
+        <ng-container *ngIf="activeAnswer; else fillerDiv">
+          <app-answer-content [activeContent]="activeAnswer"></app-answer-content>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+</ng-container>
+
+
+<ng-template #fillerDiv>
+  <div class="filler_answer--no-answer"></div>
+</ng-template>
