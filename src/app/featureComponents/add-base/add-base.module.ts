@@ -18,6 +18,7 @@ import { HeaderSpanModule } from 'src/app/libraryComponents/header-span/header-s
 import { QuestionContentModule } from '../question-content/question-content.module';
 import { AnswerContentModule } from '../answer-content/answer-content.module';
 import { DetailsFormModule } from '../details-form/details-form.module';
+import { FormComponentsModule } from 'src/app/formComponents/form-components.module';
 
 const routes: Routes = [
   {
@@ -58,6 +59,7 @@ const routes: Routes = [
     QuestionContentModule,
     AnswerContentModule,
     DetailsFormModule,
+    FormComponentsModule,
     RouterModule.forChild(routes)
   ]
 })

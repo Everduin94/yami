@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StartModule } from './featureComponents/start/start.module';
 import { MdToHtmlModule } from './pipes/md-to-html.module';
 import { FilterListModule } from './featureComponents/filter-list/filter-list.module';
+import { FormComponentsModule } from './formComponents/form-components.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { FilterListModule } from './featureComponents/filter-list/filter-list.mo
     PageNotFoundComponent,
     LoginComponent,
     ShellComponent,
-    MainComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +46,7 @@ import { FilterListModule } from './featureComponents/filter-list/filter-list.mo
     StartModule,
     FilterListModule,
     MdToHtmlModule,
+    FormComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

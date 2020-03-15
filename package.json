@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build --prod",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch --maxWorkers=1",
     "build:testConfig": "cypress-firebase createTestEnvFile",
     "cy:test": "npm run build:testConfig && cypress run",
     "cy:test:open": "npm run build:testConfig && cypress open",
@@ -20,6 +20,24 @@
     "setupFilesAfterEnv": [
       "./setupJest.ts"
     ],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|js|html)$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "<rootDir>/tsconfig.spec.json",
+        "stringifyContentPathRegex": "\\.html$",
+        "astTransformers": [
+          "jest-preset-angular/build/InlineFilesTransformer",
+          "jest-preset-angular/build/StripStylesTransformer"
+        ],
+        "isolatedModules": true
+      }
+    },
     "modulePathIgnorePatterns": [
       "./cypress/",
       "cache/Cypress/",
@@ -51,6 +69,7 @@
     "firebase": "^6.2.2",
     "hammerjs": "^2.0.8",
     "highlight.js": "^9.18.1",
+    "jest": "^25.1.0",
     "marked": "^0.7.0",
     "quill": "^1.3.6",
     "rxjs": "~6.4.0",
@@ -76,7 +95,6 @@
     "inquirer-autocomplete-prompt": "^1.0.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
-    "jest": "^24.9.0",
     "jest-preset-angular": "^8.0.0",
     "protractor": "~5.4.0",
     "ts-jest": "^24.2.0",

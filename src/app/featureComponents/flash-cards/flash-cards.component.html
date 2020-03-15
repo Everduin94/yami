@@ -19,7 +19,7 @@
         <ng-container *ngIf="activeAnswer; else fillerDiv">
             <app-answer-content [activeContent]="activeAnswer"></app-answer-content>
         </ng-container>
-        <ng-container *ngIf="activeContent">
+        <ng-container *ngIf="activeContent"> <!-- TODO: Is disable better than hide here? -->
             <button mat-raised-button data-cy="next-button" class="next-button">
                 <h3>Next</h3>
             </button>

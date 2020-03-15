@@ -1,0 +1,7 @@
+<form style="display: contents" [formGroup]="form">
+  <mat-form-field>
+    <mat-label>{{label}}</mat-label>
+    <input matInput [formControlName]="controlName" [attr.data-cy]="'form-text-input-' + controlName">
+  </mat-form-field>
+</form>
+
