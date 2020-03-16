@@ -7,11 +7,13 @@ import { FormSelectComponent } from './form-select/form-select.component';
 import { FormTextInputComponent } from './form-text-input/form-text-input.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormTextareaComponent } from './form-textarea/form-textarea.component';
 
 @NgModule({
   declarations: [
     FormSelectComponent,
-    FormTextInputComponent
+    FormTextInputComponent,
+    FormTextareaComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule,
     MatFormFieldModule,
     FormSelectComponent,
-    FormTextInputComponent
+    FormTextInputComponent,
+    FormTextareaComponent
   ]
 })
 export class FormComponentsModule { }

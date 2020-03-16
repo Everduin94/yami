@@ -21,8 +21,16 @@
   <div class="body__content">
     <ng-container *ngIf="cards$ | async as cards; else choose">
       <div class="filter__body__card" *ngFor="let card of cards; let i = index">
-          <button (click)="raiseClickedEvent(card)" mat-raised-button color="accent" [attr.data-cy]="'card-' + i"><h3>{{card.title}}</h3></button>
-      </div>        
+        <button (click)="raiseClickedEvent(card); $event.preventDefault();" mat-raised-button color="accent"
+          [attr.data-cy]="'card-' + i">
+          <h3>{{card.title}}</h3>
+        </button>
+      </div>
+      <div class="filter__body__card">
+        <button class="test-card" (click)="raiseClickedEvent(card); $event.preventDefault();" mat-raised-button>
+          <h3>Cypress API Test</h3>
+        </button>
+      </div>
     </ng-container>
   </div>
 </div>
@@ -32,4 +40,3 @@
     Choose a category!
   </h3>
 </ng-template>
-

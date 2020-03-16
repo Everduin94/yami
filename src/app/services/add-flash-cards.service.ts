@@ -27,6 +27,11 @@ export class AddFlashCardsService {
     if (!userId) return;
     this.fs.createItemsEntryById("flash_cards", userId, entry);
   }
+
+  deleteContent(userId, entryId) {
+    if (!userId) return;
+    this.fs.deleteItemsEntryById("flash_cards", userId, entryId);
+  }
 }
 
 

@@ -36,6 +36,10 @@ export class FirestoreService {
     return this.get(tableName, userId).collection("items").doc(documentId).update(entry);
   }
 
+  deleteItemsEntryById(tableName, userId, documentId) {
+    return this.get(tableName, userId).collection("items").doc(documentId).delete();
+  }
+
   update(tableName, id, entry: any) {
     return this.get(tableName, id).update(entry);
   }

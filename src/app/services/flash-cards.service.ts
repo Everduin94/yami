@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { FirebaseAuthService } from './firebase-auth.service';
-import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { QueryFn } from '@angular/fire/firestore';
 
@@ -16,8 +15,6 @@ export class FlashCardsService {
     if (!userId) return of(null);
     const fcDoc = this.fs.get('flash_cards', userId);
     const collectionWithQuery = query ? fcDoc.collection('items', query) : fcDoc.collection('items')
-    return collectionWithQuery.get().pipe(
-      map(val => val.docs.map(v => v.data()))
-    );
+    return collectionWithQuery.valueChanges({idField: 'id'});
   }
 }

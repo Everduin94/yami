@@ -18,6 +18,14 @@
     width: 100%;
 }
 
+.padded-container {
+    padding: 10px;
+}
+
+.padded-container--bottom-shadow {
+    box-shadow:  0 4px 3px -3px var(--box-shadow);
+}
+
 .filter-list__button-container {
     grid-column:  1;
     grid-row: span 1 / -1;
@@ -89,13 +97,15 @@ button {
     border-left: none;
 }
 
-
+.hover-button--warn:hover {
+    background: var(--warn-color);
+}
 /* dup */
-.submit-content-button {
+.submit-content-button, .hover-button, .hover-button--warn {
     background: var(--box-color);
 }
 
-.submit-content-button:hover {
+.submit-content-button:hover, .hover-button:hover {
     background: var(--primary-color);
 }
 

@@ -6,6 +6,8 @@
 :root {
     --primary-color: #2979ff;
     --secondary-color: #1de9b6;
+    --dark-secondary-color: #00b686;
+    --warn-color: #ff1744;
     --yellow: #ffea00;
     --purple: #d500f9;
     --red: #ff1744;
@@ -49,6 +51,10 @@ pre {
     border-radius: 4px;
     appearance: none;
     color: whitesmoke;
+}
+
+.mat-form-field-flex {
+    height: 100%;
 }
 
 /* This works, the hover and active do not. */

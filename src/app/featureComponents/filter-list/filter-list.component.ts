@@ -23,7 +23,7 @@ export class FilterListComponent implements OnInit {
    * 
    * Rules: Only query if a category is selected
     * should return all DEMO cards given 'DEMO' category
-    * should reutrn all cards given 'ALL' category
+    * should return all cards given 'ALL' category
     * should return no cards given not authorized
     * should return only authorized cards given authorized
    * 
@@ -55,6 +55,7 @@ export class FilterListComponent implements OnInit {
   }
 
   raiseClickedEvent(content) {
+    console.log('content: ',content);
     this.clickedEvent.emit(content);
   }
 }

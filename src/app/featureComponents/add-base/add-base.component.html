@@ -2,73 +2,79 @@
   <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(userId)">
     <div class="container">
       <div class="container__filter-list">
-        <app-filter-list (clickedEvent)="activeContent = $event; activeAnswer = $event">
+        <app-filter-list (clickedEvent)="activeContent = $event; activeAnswer = $event; updateForm($event)">
         </app-filter-list>
       </div>
 
-
-      <!-- <input type="text" style="width: 400px" label="Title" formControlName="title">
-    <textarea style="width: 400px" label="Question" formControlName="question"></textarea>
-    <textarea style="width: 400px" label="Answer" formControlName="answer"></textarea> -->
-
       <div class="filter-list__button-container">
-        <button (click)="addRow()" mat-raised-button color="primary" data-cy="add-content-button">
+
+        <button class="hover-button" (click)="addRow(); $event.preventDefault();" mat-raised-button
+          data-cy="add-content-button">
           <h3>+ Add Content</h3>
         </button>
-        <button [disabled]="!activeContent" (click)="deleteRow(activeContent)" mat-raised-button color="warn"
-          data-cy="delete-content-button">
+        <button class="hover-button--warn" [disabled]="!activeContent?.id" (click)="deleteRow(userId, activeContent); $event.preventDefault();"
+          mat-raised-button data-cy="delete-content-button">
           <h3>- Delete Content</h3>
         </button>
+
       </div>
 
       <div class="container__meta-data">
-        <app-header-span dataCy="meta-header" label="Details"></app-header-span>
-
-        <app-form-text-input [form]="form" label="Title" controlName="title"></app-form-text-input>
-
-        <ng-container *ngIf="!showAddCategory">
-          <ng-container *ngIf="categories$ | async as categories">
-            <app-form-select [form]="form" [selectData]="categories" label="Category" controlName="category">
-            </app-form-select>
+        <app-header-span dataCy="meta-header" label="Details">
+          <ng-container *ngIf="activeContent?.title">
+            <span data-cy="details-header-info"> - {{activeContent?.title}}</span>
           </ng-container>
-          <button mat-raised-button color="primary" (click)="showAddCategory = !showAddCategory">+ Add Category</button>
-        </ng-container>
+        </app-header-span>
 
-        <ng-container *ngIf="showAddCategory">
-          <mat-form-field>
-            <input #addCategoryInput matInput placeholder="Category">
-          </mat-form-field>
-          <button mat-raised-button color="primary" [disabled]="!addCategoryInput.value" 
-          (click)="addCategory(addCategoryInput.value, userId);
-          showAddCategory = !showAddCategory;
-          $event.preventDefault();">Save Category</button>
-          <button mat-raised-button color="accent" 
-          (click)="showAddCategory = !showAddCategory;$event.preventDefault();">Back</button>
-        </ng-container>
+        <div class="padded-container">
+
+          <app-form-text-input #title [form]="form" label="Title" controlName="title"></app-form-text-input>
+
+          <ng-container *ngIf="!showAddCategory">
+            <ng-container *ngIf="categories$ | async as categories">
+              <app-form-select [form]="form" [selectData]="categories" label="Category" controlName="category">
+              </app-form-select>
+            </ng-container>
+            <button mat-raised-button class="hover-button" style="width: 180px; display:block;"
+              (click)="showAddCategory = !showAddCategory;
+               $event.preventDefault();
+               ">+ New Category</button>
+          </ng-container>
+
+          <ng-container *ngIf="showAddCategory">
+            <mat-form-field>
+              <input #addCategoryInput matInput placeholder="Category" appAutofocus>
+            </mat-form-field>
+            <button mat-raised-button style="width: 180px; display:block; margin-bottom: 5px;" color="primary" [disabled]="!addCategoryInput.value"
+              (click)="addCategory(addCategoryInput.value, userId);
+            showAddCategory = !showAddCategory;
+            $event.preventDefault();">Save Category</button>
+            <button mat-raised-button style="width: 180px; display:block;" color="accent"
+              (click)="showAddCategory = !showAddCategory;$event.preventDefault();">Back</button>
+          </ng-container>
+
+        </div>
+
 
       </div>
 
-      <!--
-        <ng-container *ngIf="categories$ | async as categories">
-            <mat-option *ngFor="let category of categories" [value]="category.value">
-              {{category.value}}
-            </mat-option>
-          </ng-container>
-      -->
-
       <div class="container__question">
         <app-header-span dataCy="question-header" label="Question"></app-header-span>
-        <ng-container *ngIf="activeContent; else fillerDiv">
-          <app-question-content [activeContent]="activeContent"></app-question-content>
-        </ng-container>
+        <div class="padded-container">
+
+          <app-form-textarea [form]="form" label="Question" controlName="question"></app-form-textarea>
+
+        </div>
       </div>
 
 
       <div class="container__answer">
         <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
-        <ng-container *ngIf="activeAnswer; else fillerDiv">
-          <app-answer-content [activeContent]="activeAnswer"></app-answer-content>
-        </ng-container>
+        <div class="padded-container padded-container--bottom-shadow">
+
+          <app-form-textarea [form]="form" label="Answer" controlName="answer"></app-form-textarea>
+
+        </div>
         <div style="padding: 5px;">
           <!-- TODO: Trigger submit on this button, but not others! -->
           <button [disabled]="!activeContent" (click)="onSubmit(userId)" mat-raised-button color="primary"
@@ -76,13 +82,7 @@
             <h3>Submit</h3>
           </button>
         </div>
-
       </div>
     </div>
   </form>
 </ng-container>
-
-
-<ng-template #fillerDiv>
-  <div class="filler_answer--no-answer"></div>
-</ng-template>

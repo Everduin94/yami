@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-form-text-input',
@@ -10,10 +10,12 @@ export class FormTextInputComponent implements OnInit {
   @Input() form;
   @Input() controlName;
   @Input() label;
+  @ViewChild('inputEl', {static: true}) inputElement;
 
   constructor() { }
 
   ngOnInit() {
+    console.log('text input:', this.inputElement);
   }
 
 }

@@ -19,6 +19,7 @@ import { QuestionContentModule } from '../question-content/question-content.modu
 import { AnswerContentModule } from '../answer-content/answer-content.module';
 import { DetailsFormModule } from '../details-form/details-form.module';
 import { FormComponentsModule } from 'src/app/formComponents/form-components.module';
+import { AutofocusModule } from 'src/app/libraryComponents/autofocus/autofocus.module';
 
 const routes: Routes = [
   {
@@ -60,6 +61,7 @@ const routes: Routes = [
     AnswerContentModule,
     DetailsFormModule,
     FormComponentsModule,
+    AutofocusModule,
     RouterModule.forChild(routes)
   ]
 })

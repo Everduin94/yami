@@ -32,6 +32,11 @@
     padding-bottom: 4px;
 }
 
+.test-card {
+    background: var(--dark-secondary-color);
+    color: var(--text-color);
+}
+
 button, mat-form-field {
     width: 100%;
 }
