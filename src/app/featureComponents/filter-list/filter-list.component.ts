@@ -1,10 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FlashCardsService } from 'src/app/services/flash-cards.service';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { switchMap, tap, map } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AddFlashCardsService } from 'src/app/services/add-flash-cards.service';
-import { Subject, combineLatest } from 'rxjs';
+import { Subject, combineLatest, Subscription, Observable } from 'rxjs';
+import { ContentStateService } from 'src/app/services/content-state.service';
 
 @Component({
   selector: 'app-filter-list',
@@ -13,9 +14,11 @@ import { Subject, combineLatest } from 'rxjs';
 })
 export class FilterListComponent implements OnInit {
 
+  @Input() activeContent;
   @Output() clickedEvent = new EventEmitter();
 
   form: FormGroup;
+  formSub: Subscription;
   
   /**
    * Input: UserID & Category String
@@ -30,32 +33,28 @@ export class FilterListComponent implements OnInit {
    */
   categoryChangeEvent = new Subject();
   categoryChangeEvent$ = this.categoryChangeEvent.asObservable();
-  cards$ = combineLatest([this.categoryChangeEvent$, this.auth.userId$]).pipe(
-    map(([category, userId]) => ({category, userId})),
-    switchMap(data => this.fs.getUsersCards(data.userId, ref => ref.where('category', '==', data.category))),
-  );
+  cards$: Observable<any>;
 
-  categories$ = this.auth.userId$.pipe(
-    switchMap(userId => this.afs.getCategories(userId))
-  );
-
-  constructor(private fs: FlashCardsService, private auth: FirebaseAuthService, private afs: AddFlashCardsService, private fb: FormBuilder) { }
+  constructor(private fs: FlashCardsService,
+     private auth: FirebaseAuthService,
+      private afs: AddFlashCardsService,
+      public cs: ContentStateService,
+       private fb: FormBuilder) { }
 
   ngOnInit() {
     this.form = this.fb.group({
       category: ''
     });
   
-    this.form.get('category').valueChanges.pipe(
-      tap(val => {
-        this.categoryChangeEvent.next(val);
-        console.log(val);
-      })
-    ).subscribe(); // TODO: Handle sub
+    this.cards$ = combineLatest([this.form.get('category').valueChanges, this.auth.userId$]).pipe(
+      map(([category, userId]) => ({category, userId})),
+      switchMap(data => this.fs.getUsersCards(data.userId, ref => ref.where('category', '==', data.category))),
+    );
   }
 
   raiseClickedEvent(content) {
-    console.log('content: ',content);
+    // TODO: Add DB call up higher, this is still needed for patch form
     this.clickedEvent.emit(content);
+    this.cs.updateActiveContent(content);
   }
 }

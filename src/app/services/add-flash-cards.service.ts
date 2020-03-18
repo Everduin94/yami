@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
-import { of } from 'rxjs';
-import { map, shareReplay, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +7,6 @@ import { map, shareReplay, tap } from 'rxjs/operators';
 export class AddFlashCardsService {
 
   constructor(private fs: FirestoreService) { }
-
-  getCategories(userId) {
-    if (!userId) return of(null);
-    return this.fs.get(`categories`, userId).collection('items').valueChanges({idField: 'id'}).pipe(
-      map(item => item.filter(val => val.active).map(val => ({value: val.value, id: val.id})), 
-      shareReplay(1))
-    )
-  }
 
   postCategory(userId, entry) {
     if (!userId) return; // Add validation for entry

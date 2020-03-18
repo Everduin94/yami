@@ -1,30 +1,36 @@
 <div class="container">
-    <app-filter-list (clickedEvent)="activeContent = $event; activeAnswer = null"></app-filter-list>
+    <ng-container *ngIf="cs.activeContent$ | async as activeContent">
 
-    <div class="filler filler__question">
-        <app-header-span dataCy="question-header" label="Question"></app-header-span>
-        <ng-container *ngIf="activeContent; else fillerDiv">
-            <app-question-content [activeContent]="activeContent"></app-question-content>
-            <button (click)="activeAnswer = activeAnswer ? null : activeContent" mat-raised-button
-                data-cy="show-answer-button" class="show-answer-button">
-                <ng-container *ngIf="!activeAnswer; else hideAnswer">
-                    <h3>Show Answer</h3>
-                </ng-container>
-            </button>
-        </ng-container>
-    </div>
 
-    <div class="filler filler__answer">
-        <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
-        <ng-container *ngIf="activeAnswer; else fillerDiv">
-            <app-answer-content [activeContent]="activeAnswer"></app-answer-content>
-        </ng-container>
-        <ng-container *ngIf="activeContent"> <!-- TODO: Is disable better than hide here? -->
-            <button mat-raised-button data-cy="next-button" class="next-button">
-                <h3>Next</h3>
-            </button>
-        </ng-container>
-    </div>
+        <app-filter-list [activeContent]="activeContent" (clickedEvent)="activeAnswer = null">
+        </app-filter-list>
+
+        <div class="filler filler__question">
+            <app-header-span dataCy="question-header" label="Question"></app-header-span>
+            <ng-container *ngIf="activeContent?.title; else fillerDiv"> <!-- TODO: Refactor title fillers -->
+                <app-question-content [activeContent]="activeContent"></app-question-content>
+                <button (click)="activeAnswer = activeAnswer ? null : activeContent" mat-raised-button
+                    data-cy="show-answer-button" class="show-answer-button">
+                    <ng-container *ngIf="!activeAnswer; else hideAnswer">
+                        <h3>Show Answer</h3>
+                    </ng-container>
+                </button>
+            </ng-container>
+        </div>
+
+        <div class="filler filler__answer">
+            <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
+            <ng-container *ngIf="activeAnswer?.title; else fillerDiv">
+                <app-answer-content [activeContent]="activeAnswer"></app-answer-content>
+            </ng-container>
+            <ng-container *ngIf="activeContent">
+                <!-- TODO: Is disable better than hide here? -->
+                <button mat-raised-button data-cy="next-button" class="next-button">
+                    <h3>Next</h3>
+                </button>
+            </ng-container>
+        </div>
+    </ng-container>
 </div>
 
 <ng-template #hideAnswer>

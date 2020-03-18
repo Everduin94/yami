@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { switchMap, map } from 'rxjs/operators';
 import { AddFlashCardsService } from 'src/app/services/add-flash-cards.service';
+import { ContentStateService } from 'src/app/services/content-state.service';
 
 @Component({
   selector: 'app-add-card',
@@ -13,12 +14,8 @@ export class AddCardComponent implements OnInit {
 
   form: FormGroup;
   showAddCategory = false;
-  
-  categories$ = this.auth.userId$.pipe(
-    switchMap(userId => this.afs.getCategories(userId))
-  );
 
-  constructor(private fb: FormBuilder, private auth: FirebaseAuthService, private afs: AddFlashCardsService) { }
+  constructor(private fb: FormBuilder, private afs: AddFlashCardsService, public cs: ContentStateService) { }
 
   ngOnInit() {
     this.form = this.fb.group({

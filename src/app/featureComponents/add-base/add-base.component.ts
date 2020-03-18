@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { switchMap } from 'rxjs/operators';
 import { AddFlashCardsService } from 'src/app/services/add-flash-cards.service';
+import { ContentStateService } from 'src/app/services/content-state.service';
 
 @Component({
   selector: 'app-add-base',
@@ -11,18 +12,12 @@ import { AddFlashCardsService } from 'src/app/services/add-flash-cards.service';
 })
 export class AddBaseComponent implements OnInit {
 
-  activeContent;
-  activeAnswer;
   form: FormGroup;
   showAddCategory = false;
 
   @ViewChild('title', {static: false}) titleElement;
 
-  categories$ = this.auth.userId$.pipe(
-    switchMap(userId => this.afs.getCategories(userId))
-  );
-
-  constructor(private fb: FormBuilder, public auth: FirebaseAuthService, private afs: AddFlashCardsService) { }
+  constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, private afs: AddFlashCardsService) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -50,18 +45,18 @@ export class AddBaseComponent implements OnInit {
     };
 
     this.afs.postCard(userId, payload);
-    this.activeContent = null;
+    this.cs.updateActiveContent({}); // TODO: was null before
     this.form.reset();
   }
 
   addRow() {
 
-    this.activeContent = {
+    this.cs.updateActiveContent({
       answer: '',
       question: '',
       title: '',
       category: ''
-    }
+    });
 
     if (this.titleElement && this.titleElement.inputElement) { // TODO: Use Renderer
       this.titleElement.inputElement.nativeElement.focus();      
@@ -75,7 +70,7 @@ export class AddBaseComponent implements OnInit {
     console.log('delete: ', selection);
     this.afs.deleteContent(userId, selection.id);
     this.form.reset();
-    this.activeContent = null;
+    this.cs.updateActiveContent({}); // TODO: This was null too
   }
 
   updateForm(event) {

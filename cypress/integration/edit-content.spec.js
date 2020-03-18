@@ -30,7 +30,7 @@ describe('Starter', () => {
 
     it('Temp: Full API Cycle', () => {
         cy.get('[data-cy=add-content-button]').click();
-        cy.get('[data-cy=submit-content-button]').should('be.enabled');
+        cy.get('[data-cy=submit-content-button]').should('not.be.enabled');
         cy.get('[data-cy=form-text-input-title]').type('Cypress Full API')
         cy.get('[data-cy=form-textarea-question]').type('My Q')
         cy.get('[data-cy=form-textarea-answer]').type('My A');
@@ -51,6 +51,7 @@ describe('Starter', () => {
     it('Details', () => {
         cy.get('[data-cy=details-header-info]').should('not.be.visible');
         cy.get('[data-cy=card-0]').click(); // TODO: Fragile
+        cy.get('[data-cy=submit-content-button]').should('be.enabled');
         cy.get('[data-cy=details-header-info]').should('be.visible');
     })
 

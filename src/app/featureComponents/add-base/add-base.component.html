@@ -1,8 +1,11 @@
 <ng-container *ngIf="auth.userId$ | async as userId">
+  <ng-container *ngIf="cs.activeContent$ | async as activeContent">
+
+  
   <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(userId)">
     <div class="container">
       <div class="container__filter-list">
-        <app-filter-list (clickedEvent)="activeContent = $event; activeAnswer = $event; updateForm($event)">
+        <app-filter-list [activeContent]="activeContent" (clickedEvent)="updateForm($event)">
         </app-filter-list>
       </div>
 
@@ -31,7 +34,7 @@
           <app-form-text-input #title [form]="form" label="Title" controlName="title"></app-form-text-input>
 
           <ng-container *ngIf="!showAddCategory">
-            <ng-container *ngIf="categories$ | async as categories">
+            <ng-container *ngIf="cs.categoryRef$ | async as categories">
               <app-form-select [form]="form" [selectData]="categories" label="Category" controlName="category">
               </app-form-select>
             </ng-container>
@@ -76,8 +79,7 @@
 
         </div>
         <div style="padding: 5px;">
-          <!-- TODO: Trigger submit on this button, but not others! -->
-          <button [disabled]="!activeContent" (click)="onSubmit(userId)" mat-raised-button color="primary"
+          <button [disabled]="!form.valid" (click)="onSubmit(userId)" mat-raised-button color="primary"
             data-cy="submit-content-button" class="submit-content-button">
             <h3>Submit</h3>
           </button>
@@ -85,4 +87,6 @@
       </div>
     </div>
   </form>
+
+</ng-container>
 </ng-container>
