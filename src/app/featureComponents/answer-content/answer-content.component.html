@@ -1,3 +1,2 @@
-<div class="host" data-cy="answer-content" *ngIf="activeContent" > <!-- Wrapper div for now til we figure out innerHTML Host-Binding-->
-  {{activeContent.question}}
+<div class="host" data-cy="answer-content" *ngIf="activeContent" [innerHTML]="activeContent.answer | mdToHtml:answers"> <!-- Wrapper div for now til we figure out innerHTML Host-Binding-->
 </div>

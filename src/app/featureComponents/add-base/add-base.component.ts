@@ -4,6 +4,7 @@ import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { switchMap } from 'rxjs/operators';
 import { AddFlashCardsService } from 'src/app/services/add-flash-cards.service';
 import { ContentStateService } from 'src/app/services/content-state.service';
+import { FibUtil } from './fib-util';
 
 @Component({
   selector: 'app-add-base',
@@ -41,7 +42,8 @@ export class AddBaseComponent implements OnInit {
       title: this.title.value,
       question: this.question.value,
       answer: this.answer.value, 
-      category: this.category.value
+      category: this.category.value,
+      fib: FibUtil.getPredefinedAnswers(this.question.value)
     };
 
     this.afs.postCard(userId, payload);

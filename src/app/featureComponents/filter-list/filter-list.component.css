@@ -32,7 +32,12 @@
     padding-bottom: 4px;
 }
 
-.test-card {
+.filter-body__content {
+    background: var(--secondary-color);
+    color: #111111;
+}
+
+.filter-body__content--active, .filter-body__content:hover {
     background: var(--dark-secondary-color);
     color: var(--text-color);
 }

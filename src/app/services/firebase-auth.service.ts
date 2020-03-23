@@ -14,6 +14,14 @@ export class FirebaseAuthService {
   user$;
   private errors = new BehaviorSubject(null);
   public errors$ = this.errors.asObservable();
+  /**
+   * Hypothetical testing
+   * 
+   * Testing subjects like this seems like there's nothing to test.
+   * In a TDD approach is the fact that it is a behavior subject vs a subject enough
+   * to warrant testing??
+   * 
+   */
 
   userId$: Observable<any>;
 
@@ -22,6 +30,20 @@ export class FirebaseAuthService {
       switchMap(user => user ? this.afs.doc<User>(`users/${user.uid}`).valueChanges() : of(null))
     )
 
+    /**
+     * Hypothetical test
+     * 
+     * Mock authState, which may actually be useful
+     * Test map
+     * Test HOT
+     * - In a post-test sense, testing for an obs being hot seems like overkill
+     * - but in a TDD mindset, testing for being hot seems like a no-brainer
+     * Testing if something is hot when it is split into multiple child observables
+     * seems more pragmatic
+     * For example, in this case, authstate is cold, userId is hot.
+     * I may be misinterpretting hot/cold
+     * - Investigate.
+     */
     this.userId$ = afAuth.authState.pipe(
       map(user => user ? user.uid : null),
       shareReplay(1)

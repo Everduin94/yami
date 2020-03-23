@@ -21,23 +21,10 @@
   <div class="body__content">
     <ng-container *ngIf="cards$ | async as cards; else choose">
       <div class="filter__body__card" *ngFor="let card of cards; let i = index">
-        <ng-container *ngIf="activeContent === card; else default">
-          <!-- TODO: Fix this to:
-          1) Not destroy card, use ngClass instead
-          2) Stop using color="accent" so that we can use transitions & hover
-          3) Add a hover animation
-          4) Add an animation when the cards come in -->
-          <button class="test-card" (click)="raiseClickedEvent(card); $event.preventDefault();" mat-raised-button
+          <button [ngClass]="activeContent === card ? 'filter-body__content--active' : 'filter-body__content'" (click)="raiseClickedEvent(card); $event.preventDefault();" mat-raised-button
             [attr.data-cy]="'card-' + i">
             <h3>{{card.title}}</h3>
           </button>
-        </ng-container>
-        <ng-template #default>
-          <button (click)="raiseClickedEvent(card); $event.preventDefault();" mat-raised-button color="accent"
-            [attr.data-cy]="'card-' + i">
-            <h3>{{card.title}}</h3>
-          </button>
-        </ng-template>
       </div>
     </ng-container>
   </div>
@@ -45,6 +32,6 @@
 
 <ng-template #choose>
   <h3 style="padding: 8px; text-align: center;">
-    Choose a category!
+    <ng-content></ng-content>
   </h3>
 </ng-template>

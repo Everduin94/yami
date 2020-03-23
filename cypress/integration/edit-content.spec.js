@@ -3,7 +3,7 @@
 describe('Starter', () => {
 
     before(() => {
-        cy.visit('http://localhost:4200/add');
+        cy.visit('http://localhost:4200/flashCards');
         cy.login();
     })
 
@@ -49,7 +49,7 @@ describe('Starter', () => {
     });
 
     it('Details', () => {
-        cy.get('[data-cy=details-header-info]').should('not.be.visible');
+        cy.get('[data-cy=details-header-info]').should('have.text', ' - Adding New Content');
         cy.get('[data-cy=card-0]').click(); // TODO: Fragile
         cy.get('[data-cy=submit-content-button]').should('be.enabled');
         cy.get('[data-cy=details-header-info]').should('be.visible');

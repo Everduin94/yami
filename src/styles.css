@@ -42,7 +42,7 @@ pre {
     box-shadow: 0 2px 4px rgba(0,0,0,0.38);
 }
 
-.fill-in-blank {
+.fill-in-blank, .fill-in-blank-answer {
     background: var(--primary-color);
     border: none;
     font-weight: 600;
@@ -51,6 +51,25 @@ pre {
     border-radius: 4px;
     appearance: none;
     color: whitesmoke;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.correct {
+    background: var(--dark-secondary-color);
+}
+
+.incorrect {
+    background: var(--warn-color);
+}
+
+
+.answer {
+    color: #ffffff;
+    padding: 4px;
+    background: var(--dark-secondary-color);
+    border-radius: 4px;
+    line-height: 3;
 }
 
 .mat-form-field-flex {

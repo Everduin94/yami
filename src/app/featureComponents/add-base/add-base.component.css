@@ -9,6 +9,16 @@
     overflow: hidden;
 }
 
+.container__filter-list__empty-message {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.container__filter-list__empty-message > div {
+    height: 75px;
+}
+
 .container {
     display: grid;
     overflow: auto;

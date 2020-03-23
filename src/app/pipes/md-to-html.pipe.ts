@@ -12,7 +12,10 @@ export class MdToHtmlPipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizer){}
 
-  transform(value: any, args?: any): any {
+  transform(value: any, givenAnswers?: any): any {
+    let parser = MarkdownPreProcessor.shouldUseQuestionParser(givenAnswers) ?
+    (n) => MarkdownPreProcessor.questionParser(n) :
+    (n) => MarkdownPreProcessor.answerParser(n, givenAnswers);
 
     marked.setOptions({
       langPrefix: 'hljs ',
@@ -22,9 +25,8 @@ export class MdToHtmlPipe implements PipeTransform {
         return highlights;
       }
     });
-  
 
-    return this.sanitizer.bypassSecurityTrustHtml(MarkdownPreProcessor.questionParser(DOMPurify.sanitize(marked(value))));
+    return this.sanitizer.bypassSecurityTrustHtml((DOMPurify.sanitize(parser(marked(value)))));
   }
 
 }

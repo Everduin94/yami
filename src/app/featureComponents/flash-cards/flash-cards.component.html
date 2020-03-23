@@ -1,7 +1,6 @@
 <div class="container">
     <ng-container *ngIf="cs.activeContent$ | async as activeContent">
 
-
         <app-filter-list [activeContent]="activeContent" (clickedEvent)="activeAnswer = null">
         </app-filter-list>
 
@@ -9,7 +8,7 @@
             <app-header-span dataCy="question-header" label="Question"></app-header-span>
             <ng-container *ngIf="activeContent?.title; else fillerDiv"> <!-- TODO: Refactor title fillers -->
                 <app-question-content [activeContent]="activeContent"></app-question-content>
-                <button (click)="activeAnswer = activeAnswer ? null : activeContent" mat-raised-button
+                <button (click)="answers = getAnswers(activeContent); activeAnswer = activeAnswer ? null : activeContent" mat-raised-button
                     data-cy="show-answer-button" class="show-answer-button">
                     <ng-container *ngIf="!activeAnswer; else hideAnswer">
                         <h3>Show Answer</h3>
@@ -21,7 +20,7 @@
         <div class="filler filler__answer">
             <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
             <ng-container *ngIf="activeAnswer?.title; else fillerDiv">
-                <app-answer-content [activeContent]="activeAnswer"></app-answer-content>
+                <app-answer-content [answers]="answers" [activeContent]="activeAnswer"></app-answer-content>
             </ng-container>
             <ng-container *ngIf="activeContent">
                 <!-- TODO: Is disable better than hide here? -->

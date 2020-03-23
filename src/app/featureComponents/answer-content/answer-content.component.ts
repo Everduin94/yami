@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren } from '@angular/core';
 
 @Component({
   selector: 'app-answer-content',
@@ -7,7 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AnswerContentComponent implements OnInit {
 
+  @ViewChildren("fib") inputs;
   @Input() activeContent;
+  @Input() answers;  
 
   constructor() { }
 
