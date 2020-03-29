@@ -7,8 +7,6 @@ export class MarkdownPreProcessor {
     }
 
     static answerParser(md: string, givenAnswers: any[]): string {
-        console.log(givenAnswers);
-        console.log(md);
         // TODO: In future, look for more performant soltuion
         let i = 0;
         let match;
@@ -18,12 +16,6 @@ export class MarkdownPreProcessor {
             results[match[1]] = givenAnswers[i++] ? "correct" : "incorrect"; // Give results a property of group and assign to corresponding answer
         }
         
-
-        console.log(givenAnswers);
-        console.log(results);
-
-
-
         return md.replace(re, (match, group) => `<input readonly type="text" class="fill-in-blank-answer ${results[group]}" value=${group}>`);
     }
 

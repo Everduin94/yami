@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlashCardsComponent } from './flash-cards.component';
 import { Routes, RouterModule } from '@angular/router';
-import { FlashCardComponent } from './flash-card/flash-card.component';
-import { QuillModule } from '../quill/quill.module';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { FilterListModule } from '../filter-list/filter-list.module';
@@ -21,10 +19,9 @@ const FLASHCARD_ROUTES: Routes = [
 ];
 
 @NgModule({
-  declarations: [FlashCardsComponent, FlashCardComponent],
+  declarations: [FlashCardsComponent],
   imports: [
     CommonModule,
-    QuillModule,
     FormsModule,
     MatButtonModule,
     FilterListModule,

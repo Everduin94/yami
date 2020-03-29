@@ -3,7 +3,7 @@
 describe('Starter', () => {
 
     before(() => {
-        cy.visit('http://localhost:4200/flashCards');
+        cy.visit('http://localhost:4200/manage');
         cy.login();
     })
 

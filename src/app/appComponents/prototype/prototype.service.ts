@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { FlashCardsService } from 'src/app/services/flash-cards.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PrototypeService {
 
-  constructor(private fs: FlashCardsService) { }
+  constructor() { }
 
   getCards() {
     // return this.fs.getUsersCards();

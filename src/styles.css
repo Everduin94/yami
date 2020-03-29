@@ -1,8 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* TODO: Can we switch this at run-time? */
-/*@import '~highlight.js/styles/atom-one-dark.css';*/
-
 :root {
     --primary-color: #2979ff;
     --secondary-color: #1de9b6;
@@ -56,7 +51,8 @@ pre {
 }
 
 .correct {
-    background: var(--dark-secondary-color);
+    background: var(--secondary-color);
+    color: #111111;
 }
 
 .incorrect {
@@ -67,7 +63,8 @@ pre {
 .answer {
     color: #ffffff;
     padding: 4px;
-    background: var(--dark-secondary-color);
+    background: var(--secondary-color);
+    color: #ffffff;
     border-radius: 4px;
     line-height: 3;
 }
@@ -76,58 +73,22 @@ pre {
     height: 100%;
 }
 
-/* This works, the hover and active do not. */
-.ql-snow .ql-stroke {
-    stroke: var(--border-color);
-}
-
-.ql-picker-label {
-    color: var(--border-color);
-}
-
-div.ql-editor {
-    background: var(--box-color);
-    color: var(--text-color);
-}
-
-div.ql-editor strong {
-    visibility: hidden;
-    width: 0px;
-}
-
-div.ql-editor strong::after {
-    color: white;
-    width:10px;
-    visibility: visible;
-    content:'...';
-}
-
-div.ql-container.ql-snow {
-    border: solid 3px var(--border-color);
-}
-
-div.ql-toolbar.ql-snow {
-    background: var(--box-color);
-    border: solid 3px var(--border-color);
-    color: var(--text-color);
-}
-
 /* Chromium */
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
-  }
+}
   
-  ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background: var(--background-color);
-  }
+}
   
-  ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background: var(--box-color);
-  }
+}
   
-  /* Firefox */
-  * {
+/* Firefox */
+* {
     scrollbar-width: thin;
     scrollbar-color: var(--box-color) var(--background-color);
-  }
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChildren, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, AfterViewInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-question-content',
@@ -6,13 +6,22 @@ import { Component, OnInit, Input, ViewChildren, AfterViewInit } from '@angular/
   styleUrls: ['./question-content.component.css']
 })
 export class QuestionContentComponent implements AfterViewInit {
-  
-  @Input() activeContent;
-  inputs: any[];
+
+  _activeContent;
+  @Input() set activeContent(value) {
+    this._activeContent = value;
+    setTimeout(() => this.emitInputs(), 0); // TODO: Ugh fix this
+  }
+  get activeContent() { return this._activeContent; }
+
+  @Output() initInputs = new EventEmitter();
 
   ngAfterViewInit(): void {
-    // TODO: Use renderer because angular
-    this.inputs = [].slice.call(document.querySelectorAll(".fill-in-blank"));
+  }
+
+  emitInputs() {
+    if (!document) return [];
+    this.initInputs.emit([].slice.call(document.querySelectorAll(".fill-in-blank")));
   }
 
 }

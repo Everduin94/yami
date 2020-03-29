@@ -1,9 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FlashCardsService } from 'src/app/services/flash-cards.service';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
-import { switchMap, tap, map } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { AddFlashCardsService } from 'src/app/services/add-flash-cards.service';
 import { Subject, combineLatest, Subscription, Observable } from 'rxjs';
 import { ContentStateService } from 'src/app/services/content-state.service';
 
@@ -19,7 +17,7 @@ export class FilterListComponent implements OnInit {
 
   form: FormGroup;
   formSub: Subscription;
-  
+
   /**
    * Input: UserID & Category String
    * Output: List of cards by category
@@ -35,20 +33,19 @@ export class FilterListComponent implements OnInit {
   categoryChangeEvent$ = this.categoryChangeEvent.asObservable();
   cards$: Observable<any>;
 
-  constructor(private fs: FlashCardsService,
-     private auth: FirebaseAuthService,
-      private afs: AddFlashCardsService,
-      public cs: ContentStateService,
-       private fb: FormBuilder) { }
+  constructor(
+    private auth: FirebaseAuthService,
+    public cs: ContentStateService,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.form = this.fb.group({
       category: ''
     });
-  
+
     this.cards$ = combineLatest([this.form.get('category').valueChanges, this.auth.userId$]).pipe(
-      map(([category, userId]) => ({category, userId})),
-      switchMap(data => this.fs.getUsersCards(data.userId, ref => ref.where('category', '==', data.category))),
+      map(([category, userId]) => ({ category, userId })),
+      switchMap(data => this.cs.getUsersContentFromFS(data.userId, ref => ref.where('category', '==', data.category))),
     );
   }
 
