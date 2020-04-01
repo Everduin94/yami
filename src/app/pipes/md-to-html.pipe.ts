@@ -26,6 +26,7 @@ export class MdToHtmlPipe implements PipeTransform {
       }
     });
 
+    console.log(value);
     return this.sanitizer.bypassSecurityTrustHtml((DOMPurify.sanitize(parser(marked(value)))));
   }
 

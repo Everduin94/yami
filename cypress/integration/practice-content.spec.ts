@@ -17,12 +17,14 @@ describe('Starter', () => {
         cy.get('[data-cy=card-0]').should('be.visible').click();
     });
 
-    it('should return X given Y', () => {
+    it('should test question input and answer comparator', () => {
         cy.get("[data-cy=fib-0]")
         .should('be.visible')
         .should('have.id', 'fib-0')
-        .type('123')
-        .should('have.value', '123');
-
+        .type('Hello')
+        .should('have.value', 'Hello');
+        cy.get('[data-cy=show-answer-button').click();
+        cy.get('[data-cy=fib-answer-0]').should('have.class', 'correct');
+        cy.get('[data-cy=fib-answer-1]').should('have.class', 'incorrect');
     });
 });
