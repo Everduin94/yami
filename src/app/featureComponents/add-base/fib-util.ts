@@ -11,10 +11,10 @@ export class FibUtil {
         return results;
     }
 
-    public static compareAnswers(definedAnswers: any[], givenAnswers: any[]): boolean[] {
+    public static compareAnswers(definedAnswers: any[], givenAnswers: any[]): string[] {
         if (!definedAnswers || !givenAnswers) return [];
         if (definedAnswers.length !== givenAnswers.length) return [];        
-        return definedAnswers.map((da, i) => da === givenAnswers[i] ? true : false);
+        return definedAnswers.map((da, i) => da === givenAnswers[i] ? "correct" : "incorrect");
     }
 
 
