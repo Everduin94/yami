@@ -1,7 +1,7 @@
 <div class="container">
-    <ng-container *ngIf="cs.activeContent$ | async as activeContent">
-
-        <app-filter-list [activeContent]="activeContent" (clickedEvent)="activeAnswer = null">
+    <ng-container *ngIf="client.activeContent$ | async as activeContent">
+        <ng-container *ngIf="client.isAnswerShowing$ | async as isAnswerShowing">
+        <app-filter-list [activeContent]="activeContent" (clickedEvent)="updateAnswer('hide')">
         </app-filter-list>
 
         <div class="filler filler__question">
@@ -10,14 +10,15 @@
                 <!-- TODO: Refactor title fillers -->
                 <app-question-content [activeContent]="activeContent" (initInputs)="inputs = $event">
                 </app-question-content>
-                <button
-                    (click)="answers = getAnswers(activeContent); activeAnswer = activeAnswer ? null : activeContent"
+            </ng-container>
+            <button (click)="updateAnswer(toggleAnswer(isAnswerShowing))"
+                    [disabled]="!activeContent?.id"
                     mat-raised-button data-cy="show-answer-button" class="show-answer-button">
                     <ng-container *ngIf="!activeAnswer; else hideAnswer">
+                        {{isAnswerShowing}}
                         <h3>Show Answer</h3>
                     </ng-container>
-                </button>
-            </ng-container>
+            </button>
         </div>
 
         <div class="filler filler__answer">
@@ -29,6 +30,7 @@
                 <h3>Next</h3>
             </button>
         </div>
+        </ng-container>
     </ng-container>
 </div>
 

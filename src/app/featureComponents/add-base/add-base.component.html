@@ -1,5 +1,5 @@
 <ng-container *ngIf="auth.userId$ | async as userId">
-  <ng-container *ngIf="cs.activeContent$ | async as activeContent">
+  <ng-container *ngIf="client.activeContent$ | async as activeContent">
 
   
   <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(userId)">
