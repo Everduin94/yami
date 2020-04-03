@@ -7,10 +7,17 @@ import { Component, OnInit, Input, ViewChildren, AfterViewInit, Output, EventEmi
 })
 export class QuestionContentComponent implements AfterViewInit {
 
+  listeners = [];
+  cbFn = (v) => this.initInputs.emit(v.target.value);
+
   _activeContent;
   @Input() set activeContent(value) {
     this._activeContent = value;
-    setTimeout(() => this.emitInputs(), 0); // TODO: Ugh fix this
+    this.listeners.forEach(v => v.removeEventListener('change', this.cbFn));
+    setTimeout(() => {
+      this.listeners = this.emitInputs();
+      this.listeners.forEach(v => v.addEventListener('change', this.cbFn))
+    }, 0); // TODO: Ugh
   }
   get activeContent() { return this._activeContent; }
 
@@ -20,8 +27,7 @@ export class QuestionContentComponent implements AfterViewInit {
   }
 
   emitInputs() {
-    if (!document) return [];
-    this.initInputs.emit([].slice.call(document.querySelectorAll(".fill-in-blank")));
+    return !document ? [] : [].slice.call(document.querySelectorAll(".fill-in-blank"));
   }
 
 }

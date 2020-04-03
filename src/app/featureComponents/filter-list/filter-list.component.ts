@@ -4,6 +4,7 @@ import { switchMap, map } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subject, combineLatest, Subscription, Observable } from 'rxjs';
 import { ContentStateService } from 'src/app/services/content-state.service';
+import { ClientStateService } from 'src/app/services/client-state.service';
 
 @Component({
   selector: 'app-filter-list',
@@ -36,7 +37,8 @@ export class FilterListComponent implements OnInit {
   constructor(
     private auth: FirebaseAuthService,
     public cs: ContentStateService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private client: ClientStateService) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -52,6 +54,6 @@ export class FilterListComponent implements OnInit {
   raiseClickedEvent(content) {
     // TODO: Add DB call up higher, this is still needed for patch form
     this.clickedEvent.emit(content);
-    this.cs.updateActiveContent(content);
+    this.client.updateActiveContent(content);
   }
 }

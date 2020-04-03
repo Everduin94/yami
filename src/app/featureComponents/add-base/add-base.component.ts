@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { ContentStateService } from 'src/app/services/content-state.service';
 import { FibUtil } from './fib-util';
+import { ClientStateService } from 'src/app/services/client-state.service';
 
 @Component({
   selector: 'app-add-base',
@@ -16,7 +17,7 @@ export class AddBaseComponent implements OnInit {
 
   @ViewChild('title', { static: false }) titleElement;
 
-  constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService) { }
+  constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -45,13 +46,13 @@ export class AddBaseComponent implements OnInit {
     };
 
     this.cs.addContentToFS(userId, payload);
-    this.cs.updateActiveContent({}); // TODO: was null before
+    this.client.updateActiveContent({}); // TODO: was null before
     this.form.reset();
   }
 
   addRow() {
 
-    this.cs.updateActiveContent({
+    this.client.updateActiveContent({
       answer: '',
       question: '',
       title: '',
@@ -70,7 +71,7 @@ export class AddBaseComponent implements OnInit {
     console.log('delete: ', selection);
     this.cs.deleteContentFromFS(userId, selection.id);
     this.form.reset();
-    this.cs.updateActiveContent({}); // TODO: This was null too
+    this.client.updateActiveContent({}); // TODO: This was null too
   }
 
   updateForm(event) {
