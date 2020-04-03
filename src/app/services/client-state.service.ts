@@ -20,6 +20,13 @@ export class ClientStateService {
     startWith("hide")
   );
 
+  /**
+   * TODO: Use scan to manage state
+   * 
+   * When we get an object that has the shape of activeContent. return complete.
+   * 
+   * When we get a partial. Merge.
+   */
   updateAnswersEvent = new Subject();
   answers$ = merge(this.updateAnswersEvent.asObservable(), this.activeContent$).pipe(
     tap(v => console.log(v)),
@@ -45,7 +52,7 @@ export class ClientStateService {
     this.isAnswerShowing.next(v);
   }
 
-  public updateAnswers(key, value) {
-    this.updateAnswersEvent.next({key: value});
+  public updateAnswers(obj) {
+    this.updateAnswersEvent.next(obj);
   }
 }

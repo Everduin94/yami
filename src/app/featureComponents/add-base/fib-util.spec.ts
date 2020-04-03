@@ -12,14 +12,14 @@ describe('FibUtil', () => {
     describe('getPredefinedAnswers(question)', () => {
 
         it('should return Hi and Yo given Hi and Yo are wrapped in fib token', () => {
-            const given = '$$Hi$$\n What\n $$Yo$$';
+            const given = 'FIBHiFIB\n What\n FIBYoFIB';
             const expected = ['Hi', 'Yo'];
             const actual = FibUtil.getPredefinedAnswers(given);
             expect(actual).toEqual(expected);
         });
 
         it('should return in correct order given same input in reverse', () => {
-            const given = '$$Yo$$\n What\n $$Hi$$';
+            const given = 'FIBYoFIB\n What\n FIBHiFIB'; 
             const expected = ['Yo', 'Hi'];
             const actual = FibUtil.getPredefinedAnswers(given);
             expect(actual).toEqual(expected);
@@ -36,16 +36,16 @@ describe('FibUtil', () => {
 
     describe('compareAnswers(definedAnswers, givenAnswers)', () => {
 
-        it('should return [true, true, false] given the first two answers match', () => {
-            const expected = [true, true, false];
+        it('should return ["correct", "correct", "incorrect"] given the first two answers match', () => {
+            const expected = ["correct", "correct", "incorrect"];
             const givenDefinedAnswer = ["one", "two", "three"];
             const givenAnswer = ["one", "two", "thr"];
             const actual = FibUtil.compareAnswers(givenDefinedAnswer, givenAnswer);
             expect(actual).toEqual(expected);
         });
 
-        it('should return [false, true, true] given reverse order of the previous test', () => {
-            const expected = [false, true, true];
+        it('should return ["incorrect", "correct", "correct"] given reverse order of the previous test', () => {
+            const expected = ["incorrect", "correct", "correct"];
             const givenDefinedAnswer = ["three", "two", "one"];
             const givenAnswer = ["thr", "two", "one"];
             const actual = FibUtil.compareAnswers(givenDefinedAnswer, givenAnswer);
