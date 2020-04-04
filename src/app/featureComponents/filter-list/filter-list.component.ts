@@ -41,6 +41,8 @@ export class FilterListComponent implements OnInit {
     private client: ClientStateService) { }
 
   ngOnInit() {
+    // TODO: How do we initialize the form with category?
+    // TODO: At the same time, still listen for changes to the category locally?
     this.form = this.fb.group({
       category: ''
     });
@@ -56,12 +58,12 @@ export class FilterListComponent implements OnInit {
     this.clickedEvent.emit(content);
 
     if (this.activeContent !== content) {
-      
       this.client.updateActiveContent(content);
-    } else {
-      console.log('same card!')
     }
 
-    
+  }
+
+  logMe(v) {
+    console.log(v);
   }
 }

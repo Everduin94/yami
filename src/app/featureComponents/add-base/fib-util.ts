@@ -4,19 +4,15 @@ export class FibUtil {
         let match;
         let results = [];
         let re = new RegExp(/FIB(.*?)FIB/g); // TODO: Global static this regex
-        while(match = re.exec(myInput)) {
+        while (match = re.exec(myInput)) {
             results.push(match[1]);
         }
 
         return results;
     }
 
-    public static compareAnswers(definedAnswers: any[], givenAnswers: any[]): string[] {
-        if (!definedAnswers || !givenAnswers) return [];
-        if (definedAnswers.length !== givenAnswers.length) return [];        
-        return definedAnswers.map((da, i) => da === givenAnswers[i] ? "correct" : "incorrect");
+    public static compareAnswers(contentFromClient: any, contentFromDb: any): string[] {
+        if (!contentFromClient || !contentFromDb || !contentFromDb.fib) return [];
+        return contentFromDb.fib.map((dbAnswer, i) => contentFromClient['fib-' + i] === dbAnswer ? "correct" : "incorrect");
     }
-
-
-
 }
