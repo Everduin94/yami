@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable, merge } from 'rxjs';
-import { startWith, tap, map } from 'rxjs/operators';
+import { startWith, tap, map, mapTo, scan } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,29 +18,16 @@ export class ClientStateService {
   isAnswerShowing = new Subject();
   public isAnswerShowing$ = this.isAnswerShowing.asObservable().pipe(
     startWith("hide")
-  );
+  ); // StartWith instead of BehaviorSubject so we always start subscription with hide.
 
-  /**
-   * TODO: Use scan to manage state
-   * 
-   * When we get an object that has the shape of activeContent. return complete.
-   * 
-   * When we get a partial. Merge.
-   */
+  reset$ = this.activeContent$.pipe(mapTo({}));
   updateAnswersEvent = new Subject();
-  answers$ = merge(this.updateAnswersEvent.asObservable(), this.activeContent$).pipe(
-    tap(v => console.log(v)),
-    map(v => v.question ? {} : v),
-  )
-
-  refreshState() {
-    // run the preprocessor on the question
-    // setup a new object
-  }
-
-  updateState() {
-    // add key
-  }
+  answers$ = merge(this.updateAnswersEvent.asObservable(), this.reset$).pipe(
+    scan((acc: any, part) => {
+      if (Object.keys(part).length === 0) return part;
+      else return ({...acc, ...part});
+    }),
+  ) // Emits reset first (mapTo), emit empty object on reset, merge state on event.
 
   constructor() { }
 

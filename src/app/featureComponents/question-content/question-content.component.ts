@@ -8,7 +8,7 @@ import { Component, OnInit, Input, ViewChildren, AfterViewInit, Output, EventEmi
 export class QuestionContentComponent implements AfterViewInit {
 
   listeners = [];
-  cbFn = (v) => this.initInputs.emit(v.target.value);
+  cbFn = (v) => this.initInputs.emit({[v.target.id]: v.target.value});
 
   _activeContent;
   @Input() set activeContent(value) {
