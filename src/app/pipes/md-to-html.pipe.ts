@@ -13,6 +13,7 @@ export class MdToHtmlPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer){}
 
   transform(value: any, givenAnswers?: any): any {
+    // TODO: Select parser by type
     let parser = MarkdownPreProcessor.shouldUseQuestionParser(givenAnswers) ?
     (n) => MarkdownPreProcessor.questionParser(n) :
     (n) => MarkdownPreProcessor.answerParser(n, givenAnswers);
@@ -26,7 +27,6 @@ export class MdToHtmlPipe implements PipeTransform {
       }
     });
 
-    console.log(value);
     return this.sanitizer.bypassSecurityTrustHtml((DOMPurify.sanitize(parser(marked(value)))));
   }
 

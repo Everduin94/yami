@@ -5,25 +5,30 @@
   <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(userId)">
     <div class="container">
       <div class="container__filter-list">
-        <app-filter-list [activeContent]="activeContent" (clickedEvent)="updateForm($event)">
-          
-          <div class="container__filter-list__empty-message">
-            <div>
-              Fill out the fields to add new content
-            </div>
-            
-            <div>
-              Or select a category to edit existing content
-            </div>
-            
-            <div>
-              Clicking Add Content will reset the fields and start a new entry
-            </div>
-          </div>
-          
 
+          <app-filter-list 
+          [content]="client.content$ | async" 
+          [categories]="cs.categoryRef$ | async"
+          [category]="client.category$ | async" 
+          [activeContent]="activeContent" 
+          (clickedEvent)="updateForm($event)">
 
-        </app-filter-list>
+            <div class="container__filter-list__empty-message">
+              <div>
+                Fill out the fields to add new content
+              </div>
+              
+              <div>
+                Or select a category to edit existing content
+              </div>
+              
+              <div>
+                Clicking Add Content will reset the fields and start a new entry
+              </div>
+            </div>
+
+          </app-filter-list>
+
       </div>
 
       <div class="filter-list__button-container">

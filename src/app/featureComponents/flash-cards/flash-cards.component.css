@@ -43,3 +43,7 @@
 .show-answer-button:hover, .next-button:hover {
     background: var(--primary-color);
 }
+
+app-filter-list {
+    border-right: 1px solid var(--box-shadow);
+}

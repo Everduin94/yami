@@ -24,6 +24,11 @@ const routes: Routes = [
         canActivate: [FlashCardsGuard]
       },
       { path: 'prototype', component: PrototypeComponent },
+      { 
+        path: 'guides', 
+        loadChildren: () => import('./appComponents/guides/guides.module').then(mod => mod.GuidesModule)
+     },
+
     ]
   },
   { path: 'login', component: LoginComponent },

@@ -1,0 +1,19 @@
+:host {
+    /* TODO: Extract to base component */
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.container {
+    display: grid;
+    overflow: auto;
+    grid-template-columns: 2fr 8fr;
+    grid-template-rows: minmax(0, 1fr);
+    height: 100%;
+    width: 100%;
+}

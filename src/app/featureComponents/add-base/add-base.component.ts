@@ -26,8 +26,6 @@ export class AddBaseComponent implements OnInit {
       question: new FormControl('', [Validators.required]),
       answer: new FormControl('', [Validators.required]),
     });
-
-    this.form.valueChanges.subscribe(console.log);
   }
 
   addCategory(inputValue: string, userId) {
@@ -46,12 +44,11 @@ export class AddBaseComponent implements OnInit {
     };
 
     this.cs.addContentToFS(userId, payload);
-    this.client.updateActiveContent({}); // TODO: was null before
+    this.client.updateActiveContent({});
     this.form.reset();
   }
 
   addRow() {
-
     this.client.updateActiveContent({
       answer: '',
       question: '',
@@ -64,14 +61,12 @@ export class AddBaseComponent implements OnInit {
     }
 
     this.form.reset();
-    console.log('add row');
   }
 
   deleteRow(userId, selection) {
-    console.log('delete: ', selection);
     this.cs.deleteContentFromFS(userId, selection.id);
     this.form.reset();
-    this.client.updateActiveContent({}); // TODO: This was null too
+    this.client.updateActiveContent({});
   }
 
   updateForm(event) {

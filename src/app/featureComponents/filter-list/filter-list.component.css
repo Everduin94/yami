@@ -5,8 +5,9 @@
     grid-template-rows: 150px minmax(0,1fr);
 }
 
-.filter__header, .filter__body {
-    border: var(--box-shadow) 1px solid;
+.filter__header {
+    border-top: var(--box-shadow) 1px solid;
+    border-bottom: var(--box-shadow) 1px solid;
 }
 
 .filter__body {

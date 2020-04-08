@@ -2,7 +2,13 @@
     <ng-container *ngIf="client.activeContent$ | async as activeContent">
         <ng-container *ngIf="client.answers$ | async as answers">
             <ng-container *ngIf="client.isAnswerShowing$ | async as isAnswerShowing">
-                <app-filter-list [activeContent]="activeContent" (clickedEvent)="updateAnswer('hide')">
+
+                <app-filter-list 
+                [content]="client.content$ | async" 
+                [category]="client.category$ | async"
+                [categories]="cs.categoryRef$ | async"
+                [activeContent]="activeContent" 
+                (clickedEvent)="updateAnswer('hide')">
                 </app-filter-list>
 
                 <div class="filler filler__question">

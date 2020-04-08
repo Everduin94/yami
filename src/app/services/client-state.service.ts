@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable, merge, combineLatest } from 'rxjs';
-import { startWith, mapTo, scan, map, withLatestFrom } from 'rxjs/operators';
+import { startWith, scan, map, withLatestFrom, switchMap, shareReplay, filter } from 'rxjs/operators';
 import { FibUtil } from '../featureComponents/add-base/fib-util';
+import { FirebaseAuthService } from './firebase-auth.service';
+import { ContentStateService } from './content-state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -36,9 +38,18 @@ export class ClientStateService {
     }),
     withLatestFrom(this.activeContent$),
     map(([v, ac]) =>  FibUtil.compareAnswers(v, ac))
-  )
+  );
 
-  constructor() { }
+  categoryChangeEvent = new BehaviorSubject('');
+  category$ = this.categoryChangeEvent.asObservable();
+  content$ = combineLatest([this.category$, this.auth.userId$]).pipe(
+    filter(([category, userId]) => !!category),
+    map(([category, userId]) => ({ category, userId })),
+    switchMap(data => this.cs.getUsersContentFromFS(data.userId, ref => ref.where('category', '==', data.category))),
+    shareReplay(1)
+  );
+
+  constructor(private auth: FirebaseAuthService, private cs: ContentStateService) { }
 
   public updateActiveContent(value) {
     this.activeContent.next(value);
@@ -50,5 +61,9 @@ export class ClientStateService {
 
   public updateAnswers(obj) {
     this.updateAnswersEvent.next(obj);
+  }
+
+  public updateCategory(c) {
+    this.categoryChangeEvent.next(c);
   }
 }

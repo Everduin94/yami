@@ -1,0 +1,15 @@
+<div class="container">
+
+  <app-filter-list
+    [content]="content"
+    [categories]="guideCategories"
+    category="Guides"
+    [activeContent]="activeGuideContent"
+    (clickedEvent)="activeGuideContent=$event; getMarkdownFileFromServer($event)"
+  ></app-filter-list>
+
+  <div>
+    {{markdownContent}}
+  </div>
+
+</div>

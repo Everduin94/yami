@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +31,7 @@ import { FormComponentsModule } from './formComponents/form-components.module';
     PageNotFoundComponent,
     LoginComponent,
     ShellComponent,
-    MainComponent
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +47,8 @@ import { FormComponentsModule } from './formComponents/form-components.module';
     StartModule,
     FilterListModule,
     MdToHtmlModule,
-    FormComponentsModule
+    FormComponentsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

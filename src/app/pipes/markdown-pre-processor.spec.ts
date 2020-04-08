@@ -39,7 +39,7 @@ describe('Question Parser', () => {
 
 describe('Answer Parser', () => {
   it('should parse token into the match with span tags around it given a matching token', () => {
-    const expected = '<input readonly type="text" data-cy="fib-answer-0" class="fill-in-blank-answer correct" value=Hello World>';
+    const expected = '<input readonly type="text" data-cy="fib-answer-0" class="fill-in-blank-answer correct" value="Hello World">';
     const given = 'FIBHello WorldFIB';
     const givenAnswers = ["correct"];
     const actual = MarkdownPreProcessor.answerParser(given, givenAnswers);
@@ -49,7 +49,7 @@ describe('Answer Parser', () => {
 
   // TODO: This probably needs to have quotes around the value
   it('should parse token into the match with span tags around it given a matching token', () => {
-    const expected = `<input readonly type="text" data-cy="fib-answer-0" class="fill-in-blank-answer correct" value=Hello World> this is irrelevant <input readonly type="text" data-cy="fib-answer-1" class="fill-in-blank-answer correct" value=this {-10} !@#$%^&*() matters>`;
+    const expected = `<input readonly type="text" data-cy="fib-answer-0" class="fill-in-blank-answer correct" value="Hello World"> this is irrelevant <input readonly type="text" data-cy="fib-answer-1" class="fill-in-blank-answer correct" value="this {-10} !@#$%^&*() matters">`;
     const given = 'FIBHello WorldFIB this is irrelevant FIBthis {-10} !@#$%^&*() mattersFIB';
     const givenAnswers = ["correct", "correct"];
     const actual = MarkdownPreProcessor.answerParser(given, givenAnswers);
