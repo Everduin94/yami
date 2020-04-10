@@ -1,6 +1,4 @@
-/**
- * @jest-environment node
- */
+
 import { FibUtil } from "./fib-util";
 
 function updateStub(init, updates) {
