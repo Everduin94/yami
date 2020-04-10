@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, Observable, merge, combineLatest } from 'rxjs';
-import { startWith, scan, map, withLatestFrom, switchMap, shareReplay, filter, tap } from 'rxjs/operators';
+import { Subject, BehaviorSubject, Observable, merge, combineLatest, asyncScheduler } from 'rxjs';
+import { startWith, scan, map, withLatestFrom, switchMap, shareReplay, filter, tap, observeOn } from 'rxjs/operators';
 import { FibUtil } from '../featureComponents/add-base/fib-util';
 import { FirebaseAuthService } from './firebase-auth.service';
 import { ContentStateService } from './content-state.service';
@@ -24,9 +24,10 @@ export class ClientStateService {
     startWith("hide")
   ); // StartWith instead of BehaviorSubject so we always start subscription with hide.
 
-  reset$ = this.activeContent$.pipe();
+  reset$ = this.activeContent$;
   updateAnswersEvent = new Subject();
   answers$ = merge(this.updateAnswersEvent.asObservable(), this.reset$).pipe(
+    observeOn(asyncScheduler), // emit in separate macrotask (for when reset emits ) (See notes at bottom)
     scan((acc: any, part) => {
       if (part.fib) {
         return part.fib.reduce((acc, v, i) => {
@@ -34,10 +35,10 @@ export class ClientStateService {
           return {...acc, [key]: ""};
         }, {});
       } 
-      else return ({...acc, ...part});
+      else return {...acc, ...part};
     }),
     withLatestFrom(this.activeContent$),
-    map(([v, ac]) =>  FibUtil.compareAnswers(v, ac))
+    map(([v, ac]) =>  FibUtil.compareAnswers(v, ac)),
   );
 
   categoryChangeEvent = new BehaviorSubject('');
@@ -51,7 +52,7 @@ export class ClientStateService {
   );
 
   // TODO: Okay or refactor?
-  activeContentByIndex = new Subject();
+  activeContentByIndex = new Subject;
   activeContentByIndex$ = this.activeContentByIndex.pipe(
     withLatestFrom(this.content$),
     tap(([index, content]) => { 
@@ -62,7 +63,8 @@ export class ClientStateService {
   )
 
 
-  constructor(private auth: FirebaseAuthService, private cs: ContentStateService) { }
+  constructor(private auth: FirebaseAuthService, private cs: ContentStateService) {
+   }
 
   public updateActiveContentByIndex(i) {
     this.activeContentByIndex.next(i);
@@ -84,3 +86,31 @@ export class ClientStateService {
     this.categoryChangeEvent.next(c);
   }
 }
+
+
+/**
+ * answers$ is being scheduled as macrotasks because I get an expression changed exception
+ * whenever I emit an event from filter list "contentLoadedEvent"
+ * 
+ * contentLoadedEvent delegates to the parent to call updateActiveContentByIndex(0)
+ * 
+ * updateActiveContentByIndex updates activeContent (obviously), which answers$ is listening to.
+ * 
+ * The goal of answers listening to activeContent$ is so I won't have stale answers from the last card
+ * 
+ * The exception says " was [Object object] now 'incorrect' " or " was [Object object] now '' "
+ * 
+ * I don't understand when answers$ was or is ever an object. It should always be an array.
+ * - When I display the value in the DOM, it is always an array
+ * 
+ * I also don't understand why this causes an exception in the first place.
+ * - I am delegating the original event up to a parent
+ * - I am using async pipe / streams of data
+ * - The container is not being recreated, it's just emitting new values
+ *   - The ng-container is always truthy once emitting
+ * 
+ * Is this because I next a value at the end of an emission of a source observable?
+ * - Is the solution (not asyncScheduler) to compose observables in a different way and avoid side-effects?
+ * - Another thing I could try is removing withLatestFrom and using CombineLastest in answers$ so I'm 
+ * not reaching back into activeContent potentially before/after the change
+ */

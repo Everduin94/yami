@@ -14,7 +14,7 @@ export class FlashCardsComponent {
   activeAnswer = null; // TODO: Find a way to refactor out
   answers = [];
 
-  constructor(public cs: ContentStateService, public client: ClientStateService) { }
+  constructor(public cs: ContentStateService, public client: ClientStateService, ) { }
 
   // Lesson: How do you calculate the answers, with just "activeContent?"
   // You can't. You need the inputs. To make this functional, pass in all the necessary state.

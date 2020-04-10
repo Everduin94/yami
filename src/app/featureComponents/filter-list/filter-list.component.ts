@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ContentStateService } from 'src/app/services/content-state.service';
 import { ClientStateService } from 'src/app/services/client-state.service';
 
@@ -12,12 +12,14 @@ export class FilterListComponent implements OnInit {
 
   @Input() activeContent;
   @Output() clickedEvent = new EventEmitter();
+  @Output() contentLoadedEvent = new EventEmitter();
   @Input() category;
   @Input() categories;
 
   _content;
   @Input() set content(v) { 
-    this._content = v; 
+    this._content = v;
+    if (this.content) this.contentLoadedEvent.emit(); 
   };
   get content() { return this._content; }
 
@@ -26,6 +28,7 @@ export class FilterListComponent implements OnInit {
     private client: ClientStateService) { }
 
   ngOnInit() {
+    
   }
 
   raiseClickedEvent(content) {

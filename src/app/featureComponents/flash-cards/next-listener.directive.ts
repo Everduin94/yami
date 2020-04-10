@@ -9,8 +9,11 @@ export class NextListenerDirective implements OnDestroy, OnInit {
   
   @Input('appNextListener') activeContent;
 
-  @HostListener('window:keydown.control.shift.enter')
-  doImportantThings() {
+  @HostListener('window:keydown.control.shift.enter', ['$event'])
+  doImportantThings(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.clientState.updateIsAnswerShowing('hide');
     this.clientState.updateActiveContentByIndex(this.activeContent.index + 1);
   }
 

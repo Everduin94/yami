@@ -14,7 +14,6 @@ export class ShowListenerDirective {
 
   @HostListener('window:keydown.control.enter')
   showAnswer() {
-    console.log('hey?');
     this.updateAnswer(this.toggleAnswer(this.isAnswerShowing))
   }
 

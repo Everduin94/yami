@@ -14,7 +14,8 @@ describe('Starter', () => {
         cy.get('[data-cy=category]').click();
         cy.get('span.mat-option-text').contains(' FIB-TEST ')
             .then(option => option[0].click());
-        cy.get('[data-cy=card-0]').should('be.visible').click();
+        cy.get('[data-cy=card-0]').should('be.visible').should('have.class', 'filter-body__content--active');
+        
     });
 
     it('should test question input and answer comparator', () => {
@@ -27,4 +28,14 @@ describe('Starter', () => {
         cy.get('[data-cy=fib-answer-0]').should('have.class', 'correct');
         cy.get('[data-cy=fib-answer-1]').should('have.class', 'incorrect');
     });
+
+
+    it('should have a functioning next button', () => {
+        cy.get('[data-cy=category]').click();
+        cy.get('span.mat-option-text').contains(' guide-examples ')
+            .then(option => option[0].click());
+        cy.wait(1200); // Hack: Make sure button is enabled
+        cy.get('[data-cy=next-button]').click();
+        cy.get('[data-cy=card-1]').should('be.visible').should('have.class', 'filter-body__content--active');
+    })
 });

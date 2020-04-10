@@ -9,13 +9,7 @@ export class AnswerContentComponent implements OnInit {
 
   @ViewChildren("fib") inputs;
   @Input() activeContent;
-
-  _answers;
-  @Input() set answers(v) { 
-    console.log('new answers: ', v)
-    this._answers = v;
-  }
-  get answers() { return this._answers; }  
+  @Input() answers;
 
   constructor() { }
 
