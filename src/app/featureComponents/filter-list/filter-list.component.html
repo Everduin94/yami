@@ -21,7 +21,7 @@
       <div class="filter__body__card" *ngFor="let card of content; let i = index">
         <button [ngClass]="activeContent === card ? 'filter-body__content--active' : 'filter-body__content'"
           (click)="raiseClickedEvent(card); $event.preventDefault();" mat-raised-button [attr.data-cy]="'card-' + i">
-          <h3>{{card.title}}</h3>
+          <h3>{{card.title}} - {{card.index}}</h3>
         </button>
       </div>
     </ng-container>

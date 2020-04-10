@@ -11,14 +11,14 @@
                 (clickedEvent)="updateAnswer('hide')">
                 </app-filter-list>
 
-                <div class="filler filler__question">
+                <div class="filler filler__question" [appShowListener]="isAnswerShowing" [appNextListener]="activeContent">
                     <app-header-span dataCy="question-header" label="Question"></app-header-span>
                     <ng-container *ngIf="activeContent?.title; else fillerDiv">
                         <!-- TODO: Refactor title fillers -->
                         <app-question-content [activeContent]="activeContent" (initInputs)="updateAnswers($event)">
                         </app-question-content>
                     </ng-container>
-                    <button (click)="updateAnswer(toggleAnswer(isAnswerShowing))" [disabled]="!activeContent?.id"
+                    <button title="Hotkey: (CTRL+Enter)" (click)="updateAnswer(toggleAnswer(isAnswerShowing))" [disabled]="!activeContent?.id"
                         mat-raised-button data-cy="show-answer-button" class="show-answer-button">
                         <ng-container *ngIf="!activeAnswer; else hideAnswer">
                             <h3>Show Answer</h3>
@@ -33,7 +33,10 @@
                         <app-answer-content [answers]="answers" [activeContent]="activeContent"></app-answer-content>
                     </ng-container>
 
-                    <button mat-raised-button [disabled]="!activeContent?.id" data-cy="next-button" class="next-button">
+                    <button mat-raised-button
+                    title="Hotkey: (CTRL+SHIFT+Enter)" 
+                    (click)="this.client.updateActiveContentByIndex(activeContent.index + 1);"
+                    [disabled]="!activeContent?.id" data-cy="next-button" class="next-button">
                         <h3>Next</h3>
                     </button>
                 </div>

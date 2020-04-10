@@ -9,6 +9,8 @@ import { HeaderSpanModule } from 'src/app/libraryComponents/header-span/header-s
 import { MdToHtmlModule } from 'src/app/pipes/md-to-html.module';
 import { QuestionContentModule } from '../question-content/question-content.module';
 import { AnswerContentModule } from '../answer-content/answer-content.module';
+import { NextListenerDirective } from './next-listener.directive';
+import { ShowListenerDirective } from './show-listener.directive';
 
 const FLASHCARD_ROUTES: Routes = [
   {
@@ -19,7 +21,7 @@ const FLASHCARD_ROUTES: Routes = [
 ];
 
 @NgModule({
-  declarations: [FlashCardsComponent],
+  declarations: [FlashCardsComponent, NextListenerDirective, ShowListenerDirective],
   imports: [
     CommonModule,
     FormsModule,

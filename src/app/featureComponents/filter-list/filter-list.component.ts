@@ -14,14 +14,18 @@ export class FilterListComponent implements OnInit {
   @Output() clickedEvent = new EventEmitter();
   @Input() category;
   @Input() categories;
-  @Input() content;
+
+  _content;
+  @Input() set content(v) { 
+    this._content = v; 
+  };
+  get content() { return this._content; }
 
   constructor(
     public cs: ContentStateService,
     private client: ClientStateService) { }
 
   ngOnInit() {
-
   }
 
   raiseClickedEvent(content) {
