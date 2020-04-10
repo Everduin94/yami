@@ -1,0 +1,31 @@
+<div class="container">
+
+  <app-filter-list [content]="content" [categories]="guideCategories" category="Guides"
+    [activeContent]="activeGuideContent" (clickedEvent)="activeGuideContent=$event"></app-filter-list>
+
+  <div class="container__markdown">
+
+    <div class="container__markdown__center">
+      <ng-container *ngIf="activeGuideContent?.key === 'yami'">
+        <app-yami-guide></app-yami-guide>
+      </ng-container>
+  
+      <ng-container *ngIf="activeGuideContent?.key === 'content'">
+        <app-content-guide></app-content-guide>
+      </ng-container>
+  
+  
+      <ng-container *ngIf="activeGuideContent?.key === 'practicing'">
+        <app-practicing-guide></app-practicing-guide>
+      </ng-container>
+  
+  
+      <ng-container *ngIf="activeGuideContent?.key === 'markdown'">
+        <app-markdown-guide></app-markdown-guide>
+      </ng-container>
+    </div>
+
+  </div>
+
+
+</div>

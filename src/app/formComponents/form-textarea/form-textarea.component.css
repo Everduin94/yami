@@ -1,0 +1,22 @@
+:host {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+    outline: none; /* TODO: Revisit in future */
+    font-size: 1.5em;
+    color: var(--text-color);
+    background: var(--background-color);
+    border: none;
+    border-bottom: 2px solid var(--box-shadow);
+    padding: 10px;
+    transition: border .3s linear;
+}
+
+textarea:active, textarea:hover, textarea:focus {
+    border-bottom: 2px solid var(--primary-color);
+}

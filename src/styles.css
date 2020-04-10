@@ -1,11 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* TODO: Can we switch this at run-time? */
-@import '~highlight.js/styles/atom-one-dark.css';
-
 :root {
     --primary-color: #2979ff;
     --secondary-color: #1de9b6;
+    --dark-secondary-color: #00b686;
+    --warn-color: #ff1744;
     --yellow: #ffea00;
     --purple: #d500f9;
     --red: #ff1744;
@@ -15,44 +12,83 @@
     --box-color: #11111170;
     --text-color: #ffffff;
     --border-color:#ffffff;
+    --box-shadow: #111111;
 }
 
 body {
     height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    
     background-color: var(--background-color);
     color: var(--text-color);
-
-    /* TODO: Hack, figure it out -- only on vert-scroll */
-    width: 99vw;
-    overflow-x: hidden;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html { height: 100%; }
 
-/* This works, the hover and active do not. */
-.ql-snow .ql-stroke {
-    stroke: var(--border-color);
+body > * {
+    box-sizing: border-box;
 }
 
-.ql-picker-label {
-    color: var(--border-color);
+pre {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.38);
 }
 
-div.ql-editor {
+.fill-in-blank, .fill-in-blank-answer {
+    background: var(--primary-color);
+    border: none;
+    font-weight: 600;
+    text-align: center;
+    padding: 8px;
+    border-radius: 4px;
+    appearance: none;
+    color: whitesmoke;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.correct {
+    background: var(--secondary-color);
+    color: #111111;
+}
+
+.incorrect {
+    background: var(--warn-color);
+}
+
+
+.answer {
+    color: #ffffff;
+    padding: 4px;
+    background: var(--secondary-color);
+    color: #ffffff;
+    border-radius: 4px;
+    line-height: 3;
+}
+
+.mat-form-field-flex {
+    height: 100%;
+}
+
+/* Chromium */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+  
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+  
+::-webkit-scrollbar-thumb {
     background: var(--box-color);
-    color: var(--text-color);
 }
-
-div.ql-container.ql-snow {
-    border: solid 3px var(--border-color);
-}
-
-div.ql-toolbar.ql-snow {
-    background: var(--box-color);
-    border: solid 3px var(--border-color);
-    color: var(--text-color);
+  
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--box-color) var(--background-color);
 }

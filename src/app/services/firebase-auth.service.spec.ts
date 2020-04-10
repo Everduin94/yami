@@ -51,7 +51,7 @@ describe('FirebaseAuthService', () => {
   }
   );
 
-  test('test-1', () => {
+  test('login flow Jest test (pre-cypress test)', () => {
     const service: FirebaseAuthService = TestBed.get(FirebaseAuthService);
     expect(service).toBeTruthy();
 

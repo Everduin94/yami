@@ -1,0 +1,9 @@
+:host {
+    display: block;
+    background: var(--box-color);
+    box-shadow:  0 4px 3px -3px var(--box-shadow);
+}
+
+.banner__content {
+    padding: 8px;
+}

@@ -1,16 +1,112 @@
-<div class="container">
-  <div class="button-row">
+<ng-container *ngIf="auth.userId$ | async as userId">
+  <ng-container *ngIf="client.activeContent$ | async as activeContent">
 
-    <a 
-    class="back-button box" 
-    [routerLink]="['/flashCards']" 
-    routerLinkActive="span-two"
-    [routerLinkActiveOptions]="{exact: true}">Practice</a>
-    <a 
-    class="add-button box" 
-    [routerLink]="['/add/card']" 
-    routerLinkActive="span-two"
-    [routerLinkActiveOptions]="{exact: true}">Add New Card</a>
-  </div>
-  <router-outlet></router-outlet>
-</div>
+  
+  <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(userId)">
+    <div class="container">
+      <div class="container__filter-list">
+
+          <app-filter-list 
+          [content]="client.content$ | async" 
+          [categories]="cs.categoryRef$ | async"
+          [category]="client.category$ | async" 
+          [activeContent]="activeContent" 
+          (clickedEvent)="updateForm($event)">
+
+            <div class="container__filter-list__empty-message">
+              <div>
+                Fill out the fields to add new content
+              </div>
+              
+              <div>
+                Or select a category to edit existing content
+              </div>
+              
+              <div>
+                Clicking Add Content will reset the fields and start a new entry
+              </div>
+            </div>
+
+          </app-filter-list>
+
+      </div>
+
+      <div class="filter-list__button-container">
+
+        <button class="hover-button" (click)="addRow(); $event.preventDefault();" mat-raised-button
+          data-cy="add-content-button">
+          <h3>+ Add Content</h3>
+        </button>
+        <button class="hover-button--warn" [disabled]="!activeContent?.id" (click)="deleteRow(userId, activeContent); $event.preventDefault();"
+          mat-raised-button data-cy="delete-content-button">
+          <h3>- Delete Content</h3>
+        </button>
+
+      </div>
+
+      <div class="container__meta-data">
+        <app-header-span dataCy="meta-header" label="Details">
+            <span data-cy="details-header-info"> - {{activeContent?.title ? activeContent.title : 'Adding New Content'}}</span>
+        </app-header-span>
+
+        <div class="padded-container">
+
+          <app-form-text-input #title [form]="form" label="Title" controlName="title"></app-form-text-input>
+
+          <ng-container *ngIf="!showAddCategory">
+            <ng-container *ngIf="cs.categoryRef$ | async as categories">
+              <app-form-select [form]="form" [selectData]="categories" label="Category" controlName="category">
+              </app-form-select>
+            </ng-container>
+            <button mat-raised-button class="hover-button" style="width: 180px; display:block;"
+              (click)="showAddCategory = !showAddCategory;
+               $event.preventDefault();
+               ">+ New Category</button>
+          </ng-container>
+
+          <ng-container *ngIf="showAddCategory">
+            <mat-form-field>
+              <input #addCategoryInput matInput placeholder="Category" appAutofocus>
+            </mat-form-field>
+            <button mat-raised-button style="width: 180px; display:block; margin-bottom: 5px;" color="primary" [disabled]="!addCategoryInput.value"
+              (click)="addCategory(addCategoryInput.value, userId);
+            showAddCategory = !showAddCategory;
+            $event.preventDefault();">Save Category</button>
+            <button mat-raised-button style="width: 180px; display:block;" color="accent"
+              (click)="showAddCategory = !showAddCategory;$event.preventDefault();">Back</button>
+          </ng-container>
+
+        </div>
+
+
+      </div>
+
+      <div class="container__question">
+        <app-header-span dataCy="question-header" label="Question"></app-header-span>
+        <div class="padded-container">
+
+          <app-form-textarea [form]="form" label="Create a Question using Markdown!" controlName="question"></app-form-textarea>
+
+        </div>
+      </div>
+
+
+      <div class="container__answer">
+        <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
+        <div class="padded-container padded-container--bottom-shadow">
+
+          <app-form-textarea [form]="form" label="Create an Answer using Markdown!" controlName="answer"></app-form-textarea>
+
+        </div>
+        <div style="padding: 5px;">
+          <button [disabled]="!form.valid" (click)="onSubmit(userId)" mat-raised-button color="primary"
+            data-cy="submit-content-button" class="submit-content-button">
+            <h3>Submit</h3>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</ng-container>
+</ng-container>

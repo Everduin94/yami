@@ -3,10 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './appComponents/page-not-found/page-not-found.component';
 import { LoginComponent } from './appComponents/login/login.component';
 import { ShellComponent } from './appComponents/header/shell.component';
-import { MainComponent } from './appComponents/main/main.component';
 import { FlashCardsGuard } from './guards/flash-cards.guard';
 import { PrototypeComponent } from './appComponents/prototype/prototype.component';
-import { AddCardComponent } from './featureComponents/add-base/add-card/add-card.component';
 
 const routes: Routes = [
   {
@@ -20,12 +18,17 @@ const routes: Routes = [
         canActivate: [FlashCardsGuard]
       },
       {
-        path: 'add',
+        path: 'manage',
         loadChildren: () => import('./featureComponents/add-base/add-base.module').then(mod => mod.AddBaseModule),
         canLoad: [FlashCardsGuard],
         canActivate: [FlashCardsGuard]
       },
       { path: 'prototype', component: PrototypeComponent },
+      { 
+        path: 'guides', 
+        loadChildren: () => import('./appComponents/guides/guides.module').then(mod => mod.GuidesModule)
+     },
+
     ]
   },
   { path: 'login', component: LoginComponent },

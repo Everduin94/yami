@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,12 +16,14 @@ import { PageNotFoundComponent } from './appComponents/page-not-found/page-not-f
 import { LoginComponent } from './appComponents/login/login.component';
 import { ShellComponent } from './appComponents/header/shell.component';
 import { MainComponent } from './appComponents/main/main.component';
-import { MdToHtmlPipe } from './pipes/md-to-html.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PrototypeModule } from './appComponents/prototype/prototype.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StartModule } from './featureComponents/start/start.module';
+import { MdToHtmlModule } from './pipes/md-to-html.module';
+import { FilterListModule } from './featureComponents/filter-list/filter-list.module';
+import { FormComponentsModule } from './formComponents/form-components.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,6 @@ import { StartModule } from './featureComponents/start/start.module';
     LoginComponent,
     ShellComponent,
     MainComponent,
-    MdToHtmlPipe,
   ],
   imports: [
     BrowserModule,
@@ -42,9 +44,14 @@ import { StartModule } from './featureComponents/start/start.module';
     ReactiveFormsModule,
     FontAwesomeModule,
     PrototypeModule,
-    StartModule
+    StartModule,
+    FilterListModule,
+    MdToHtmlModule,
+    FormComponentsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,13 +2,11 @@
 
     <div class="left">
 
-        <a class="item" [routerLink]="['/']">🤠</a>
-
-        <a class="item" [routerLink]="['/flashCards']" style="margin-right: 5px;">Flash Cards</a>
-        <a class="item" [routerLink]="['/add/card']">Add</a>
-
-
-        <a class="item" [routerLink]="['/prototype']">Prototype</a>
+        <a class="item item--link" [routerLink]="['/flashCards']" routerLinkActive="item--link--active" style="margin-right: 5px;">Practice</a>
+        <span class="item--link__divider">|</span>
+        <a class="item item--link" [routerLink]="['/manage']" routerLinkActive="item--link--active" data-cy="manage-link">Manage</a>
+        <span class="item--link__divider">|</span>
+        <a class="item item--link" [routerLink]="['/guides']" routerLinkActive="item--link--active">Guides</a>
 
     </div>
 
@@ -24,7 +22,7 @@
 
     <div class="right">
 
-        <button class="item" (click)="testLight()">🌞</button>
+        <!--<button class="item" (click)="testLight()">🌞</button>
 
         <button class="item" (click)="testDark()">🌚</button>
 
@@ -35,7 +33,7 @@
                 <img src="{{user.photoURL}}" alt="Avatar" class="login-img item">
                 <button class="item" (click)="logout()">Logout</button>
             </ng-container>
-        </ng-template>
+        </ng-template>-->
 
         <ng-template #not>
             <a class="item" [routerLink]="['/login']">Login</a>
