@@ -9,3 +9,6 @@ Yami gives users the ability to create Fill in the Blanks within their flash-car
 Flash-cards can be simple, or intricate and descriptive. Images, GIFs, and syntax highlighting for code snippets are all possible using Yami. See the "What is Markdown" section for more information!
 
 <insert picture of picture and code>
+
+
+[alt text](http://localhost:4200/assets/dopest.PNG "image")

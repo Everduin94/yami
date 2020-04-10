@@ -17,10 +17,6 @@ export class MarkdownPreProcessor {
         return fn;
     }
 
-    static shouldUseQuestionParser(answers): boolean {
-        return !answers;
-    }
-
     static selectParser(type: string): (n, a) => string {
         if (type === 'question') return (n, a) => MarkdownPreProcessor.questionParser(n);
         if (type === 'answer') return (n, a) => MarkdownPreProcessor.answerParser(n, a);

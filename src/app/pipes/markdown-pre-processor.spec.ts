@@ -46,36 +46,11 @@ describe('Answer Parser', () => {
     expect(actual).toEqual(expected);
   });
 
-
-  // TODO: This probably needs to have quotes around the value
   it('should parse token into the match with span tags around it given a matching token', () => {
     const expected = `<input readonly type="text" data-cy="fib-answer-0" class="fill-in-blank-answer correct" value="Hello World"> this is irrelevant <input readonly type="text" data-cy="fib-answer-1" class="fill-in-blank-answer correct" value="this {-10} !@#$%^&*() matters">`;
     const given = 'FIBHello WorldFIB this is irrelevant FIBthis {-10} !@#$%^&*() mattersFIB';
     const givenAnswers = ["correct", "correct"];
     const actual = MarkdownPreProcessor.answerParser(given, givenAnswers);
-    expect(actual).toEqual(expected);
-  });
-});
-
-describe('shouldUseQuestionParser(answers)', () => {
-  it('should return true given answers is falsy', () => {
-    const given = null;
-    const expected = true;
-    const actual = MarkdownPreProcessor.shouldUseQuestionParser(given);
-    expect(actual).toEqual(expected);
-  });
-
-  it('should return false given answers is a populated array', () => {
-    const given = ["test"];
-    const expected = false;
-    const actual = MarkdownPreProcessor.shouldUseQuestionParser(given);
-    expect(actual).toEqual(expected);
-  });
-
-  it('should return false given answers is an empty array', () => {
-    const given = [];
-    const expected = false;
-    const actual = MarkdownPreProcessor.shouldUseQuestionParser(given);
     expect(actual).toEqual(expected);
   });
 });

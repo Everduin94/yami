@@ -50,7 +50,8 @@ import { FormComponentsModule } from './formComponents/form-components.module';
     FormComponentsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

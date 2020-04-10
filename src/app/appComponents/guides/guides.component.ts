@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-guides',
@@ -16,19 +14,16 @@ export class GuidesComponent implements OnInit {
   ]
 
   content = [
-    {title: 'What is Yami?', file: 'what-is-yami.md'}
+    {title: 'What is Yami', key: 'yami'},
+    {title: 'Adding Content', key: 'content'},
+    {title: 'Practicing', key: 'practicing'},
+    {title: 'What is Markdown', key: 'markdown'}
   ]
 
-
-  markdownContent; // TODO: Refactor this and the get call
-
-  getMarkdownFileFromServer = f => { 
-    this.http.get('/assets/'+f.file, {responseType: 'text'}).pipe(take(1)).subscribe(v => this.markdownContent = v);
-  };
-
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   ngOnInit() {
+    this.activeGuideContent = this.content[0];
   }
 
 }

@@ -10,6 +10,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterListModule } from 'src/app/featureComponents/filter-list/filter-list.module';
 import { HeaderSpanModule } from 'src/app/libraryComponents/header-span/header-span.module';
+import { MdToHtmlModule } from 'src/app/pipes/md-to-html.module';
+import { ContentGuideComponent } from './content/content-guide.component';
+import { MarkdownGuideComponent } from './content/markdown-guide.component';
+import { PracticingGuideComponent } from './content/practicing-guide.component';
+import { YamiGuideComponent } from './content/yami-guide.component';
 
 const routes: Routes = [
   {
@@ -19,7 +24,11 @@ const routes: Routes = [
 ] 
 
 @NgModule({
-  declarations: [GuidesComponent],
+  declarations: [GuidesComponent,
+    ContentGuideComponent,
+    MarkdownGuideComponent,
+    PracticingGuideComponent,
+    YamiGuideComponent],
   imports: [
     CommonModule,
     MatSliderModule,
@@ -31,6 +40,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     FilterListModule,
     HeaderSpanModule,
+    MdToHtmlModule,
     RouterModule.forChild(routes)
   ]
 })
