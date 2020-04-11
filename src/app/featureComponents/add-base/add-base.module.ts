@@ -19,6 +19,7 @@ import { DetailsFormModule } from '../details-form/details-form.module';
 import { FormComponentsModule } from 'src/app/formComponents/form-components.module';
 import { AutofocusModule } from 'src/app/libraryComponents/autofocus/autofocus.module';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MdToHtmlModule } from 'src/app/pipes/md-to-html.module';
 
 const routes: Routes = [
   {
@@ -46,6 +47,7 @@ const routes: Routes = [
     AnswerContentModule,
     DetailsFormModule,
     FormComponentsModule,
+    MdToHtmlModule,
     AutofocusModule,
     RouterModule.forChild(routes)
   ]

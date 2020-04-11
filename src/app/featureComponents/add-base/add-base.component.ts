@@ -22,6 +22,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { }
 
+
   ngOnInit() {
     this.form = this.fb.group({
       category: new FormControl('', [Validators.required]),
@@ -29,15 +30,19 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       question: new FormControl('', [Validators.required]),
       answer: new FormControl('', [Validators.required]),
       fillInBlankMode: new FormControl(false),
+      previewMode: new FormControl(false),
     });
 
     
     const fillInBlankSub = this.fillInBlankMode.valueChanges.subscribe(v => {
       // Side Effects (Refactor) 
+      console.log(v);
       v ? this.answer.disable() : this.answer.enable();
       if (v) this.answer.patchValue(this.question.value);
     });
+
     const questionSub = this.question.valueChanges.subscribe(v => {
+      console.log(this.fillInBlankMode.value)
       if (this.fillInBlankMode.value) this.answer.patchValue(v);
     });
 
@@ -113,6 +118,10 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   get fillInBlankMode() {
     return this.form.get('fillInBlankMode');
+  }
+
+  get previewMode() {
+    return this.form.get('previewMode');
   }
 
 }

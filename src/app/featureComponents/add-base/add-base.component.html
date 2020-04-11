@@ -15,15 +15,15 @@
 
             <div class="container__filter-list__empty-message">
               <div>
-                Fill out the fields to add new content
+                Fill out Question, Answer, Title and Category. Click "Submit" to save!
               </div>
               
               <div>
-                Or select a category to edit existing content
+                Select a category to edit existing content!
               </div>
               
               <div>
-                Clicking Add Content will reset the fields and start a new entry
+                Clicking Add Content will reset all fields and start a new card!
               </div>
             </div>
 
@@ -48,7 +48,13 @@
         <app-header-span dataCy="question-header" label="Question"></app-header-span>
         <div class="padded-container">
 
-          <app-form-textarea [form]="form" label="Create a Question using Markdown!" controlName="question"></app-form-textarea>
+          <ng-container *ngIf="previewMode.value && question?.value; else questionEl">
+            <div [innerHtml]="question.value | mdToHtml:'question'"></div>
+          </ng-container>
+          <ng-template #questionEl>
+            <app-form-textarea [form]="form" label="Create a Question using Markdown!" controlName="question"></app-form-textarea>
+          </ng-template>
+          
 
         </div>
       </div>
@@ -57,7 +63,12 @@
         <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
         <div class="padded-container padded-container--bottom-shadow">
 
-          <app-form-textarea [disabled]="answer.disabled" [form]="form" label="Create an Answer using Markdown!" controlName="answer"></app-form-textarea>
+          <ng-container *ngIf="previewMode.value && answer?.value; else answerEl">
+            <div [innerHtml]="answer.value | mdToHtml:'answer':[]"></div>
+          </ng-container>
+          <ng-template #answerEl>
+            <app-form-textarea [disabled]="answer.disabled" [form]="form" label="Create an Answer using Markdown!" controlName="answer"></app-form-textarea>
+          </ng-template>
 
         </div>
       </div>
@@ -95,9 +106,14 @@
           </ng-container>
 
           
-          <div>
+          <div style="padding-top: 10px; font-size: 24px;">
             <mat-checkbox formControlName="fillInBlankMode" data-cy="fill-in-blank-mode">Fill in Blank Mode</mat-checkbox>
           </div>
+
+          <div style="padding-top: 10px; font-size: 24px;">
+            <mat-checkbox formControlName="previewMode" data-cy="preview-mode">Preview Mode</mat-checkbox>
+          </div>
+
             
 
         </div>
