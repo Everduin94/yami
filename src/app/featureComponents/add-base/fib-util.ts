@@ -13,6 +13,12 @@ export class FibUtil {
 
     public static compareAnswers(contentFromClient: any, contentFromDb: any): string[] {
         if (!contentFromClient || !contentFromDb || !contentFromDb.fib) return [];
-        return contentFromDb.fib.map((dbAnswer, i) => contentFromClient['fib-' + i] === dbAnswer ? "correct" : "incorrect");
+        return contentFromDb.fib.map((dbAnswer, i) => this.trimCompare(contentFromClient['fib-' + i], dbAnswer) ? "correct" : "incorrect");
+    }
+
+    private static trimCompare(client, db): boolean {
+        if (!client || !db) return client === db;
+        console.log(client.trim(), db.trim());
+        return client.trim() === db.trim();
     }
 }

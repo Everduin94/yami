@@ -99,6 +99,19 @@ describe('FibUtil', () => {
             expect(actual).toEqual(expected);
         });
 
+        it('should return all correct given db [" one ", " two "] and client ["one", "two"]', () => {
+            const expected = ["correct", "correct"];
+            const givenClientAnswer = {
+                "fib-0": "one",
+                "fib-1": "two",
+            };
+            const givenDbAnswer = {
+                fib: [" one ", " two "]
+            };
+            const actual = FibUtil.compareAnswers(givenClientAnswer, givenDbAnswer);
+            expect(actual).toEqual(expected);
+        });
+
     });
 
 });

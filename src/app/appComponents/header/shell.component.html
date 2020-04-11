@@ -21,19 +21,18 @@
 
 
     <div class="right">
-
-        <!--<button class="item" (click)="testLight()">🌞</button>
+<!--
+       <button class="item" (click)="testLight()">🌞</button>
 
         <button class="item" (click)="testDark()">🌚</button>
-
+    -->
         <ng-container *ngIf="auth.user$ | async as user; then authenticated else not"></ng-container>
-
+ 
         <ng-template #authenticated>
             <ng-container  *ngIf="auth.user$ | async as user">
-                <img src="{{user.photoURL}}" alt="Avatar" class="login-img item">
                 <button class="item" (click)="logout()">Logout</button>
             </ng-container>
-        </ng-template>-->
+        </ng-template>
 
         <ng-template #not>
             <a class="item" [routerLink]="['/login']">Login</a>

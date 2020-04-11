@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import {faRocket} from '@fortawesome/free-solid-svg-icons/faRocket';
 
 
 @Component({
@@ -12,6 +13,8 @@ import 'firebase/auth';
 export class LoginComponent implements OnInit {
 
   errors$;
+
+  readonly rocket = faRocket;
 
   constructor(private auth: FirebaseAuthService) { }
 

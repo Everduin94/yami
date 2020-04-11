@@ -1,4 +1,4 @@
 <form style="display: contents" [formGroup]="form">
-    <textarea [placeholder]="label" [formControlName]="controlName" [attr.data-cy]="'form-textarea-' + controlName"></textarea>
+    <textarea [class.disabled]="disabled" [placeholder]="label" [formControlName]="controlName" [attr.data-cy]="'form-textarea-' + controlName"></textarea>
 </form>
 

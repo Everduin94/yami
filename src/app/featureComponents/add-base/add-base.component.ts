@@ -1,19 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { ContentStateService } from 'src/app/services/content-state.service';
 import { FibUtil } from './fib-util';
 import { ClientStateService } from 'src/app/services/client-state.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-base',
   templateUrl: './add-base.component.html',
   styleUrls: ['./add-base.component.css']
 })
-export class AddBaseComponent implements OnInit {
+export class AddBaseComponent implements OnInit, OnDestroy {
+
 
   form: FormGroup;
   showAddCategory = false;
+  formSubscriptions: Subscription = new Subscription();
 
   @ViewChild('title', { static: false }) titleElement;
 
@@ -25,7 +28,25 @@ export class AddBaseComponent implements OnInit {
       title: new FormControl('', [Validators.required]),
       question: new FormControl('', [Validators.required]),
       answer: new FormControl('', [Validators.required]),
+      fillInBlankMode: new FormControl(false),
     });
+
+    
+    const fillInBlankSub = this.fillInBlankMode.valueChanges.subscribe(v => {
+      // Side Effects (Refactor) 
+      v ? this.answer.disable() : this.answer.enable();
+      if (v) this.answer.patchValue(this.question.value);
+    });
+    const questionSub = this.question.valueChanges.subscribe(v => {
+      if (this.fillInBlankMode.value) this.answer.patchValue(v);
+    });
+
+    this.formSubscriptions.add(questionSub);
+    this.formSubscriptions.add(fillInBlankSub);
+  }
+
+  ngOnDestroy(): void {
+    this.formSubscriptions.unsubscribe();
   }
 
   addCategory(inputValue: string, userId) {
@@ -88,6 +109,10 @@ export class AddBaseComponent implements OnInit {
 
   get category() {
     return this.form.get('category');
+  }
+
+  get fillInBlankMode() {
+    return this.form.get('fillInBlankMode');
   }
 
 }

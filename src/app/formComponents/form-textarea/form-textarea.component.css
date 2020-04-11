@@ -20,3 +20,7 @@ textarea {
 textarea:active, textarea:hover, textarea:focus {
     border-bottom: 2px solid var(--primary-color);
 }
+
+.disabled {
+    background: rgba(255, 255, 255, 0.12);
+}

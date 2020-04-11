@@ -29,19 +29,37 @@
 
           </app-filter-list>
 
+          <div class="filter-list__button-container">
+
+            <button class="hover-button" (click)="addRow(); $event.preventDefault();" mat-raised-button
+              data-cy="add-content-button">
+              <h3>+ Add Content</h3>
+            </button>
+            <button class="hover-button--warn" [disabled]="!activeContent?.id" (click)="deleteRow(userId, activeContent); $event.preventDefault();"
+              mat-raised-button data-cy="delete-content-button">
+              <h3>- Delete Content</h3>
+            </button>
+    
+          </div>
+
       </div>
 
-      <div class="filter-list__button-container">
+      <div class="container__question">
+        <app-header-span dataCy="question-header" label="Question"></app-header-span>
+        <div class="padded-container">
 
-        <button class="hover-button" (click)="addRow(); $event.preventDefault();" mat-raised-button
-          data-cy="add-content-button">
-          <h3>+ Add Content</h3>
-        </button>
-        <button class="hover-button--warn" [disabled]="!activeContent?.id" (click)="deleteRow(userId, activeContent); $event.preventDefault();"
-          mat-raised-button data-cy="delete-content-button">
-          <h3>- Delete Content</h3>
-        </button>
+          <app-form-textarea [form]="form" label="Create a Question using Markdown!" controlName="question"></app-form-textarea>
 
+        </div>
+      </div>
+
+      <div class="container__answer">
+        <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
+        <div class="padded-container padded-container--bottom-shadow">
+
+          <app-form-textarea [disabled]="answer.disabled" [form]="form" label="Create an Answer using Markdown!" controlName="answer"></app-form-textarea>
+
+        </div>
       </div>
 
       <div class="container__meta-data">
@@ -49,7 +67,7 @@
             <span data-cy="details-header-info"> - {{activeContent?.title ? activeContent.title : 'Adding New Content'}}</span>
         </app-header-span>
 
-        <div class="padded-container">
+        <div class="padded-container padded-container--bottom-shadow">
 
           <app-form-text-input #title [form]="form" label="Title" controlName="title"></app-form-text-input>
 
@@ -66,7 +84,7 @@
 
           <ng-container *ngIf="showAddCategory">
             <mat-form-field>
-              <input #addCategoryInput matInput placeholder="Category" appAutofocus>
+              <input #addCategoryInput matInput placeholder="Category" appAutofocus >
             </mat-form-field>
             <button mat-raised-button style="width: 180px; display:block; margin-bottom: 5px;" color="primary" [disabled]="!addCategoryInput.value"
               (click)="addCategory(addCategoryInput.value, userId);
@@ -76,34 +94,22 @@
               (click)="showAddCategory = !showAddCategory;$event.preventDefault();">Back</button>
           </ng-container>
 
-        </div>
-
-
-      </div>
-
-      <div class="container__question">
-        <app-header-span dataCy="question-header" label="Question"></app-header-span>
-        <div class="padded-container">
-
-          <app-form-textarea [form]="form" label="Create a Question using Markdown!" controlName="question"></app-form-textarea>
+          
+          <div>
+            <mat-checkbox formControlName="fillInBlankMode" data-cy="fill-in-blank-mode">Fill in Blank Mode</mat-checkbox>
+          </div>
+            
 
         </div>
-      </div>
 
-
-      <div class="container__answer">
-        <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
-        <div class="padded-container padded-container--bottom-shadow">
-
-          <app-form-textarea [form]="form" label="Create an Answer using Markdown!" controlName="answer"></app-form-textarea>
-
-        </div>
         <div style="padding: 5px;">
           <button [disabled]="!form.valid" (click)="onSubmit(userId)" mat-raised-button color="primary"
             data-cy="submit-content-button" class="submit-content-button">
             <h3>Submit</h3>
           </button>
         </div>
+
+
       </div>
     </div>
   </form>

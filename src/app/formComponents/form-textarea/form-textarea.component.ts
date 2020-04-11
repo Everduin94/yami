@@ -10,6 +10,7 @@ export class FormTextareaComponent implements OnInit {
   @Input() form;
   @Input() controlName;
   @Input() label;
+  @Input() disabled;
 
   constructor() { }
 
