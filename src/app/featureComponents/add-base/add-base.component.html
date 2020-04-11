@@ -49,7 +49,7 @@
         <div class="padded-container">
 
           <ng-container *ngIf="previewMode.value && question?.value; else questionEl">
-            <div [innerHtml]="question.value | mdToHtml:'question'"></div>
+            <div [innerHtml]="question.value | mdToHtml:'question'" data-cy=preview-question></div>
           </ng-container>
           <ng-template #questionEl>
             <app-form-textarea [form]="form" label="Create a Question using Markdown!" controlName="question"></app-form-textarea>
@@ -64,7 +64,7 @@
         <div class="padded-container padded-container--bottom-shadow">
 
           <ng-container *ngIf="previewMode.value && answer?.value; else answerEl">
-            <div [innerHtml]="answer.value | mdToHtml:'answer':[]"></div>
+            <div [innerHtml]="answer.value | mdToHtml:'answer':[]" data-cy=preview-answer></div>
           </ng-container>
           <ng-template #answerEl>
             <app-form-textarea [disabled]="answer.disabled" [form]="form" label="Create an Answer using Markdown!" controlName="answer"></app-form-textarea>

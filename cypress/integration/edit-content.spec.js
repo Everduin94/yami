@@ -60,9 +60,9 @@ describe('Starter', () => {
         cy.get('[data-cy=form-textarea-question').type(' FIB');
         cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q FIB')
         cy.get('[data-cy=fill-in-blank-mode]').click();
-        cy.get('[data-cy=preview-mode').click();
-        cy.get('[data-cy=preview-question').should('be.visible');
-        cy.get('[data-cy=preview-answer').should('be.visible');
+        cy.get('[data-cy=preview-mode]').click();
+        cy.get('[data-cy=preview-question]').should('be.visible');
+        cy.get('[data-cy=preview-answer]').should('be.visible');
     })
 
 });
