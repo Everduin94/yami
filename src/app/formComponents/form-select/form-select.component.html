@@ -1,5 +1,5 @@
 <form style="display: contents" [formGroup]="form">
-  <mat-form-field>
+  <mat-form-field style="width: 100%">
     <mat-label>{{label}}</mat-label>
     <mat-select [formControlName]="controlName" [attr.data-cy]="'form-select-' + controlName">
       <mat-option *ngFor="let category of selectData" [value]="category.value">

@@ -5,6 +5,8 @@ import { ContentStateService } from 'src/app/services/content-state.service';
 import { FibUtil } from './fib-util';
 import { ClientStateService } from 'src/app/services/client-state.service';
 import { Subscription } from 'rxjs';
+import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-base',
@@ -18,12 +20,17 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   showAddCategory = false;
   formSubscriptions: Subscription = new Subscription();
 
+  readonly questionIcon = faQuestion;
+
   @ViewChild('title', { static: false }) titleElement;
 
   constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { }
 
 
   ngOnInit() {
+
+
+    
     this.form = this.fb.group({
       category: new FormControl('', [Validators.required]),
       title: new FormControl('', [Validators.required]),
@@ -33,16 +40,19 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       previewMode: new FormControl(false),
     });
 
+
+    this.client.activeContent$.pipe(take(1)).subscribe(v => {
+      this.form.patchValue(v, {emitEvent: false})
+    });
+
     
     const fillInBlankSub = this.fillInBlankMode.valueChanges.subscribe(v => {
       // Side Effects (Refactor) 
-      console.log(v);
       v ? this.answer.disable() : this.answer.enable();
       if (v) this.answer.patchValue(this.question.value);
     });
 
     const questionSub = this.question.valueChanges.subscribe(v => {
-      console.log(this.fillInBlankMode.value)
       if (this.fillInBlankMode.value) this.answer.patchValue(v);
     });
 
@@ -82,7 +92,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       category: ''
     });
 
-    if (this.titleElement && this.titleElement.inputElement) { // TODO: Use Renderer
+    if (this.titleElement && this.titleElement.inputElement) { // TODO: Use Renderer / update to Question?
       this.titleElement.inputElement.nativeElement.focus();
     }
 

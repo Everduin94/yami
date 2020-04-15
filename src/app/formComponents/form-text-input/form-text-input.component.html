@@ -1,7 +1,7 @@
 <form style="display: contents" [formGroup]="form">
-  <mat-form-field>
+  <mat-form-field style="width: 100%">
     <mat-label>{{label}}</mat-label>
-    <input #inputEl id="test-me" matInput [formControlName]="controlName" [attr.data-cy]="'form-text-input-' + controlName">
+    <input #inputEl id="test-me" matInput [formControlName]="controlName" [attr.data-cy]="'form-text-input-' + controlName" autocomplete="off">
   </mat-form-field>
 </form>
 

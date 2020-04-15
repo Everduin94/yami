@@ -49,7 +49,7 @@
         <div class="padded-container">
 
           <ng-container *ngIf="previewMode.value && question?.value; else questionEl">
-            <div [innerHtml]="question.value | mdToHtml:'question'" data-cy=preview-question></div>
+            <div [innerHtml]="question.value | mdToHtml:'question'" data-cy="preview-question" class="preview-div"></div>
           </ng-container>
           <ng-template #questionEl>
             <app-form-textarea [form]="form" label="Create a Question using Markdown!" controlName="question"></app-form-textarea>
@@ -64,7 +64,7 @@
         <div class="padded-container padded-container--bottom-shadow">
 
           <ng-container *ngIf="previewMode.value && answer?.value; else answerEl">
-            <div [innerHtml]="answer.value | mdToHtml:'answer':[]" data-cy=preview-answer></div>
+            <div [innerHtml]="answer.value | mdToHtml:'answer':[]" data-cy="preview-answer"></div>
           </ng-container>
           <ng-template #answerEl>
             <app-form-textarea [disabled]="answer.disabled" [form]="form" label="Create an Answer using Markdown!" controlName="answer"></app-form-textarea>
@@ -78,40 +78,47 @@
             <span data-cy="details-header-info"> - {{activeContent?.title ? activeContent.title : 'Adding New Content'}}</span>
         </app-header-span>
 
-        <div class="padded-container padded-container--bottom-shadow">
+        <div class="padded-container padded-container--bottom-shadow details-grid">
 
-          <app-form-text-input #title [form]="form" label="Title" controlName="title"></app-form-text-input>
+          <app-form-text-input #title [form]="form" label="Title" controlName="title" class="title-control"></app-form-text-input>
 
           <ng-container *ngIf="!showAddCategory">
             <ng-container *ngIf="cs.categoryRef$ | async as categories">
-              <app-form-select [form]="form" [selectData]="categories" label="Category" controlName="category">
+              <app-form-select [form]="form" [selectData]="categories" label="Category" controlName="category" class="category-control">
               </app-form-select>
             </ng-container>
-            <button mat-raised-button class="hover-button" style="width: 180px; display:block;"
+            <button mat-raised-button class="hover-button new-category-control"
               (click)="showAddCategory = !showAddCategory;
                $event.preventDefault();
                ">+ New Category</button>
           </ng-container>
 
           <ng-container *ngIf="showAddCategory">
-            <mat-form-field>
-              <input #addCategoryInput matInput placeholder="Category" appAutofocus >
+            <mat-form-field  class="category-control">
+              <input #addCategoryInput matInput placeholder="Category" appAutofocus>
             </mat-form-field>
-            <button mat-raised-button style="width: 180px; display:block; margin-bottom: 5px;" color="primary" [disabled]="!addCategoryInput.value"
+            <button mat-raised-button color="primary" [disabled]="!addCategoryInput.value" class="save-category-control"
               (click)="addCategory(addCategoryInput.value, userId);
             showAddCategory = !showAddCategory;
             $event.preventDefault();">Save Category</button>
-            <button mat-raised-button style="width: 180px; display:block;" color="accent"
+            <button mat-raised-button color="accent" class="back-category-control"
               (click)="showAddCategory = !showAddCategory;$event.preventDefault();">Back</button>
           </ng-container>
 
           
-          <div style="padding-top: 10px; font-size: 24px;">
+          <div style="padding-top: 10px; font-size: 24px;" class="fill-in-blank-control">
             <mat-checkbox formControlName="fillInBlankMode" data-cy="fill-in-blank-mode">Fill in Blank Mode</mat-checkbox>
+            
+              <div class="help-tip">
+                <fa-icon [icon]="questionIcon"></fa-icon> Question overwrites Answer to keep Fill-in-Blanks in sync
+              </div>
           </div>
 
-          <div style="padding-top: 10px; font-size: 24px;">
+          <div style="padding-top: 10px; font-size: 24px;" class="preview-control">
             <mat-checkbox formControlName="previewMode" data-cy="preview-mode">Preview Mode</mat-checkbox>
+            <div class="help-tip">
+              <fa-icon [icon]="questionIcon"></fa-icon> Display Question & Answer as Markdown
+            </div>
           </div>
 
             
@@ -121,7 +128,7 @@
         <div style="padding: 5px;">
           <button [disabled]="!form.valid" (click)="onSubmit(userId)" mat-raised-button color="primary"
             data-cy="submit-content-button" class="submit-content-button">
-            <h3>Submit</h3>
+            <h3>Save</h3>
           </button>
         </div>
 
