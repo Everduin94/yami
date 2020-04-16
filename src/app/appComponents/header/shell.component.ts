@@ -4,6 +4,7 @@ import { Theme } from '../../models/theme.model';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { RouterOutlet } from '@angular/router';
 import { fader } from 'src/app/route-animations';
+import {faRocket} from '@fortawesome/free-solid-svg-icons/faRocket';
 
 @Component({
   selector: 'app-shell',
@@ -14,6 +15,8 @@ import { fader } from 'src/app/route-animations';
   ]
 })
 export class ShellComponent implements OnInit {
+
+  rocketIcon=faRocket;
 
   constructor(private themeService: ThemeService, public auth: FirebaseAuthService) { }
 

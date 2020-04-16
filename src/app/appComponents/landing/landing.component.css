@@ -1,0 +1,10 @@
+:host {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    min-height: 0;
+    overflow: hidden;
+    font-size: 24px;
+}
