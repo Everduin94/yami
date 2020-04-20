@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, Observable, merge, combineLatest, asyncScheduler } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, merge, combineLatest, asyncScheduler, of } from 'rxjs';
 import { startWith, scan, map, withLatestFrom, switchMap, shareReplay, filter, tap, observeOn } from 'rxjs/operators';
 import { FibUtil } from '../featureComponents/add-base/fib-util';
 import { FirebaseAuthService } from './firebase-auth.service';
@@ -44,9 +44,12 @@ export class ClientStateService {
   categoryChangeEvent = new BehaviorSubject('');
   category$ = this.categoryChangeEvent.asObservable();
   content$ = combineLatest([this.category$, this.auth.userId$]).pipe(
-    filter(([category, userId]) => !!category),
+    // filter(([category, userId]) => !!category),
     map(([category, userId]) => ({ category, userId })),
-    switchMap(data => this.cs.getUsersContentFromFS(data.userId, ref => ref.where('category', '==', data.category))),
+    switchMap(data => {
+      if (!data.category) return of([]);
+      return this.cs.getUsersContentFromFS(data.userId, ref => ref.where('category', '==', data.category))
+    }),
     map(v => v.map((b,i) => ({...b, index: i}))),
     shareReplay(1)
   );

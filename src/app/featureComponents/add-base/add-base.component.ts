@@ -56,6 +56,16 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       if (this.fillInBlankMode.value) this.answer.patchValue(v);
     });
 
+    const categorySub = this.category.valueChanges.subscribe(v => {
+      this.client.updateCategory(v);
+    });
+
+    const clientCategorySub = this.client.category$.subscribe(v => {
+      this.category.patchValue(v, {emitEvent:false});
+    })
+
+    this.formSubscriptions.add(categorySub);
+    this.formSubscriptions.add(clientCategorySub);
     this.formSubscriptions.add(questionSub);
     this.formSubscriptions.add(fillInBlankSub);
   }
@@ -80,8 +90,9 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     };
 
     this.cs.addContentToFS(userId, payload);
+    const category = this.category.value;
+    this.form.reset({category});
     this.client.updateActiveContent({});
-    this.form.reset();
   }
 
   addRow() {
@@ -95,13 +106,15 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     if (this.titleElement && this.titleElement.inputElement) { // TODO: Use Renderer / update to Question?
       this.titleElement.inputElement.nativeElement.focus();
     }
-
-    this.form.reset();
+    
+    const category = this.category.value;
+    this.form.reset({category});
   }
 
   deleteRow(userId, selection) {
     this.cs.deleteContentFromFS(userId, selection.id);
-    this.form.reset();
+    const category = this.category.value;
+    this.form.reset({category});
     this.client.updateActiveContent({});
   }
 
