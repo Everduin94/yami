@@ -15,7 +15,8 @@ import { take } from 'rxjs/operators';
 })
 export class AddBaseComponent implements OnInit, OnDestroy {
 
-
+  readonly textAreaPlaceholder = `# Heading\n## Sub Heading\n### ...\nList\n- One\n- Two\nFIB Fill in blank FIB\n**Bold**\n*Italics*\n--- (line)`
+  
   form: FormGroup;
   showAddCategory = false;
   formSubscriptions: Subscription = new Subscription();
@@ -29,8 +30,6 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-
-    
     this.form = this.fb.group({
       category: new FormControl('', [Validators.required]),
       title: new FormControl('', [Validators.required]),
@@ -112,10 +111,14 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   }
 
   deleteRow(userId, selection) {
-    this.cs.deleteContentFromFS(userId, selection.id);
-    const category = this.category.value;
-    this.form.reset({category});
-    this.client.updateActiveContent({});
+
+    if (window.confirm('Are you sure you want to delete this card?')) {
+      this.cs.deleteContentFromFS(userId, selection.id);
+      const category = this.category.value;
+      this.form.reset({category});
+      this.client.updateActiveContent({});
+    }
+    
   }
 
   updateForm(event) {

@@ -52,7 +52,7 @@
             <div [innerHtml]="question.value | mdToHtml:'question'" data-cy="preview-question" class="preview-div"></div>
           </ng-container>
           <ng-template #questionEl>
-            <app-form-textarea [form]="form" label="Create a Question using Markdown!" controlName="question"></app-form-textarea>
+            <app-form-textarea [form]="form" [label]="textAreaPlaceholder" controlName="question"></app-form-textarea>
           </ng-template>
           
 
@@ -67,7 +67,7 @@
             <div [innerHtml]="answer.value | mdToHtml:'answer':[]" data-cy="preview-answer"></div>
           </ng-container>
           <ng-template #answerEl>
-            <app-form-textarea [disabled]="answer.disabled" [form]="form" label="Create an Answer using Markdown!" controlName="answer"></app-form-textarea>
+            <app-form-textarea [disabled]="answer.disabled" [form]="form" [label]="textAreaPlaceholder" controlName="answer"></app-form-textarea>
           </ng-template>
 
         </div>
@@ -120,13 +120,11 @@
               <fa-icon [icon]="questionIcon"></fa-icon> Display Question & Answer as Markdown
             </div>
           </div>
-
-            
-
+          
         </div>
 
         <div style="padding: 5px;">
-          <button [disabled]="!form.valid" (click)="onSubmit(userId)" mat-raised-button color="primary"
+          <button [disabled]="!form.valid" mat-raised-button color="primary"
             data-cy="submit-content-button" class="submit-content-button">
             <h3>Save</h3>
           </button>
