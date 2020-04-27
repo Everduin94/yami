@@ -15,7 +15,6 @@ export class FormTextInputComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('text input:', this.inputElement);
   }
 
 }

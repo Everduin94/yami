@@ -56,7 +56,7 @@ export class FirebaseAuthService {
       const credential = await this.afAuth.auth.signInWithPopup(provider);
       this.errors.next(null);
       this.updateUserData(credential.user);
-      this.router.navigate(['/']);
+      this.router.navigate(['/guides']);
     } catch (e) {
       this.errors.next({ message: "Failed to Login!", exception: e })
     }

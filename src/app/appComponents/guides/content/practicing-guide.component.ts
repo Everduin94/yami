@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-practicing-guide',
   template: `
   
+  <h1> Work in Progress </h1>
 
   To start practicing the flash-cards you've created on the manage screen, navigate to the practice section and select a category.
 

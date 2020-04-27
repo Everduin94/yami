@@ -4,7 +4,7 @@ import { PageNotFoundComponent } from './appComponents/page-not-found/page-not-f
 import { LoginComponent } from './appComponents/login/login.component';
 import { ShellComponent } from './appComponents/header/shell.component';
 import { FlashCardsGuard } from './guards/flash-cards.guard';
-import { PrototypeComponent } from './appComponents/prototype/prototype.component';
+import { LandingComponent } from './appComponents/landing/landing.component';
 
 const routes: Routes = [
   {
@@ -23,15 +23,23 @@ const routes: Routes = [
         canLoad: [FlashCardsGuard],
         canActivate: [FlashCardsGuard]
       },
-      { path: 'prototype', component: PrototypeComponent },
-      { 
-        path: 'guides', 
+      {
+        path: 'guides',
         loadChildren: () => import('./appComponents/guides/guides.module').then(mod => mod.GuidesModule)
-     },
+      },
+      {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
+        path: 'home',
+        component: LandingComponent
+      },
+      {path: '', redirectTo: '/home', pathMatch: 'full'},
 
     ]
   },
-  { path: 'login', component: LoginComponent },
+
   { path: '**', component: PageNotFoundComponent },
 ];
 

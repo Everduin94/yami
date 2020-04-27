@@ -18,6 +18,12 @@
     height: 100%;
 }
 
+.text-overflow {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .body__content {
     min-height: 0;
     overflow-y: auto;

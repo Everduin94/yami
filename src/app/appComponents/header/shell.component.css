@@ -76,19 +76,19 @@
 
 .container__title {
     text-decoration: none;
+    cursor: pointer ;
 }
 
 .item--link--active {
     color: var(--primary-color);
 }
 
-
-button {
-    background: transparent;
-    border: solid 1px var(--background-color);
-    transition: border  0.3s ease-in;
+.log-button {
+    background: var(--box-color);
+    color: var(--text-color);
+    margin-right: 5px;
 }
 
-button:hover {
-    border: solid 1px var(--secondary-color);
+.log-button:hover {
+    background: var(--primary-color);
 }

@@ -6,6 +6,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
   selector: 'app-content-guide',
   template: `
   
+  <h1> Work in Progress </h1>
+
 
   Creating your first card: To create a card navigate to the manage screen by clicking "Manage" in the top left corner of the application. Enter a title, a title is how users can summarize and identify the card. The title will be displayed on each button on the left hand side when practicing or editing existing cards.
 

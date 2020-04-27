@@ -24,6 +24,8 @@ import { StartModule } from './featureComponents/start/start.module';
 import { MdToHtmlModule } from './pipes/md-to-html.module';
 import { FilterListModule } from './featureComponents/filter-list/filter-list.module';
 import { FormComponentsModule } from './formComponents/form-components.module';
+import { LandingComponent } from './appComponents/landing/landing.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { FormComponentsModule } from './formComponents/form-components.module';
     LoginComponent,
     ShellComponent,
     MainComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,7 @@ import { FormComponentsModule } from './formComponents/form-components.module';
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
     ReactiveFormsModule,
     FontAwesomeModule,
+    MatButtonModule,
     PrototypeModule,
     StartModule,
     FilterListModule,

@@ -1,6 +1,37 @@
-<div class="login-container">
-    <button (click)="googleLogin()">Google</button>
-    <button (click)="githubLogin()">Github</button>
+<div class="container">
+    <div style="text-align: center; padding-bottom: 20px;">
+        <fa-icon [icon]="rocket" size="2x"></fa-icon>
+    </div>
+
+    <div>
+        <h3 style="margin-top: 0px; margin-bottom: 0px;">Login or Create Account With</h3>
+        <hr>
+    </div>
+
+
+    <div style="margin-bottom: 5px;">
+        <button class="login-button" (click)="googleLogin()">
+            <div class="login-button__container login-button__container--google">
+                <span class="login-button__icon-container"><img
+                        src="https://assets.gitlab-static.net/assets/auth_buttons/google_64-9ab7462cd2115e11f80171018d8c39bd493fc375e83202fbb6d37a487ad01908.png"
+                        style="height: 22px; margin: 0px;"></span>
+                <span class="login-button__name-container">Google</span>
+            </div>
+        </button>
+    </div>
+    <div>
+
+        
+        <button class="login-button login-button--github" (click)="googleLogin()">
+            <div class="login-button__container login-button__container--github">
+                <span class="login-button__icon-container"><img
+                        src="https://assets.gitlab-static.net/assets/auth_buttons/github_64-84041cd0ea392220da96f0fb9b9473c08485c4924b98c776be1bd33b0daab8c0.png"
+                        style="height: 22px; margin: 0px;"></span>
+                <span class="login-button__name-container login-button--github">Github</span>
+            </div>
+        </button>
+    </div>
+
     <div style="color: crimson" *ngIf="errors$ | async as errors" class="errors">
         {{errors.message}}
         <hr>

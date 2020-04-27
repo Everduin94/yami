@@ -80,11 +80,13 @@ pre {
 }
   
 ::-webkit-scrollbar-track {
-    background: var(--background-color);
+    height: 5px;
+    background: var(--box-color);
 }
   
 ::-webkit-scrollbar-thumb {
-    background: var(--box-color);
+    height: 5px;
+    background: whitesmoke;
 }
   
 /* Firefox */

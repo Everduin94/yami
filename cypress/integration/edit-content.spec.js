@@ -3,8 +3,9 @@
 describe('Starter', () => {
 
     before(() => {
-        cy.visit('http://localhost:4200/manage');
         cy.login();
+        cy.wait(1200); // TODO: Again, hackky.
+        cy.visit('http://localhost:4200/manage');
     })
 
 
@@ -53,6 +54,15 @@ describe('Starter', () => {
         cy.get('[data-cy=card-0]').click(); // TODO: Fragile
         cy.get('[data-cy=submit-content-button]').should('be.enabled');
         cy.get('[data-cy=details-header-info]').should('be.visible');
+        cy.get('[data-cy=fill-in-blank-mode]').should('be.visible').click();
+        cy.get('[data-cy=form-textarea-question').should('have.value', 'My Q');
+        cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q').should('be.disabled');
+        cy.get('[data-cy=form-textarea-question').type(' FIB');
+        cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q FIB')
+        cy.get('[data-cy=fill-in-blank-mode]').click();
+        cy.get('[data-cy=preview-mode]').click();
+        cy.get('[data-cy=preview-question]').should('be.visible');
+        cy.get('[data-cy=preview-answer]').should('be.visible');
     })
 
 });

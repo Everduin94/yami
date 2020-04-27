@@ -13,7 +13,7 @@
 
     <div class="center">
 
-        <span class="container__title">
+        <span class="container__title" [routerLink]="['/home']">
             YAMI
         </span>
 
@@ -21,22 +21,20 @@
 
 
     <div class="right">
-
-        <!--<button class="item" (click)="testLight()">🌞</button>
-
-        <button class="item" (click)="testDark()">🌚</button>
-
         <ng-container *ngIf="auth.user$ | async as user; then authenticated else not"></ng-container>
-
+ 
         <ng-template #authenticated>
             <ng-container  *ngIf="auth.user$ | async as user">
-                <img src="{{user.photoURL}}" alt="Avatar" class="login-img item">
-                <button class="item" (click)="logout()">Logout</button>
+                <button mat-raised-button class="log-button" (click)="logout()">
+                    Logout <fa-icon [icon]="rocketIcon"></fa-icon>
+                </button>
             </ng-container>
-        </ng-template>-->
+        </ng-template>
 
         <ng-template #not>
-            <a class="item" [routerLink]="['/login']">Login</a>
+            <button mat-raised-button class="log-button" [routerLink]="['/login']"> 
+                <fa-icon [icon]="rocketIcon"></fa-icon> Login / Sign-Up
+            </button>
         </ng-template>
 
     </div>

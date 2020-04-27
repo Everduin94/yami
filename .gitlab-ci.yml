@@ -2,6 +2,9 @@ image: node:10
 
 variables:
   CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+  CYPRESS_TEST_UID: "$CYPRESS_TEST_UID"
+  TEST_UID: "$CYPRESS_TEST_UID"
+  SERVICE_ACCOUNT: "$SERVICE_ACCOUNT"
 
 build:
   stage: build
@@ -30,7 +33,7 @@ test:
     - npm run test
     - npm install -g wait-on --quiet
     - npm install cypress
-    - npm start & wait-on http-get://localhost:4200/ && npm run cy:run
+    - npm start & wait-on http-get://localhost:4200/ && npm run cy:test
 
 deploy_prod:
   stage: deploy
