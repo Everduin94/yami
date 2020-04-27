@@ -2,7 +2,7 @@ export class MarkdownPreProcessor {
     static questionParser(md: string): string {
         let index = 0;
         const re = new RegExp(/FIB(.*?)FIB/g);
-        return md.replace(re, (match, group) => `<input type="text" class="fill-in-blank" data-cy="fib-${index}" id="fib-${index++}" autocomplete="off">`);
+        return md.replace(re, (match, group) => `<input type="text" class="fill-in-blank" data-cy="fib-${index}" id="fib-${index++}" autocomplete="off" name="noautofill">`);
     }
 
     static answerParser(md: string, givenAnswers: any[]): string {

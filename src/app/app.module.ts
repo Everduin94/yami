@@ -26,6 +26,7 @@ import { FilterListModule } from './featureComponents/filter-list/filter-list.mo
 import { FormComponentsModule } from './formComponents/form-components.module';
 import { LandingComponent } from './appComponents/landing/landing.component';
 import { MatButtonModule } from '@angular/material/button';
+import { LoadingModule } from './libraryComponents/loading/loading.module';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MatButtonModule } from '@angular/material/button';
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
     ReactiveFormsModule,
     FontAwesomeModule,
+    LoadingModule,
     MatButtonModule,
     PrototypeModule,
     StartModule,
