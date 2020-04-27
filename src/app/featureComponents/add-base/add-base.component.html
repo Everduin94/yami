@@ -52,7 +52,7 @@
             <div [innerHtml]="question.value | mdToHtml:'question'" data-cy="preview-question" class="preview-div"></div>
           </ng-container>
           <ng-template #questionEl>
-            <app-form-textarea [form]="form" [label]="textAreaPlaceholder" controlName="question"></app-form-textarea>
+            <app-form-textarea #question [form]="form" [label]="textAreaPlaceholder" controlName="question"></app-form-textarea>
           </ng-template>
           
 
@@ -107,7 +107,7 @@
 
           
           <div style="padding-top: 10px; font-size: 24px;" class="fill-in-blank-control">
-            <mat-checkbox formControlName="fillInBlankMode" data-cy="fill-in-blank-mode">Fill in Blank Mode</mat-checkbox>
+            <mat-checkbox formControlName="isFibMode" data-cy="fill-in-blank-mode">Fill in Blank Mode</mat-checkbox>
             
               <div class="help-tip">
                 <fa-icon [icon]="questionIcon"></fa-icon> Question overwrites Answer to keep Fill-in-Blanks in sync

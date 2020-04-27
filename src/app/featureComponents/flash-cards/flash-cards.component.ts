@@ -1,8 +1,7 @@
-import { Component, ViewChild, Renderer2 } from '@angular/core';
+import { Component } from '@angular/core';
 import { ContentStateService } from 'src/app/services/content-state.service';
-import { QuestionContentComponent } from '../question-content/question-content.component';
-import { FibUtil } from '../add-base/fib-util';
 import { ClientStateService } from 'src/app/services/client-state.service';
+import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 
 @Component({
   selector: 'app-flash-cards',
@@ -14,7 +13,7 @@ export class FlashCardsComponent {
   activeAnswer = null; // TODO: Find a way to refactor out
   answers = [];
 
-  constructor(public cs: ContentStateService, public client: ClientStateService, ) { }
+  constructor(public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService, ) { }
 
   // Lesson: How do you calculate the answers, with just "activeContent?"
   // You can't. You need the inputs. To make this functional, pass in all the necessary state.

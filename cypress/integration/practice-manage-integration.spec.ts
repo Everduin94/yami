@@ -15,6 +15,7 @@ describe('Practice Route', () => {
         cy.get('[data-cy=manage-link]').click();
         cy.wait(3000); // hack again -- make sure animation is done
         cy.get('[data-cy=card-0]').should('be.visible');
+        cy.get('[data-cy=form-textarea-answer]').should('not.be.enabled', ''); // On edit screen
     });
 
 });

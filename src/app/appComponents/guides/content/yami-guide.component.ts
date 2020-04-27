@@ -6,7 +6,9 @@ import { AngularFireStorage } from '@angular/fire/storage';
     selector: 'app-yami-guide',
     template: `
   
-    <h1 style="margin-bottom: 5px;"> What is Yami </h1>
+    
+
+    <h1 style="margin-bottom: 5px;"> What is Yami (Work in Progress) </h1>
 
     <hr style="margin-bottom: 20px; margin-top: 0px;">
 

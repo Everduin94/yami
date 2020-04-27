@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-form-textarea',
@@ -11,6 +11,7 @@ export class FormTextareaComponent implements OnInit {
   @Input() controlName;
   @Input() label;
   @Input() disabled;
+  @ViewChild('inputEl', {static: true}) inputElement;
 
   constructor() { }
 

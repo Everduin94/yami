@@ -4,13 +4,9 @@ import { Component } from '@angular/core';
   selector: 'app-markdown-guide',
   template: `
   
-  For a detailed guide on Markdown, see here: ADD LINK
   
-  STUDY MD
-  
-  YOU CAN WRITE HTML
 
-
+  <h1> Work in Progress </h1>
 
   `,
   styles: ['']

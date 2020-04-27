@@ -23,7 +23,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   readonly questionIcon = faQuestion;
 
-  @ViewChild('title', { static: false }) titleElement;
+  @ViewChild('question', { static: false }) questionElement;
 
   constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { }
 
@@ -35,24 +35,25 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       title: new FormControl('', [Validators.required]),
       question: new FormControl('', [Validators.required]),
       answer: new FormControl('', [Validators.required]),
-      fillInBlankMode: new FormControl(false),
+      isFibMode: new FormControl(false),
       previewMode: new FormControl(false),
     });
 
 
     this.client.activeContent$.pipe(take(1)).subscribe(v => {
       this.form.patchValue(v, {emitEvent: false})
+      return v.isFibMode ? this.answer.disable() : this.answer.enable();
     });
 
     
-    const fillInBlankSub = this.fillInBlankMode.valueChanges.subscribe(v => {
+    const fillInBlankSub = this.isFibMode.valueChanges.subscribe(v => {
       // Side Effects (Refactor) 
       v ? this.answer.disable() : this.answer.enable();
       if (v) this.answer.patchValue(this.question.value);
     });
 
     const questionSub = this.question.valueChanges.subscribe(v => {
-      if (this.fillInBlankMode.value) this.answer.patchValue(v);
+      if (this.isFibMode.value) this.answer.patchValue(v);
     });
 
     const categorySub = this.category.valueChanges.subscribe(v => {
@@ -85,7 +86,8 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       question: this.question.value,
       answer: this.answer.value,
       category: this.category.value,
-      fib: FibUtil.getPredefinedAnswers(this.question.value)
+      fib: FibUtil.getPredefinedAnswers(this.question.value),
+      isFibMode: this.isFibMode.value
     };
 
     this.cs.addContentToFS(userId, payload);
@@ -99,11 +101,12 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       answer: '',
       question: '',
       title: '',
-      category: ''
+      category: '',
+      isFibMode: false
     });
 
-    if (this.titleElement && this.titleElement.inputElement) { // TODO: Use Renderer / update to Question?
-      this.titleElement.inputElement.nativeElement.focus();
+    if (this.questionElement && this.questionElement.inputElement) { // TODO: Use Renderer / update to Question?
+      this.questionElement.inputElement.nativeElement.focus();
     }
     
     const category = this.category.value;
@@ -142,8 +145,8 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     return this.form.get('category');
   }
 
-  get fillInBlankMode() {
-    return this.form.get('fillInBlankMode');
+  get isFibMode() {
+    return this.form.get('isFibMode');
   }
 
   get previewMode() {

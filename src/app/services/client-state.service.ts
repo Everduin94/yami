@@ -16,6 +16,7 @@ export class ClientStateService {
     answer: '',
     category: '',
     fib: [],
+    isFibMode: false
   });
   public activeContent$: Observable<any> = this.activeContent.asObservable();
 
@@ -51,8 +52,9 @@ export class ClientStateService {
       return this.cs.getUsersContentFromFS(data.userId, ref => ref.where('category', '==', data.category))
     }),
     map(v => v.map((b,i) => ({...b, index: i}))),
+    tap(v => console.log('from content$', v)),
     shareReplay(1)
-  );
+  ); // TODO: Active content can't be the same because of that map above. So I had to switch to ID
 
   // TODO: Okay or refactor?
   activeContentByIndex = new Subject;
