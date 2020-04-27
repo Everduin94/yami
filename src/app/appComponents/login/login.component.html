@@ -22,7 +22,7 @@
     <div>
 
         
-        <button class="login-button login-button--github" (click)="googleLogin()">
+        <button class="login-button login-button--github" (click)="githubLogin()">
             <div class="login-button__container login-button__container--github">
                 <span class="login-button__icon-container"><img
                         src="https://assets.gitlab-static.net/assets/auth_buttons/github_64-84041cd0ea392220da96f0fb9b9473c08485c4924b98c776be1bd33b0daab8c0.png"
@@ -32,7 +32,7 @@
         </button>
     </div>
 
-    <div style="color: crimson" *ngIf="errors$ | async as errors" class="errors">
+    <div *ngIf="errors$ | async as errors" class="errors">
         {{errors.message}}
         <hr>
         {{errors.exception}}

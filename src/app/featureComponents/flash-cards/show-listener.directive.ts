@@ -14,9 +14,11 @@ export class ShowListenerDirective {
 
   @HostListener('window:keydown.control.enter')
   showAnswer() {
+    this.blurQuestion();
     this.updateAnswer(this.toggleAnswer(this.isAnswerShowing))
   }
 
+  blurQuestion = () => { if(document && document.activeElement) { (document.activeElement as HTMLElement).blur(); } };
   // TODO: Refactor
   toggleAnswer = (v) => v === 'show' ? 'hide' : 'show';
   updateAnswer = (v) => this.client.updateIsAnswerShowing(v);
