@@ -41,6 +41,9 @@ describe('Starter', () => {
         // TODO: Add whole new category
         cy.get('[data-cy=submit-content-button]').click();
         cy.get('[data-cy=form-text-input-title]').should('have.value', ''); // Reset Form
+        cy.get('[data-cy=category]').click();
+        cy.get('span.mat-option-text').contains(' DEMO ')
+            .then(option => option[0].click());
         cy.get('[data-cy=card-0]').click(); // TODO: Fragile
         cy.get('[data-cy=form-textarea-question]').should('not.have.value', '');
         cy.get('[data-cy=form-textarea-answer]').should('not.have.value', ''); // On edit screen
@@ -51,6 +54,9 @@ describe('Starter', () => {
 
     it('Details', () => {
         cy.get('[data-cy=details-header-info]').should('have.text', ' - Adding New Content');
+        cy.get('[data-cy=category]').click();
+        cy.get('span.mat-option-text').contains(' DEMO ')
+            .then(option => option[0].click());
         cy.get('[data-cy=card-0]').click(); // TODO: Fragile
         cy.get('[data-cy=submit-content-button]').should('be.enabled');
         cy.get('[data-cy=details-header-info]').should('be.visible');
