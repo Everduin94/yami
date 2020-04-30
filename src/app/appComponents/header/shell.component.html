@@ -2,20 +2,16 @@
 
     <div class="left">
 
-        <a class="item item--link" [routerLink]="['/flashCards']" routerLinkActive="item--link--active" style="margin-right: 5px;">Practice</a>
-        <span class="item--link__divider">|</span>
-        <a class="item item--link" [routerLink]="['/manage']" routerLinkActive="item--link--active" data-cy="manage-link">Manage</a>
-        <span class="item--link__divider">|</span>
-        <a class="item item--link" [routerLink]="['/guides']" routerLinkActive="item--link--active">Guides</a>
+        <span class="container__title" [routerLink]="['/home']">
+            YAMI
+        </span>
 
     </div>
 
 
     <div class="center">
 
-        <span class="container__title" [routerLink]="['/home']">
-            YAMI
-        </span>
+        
 
     </div>
 
@@ -25,10 +21,15 @@
  
         <ng-template #authenticated>
             <ng-container  *ngIf="auth.user$ | async as user">
+                <button class="log-button" mat-raised-button [routerLink]="['/flashCards']" routerLinkActive="log-button-active" style="margin-right: 5px;">Practice</button>
+                <button class="log-button" mat-raised-button [routerLink]="['/manage']" routerLinkActive="log-button-active" data-cy="manage-link">Manage</button>
+                <button class="log-button" mat-raised-button [routerLink]="['/guides']" routerLinkActive="log-button-active">Guides</button>
+                <span class="item--link__divider"> | </span>
                 <button mat-raised-button class="log-button" (click)="logout()">
                     Logout <fa-icon [icon]="rocketIcon"></fa-icon>
                 </button>
             </ng-container>
+
         </ng-template>
 
         <ng-template #not>

@@ -1,30 +1,31 @@
-<div class="summary-container">
-  <div class="text-container">
-    <h3>Flash-cards for Developers</h3>
-    <hr>
-    Yami is a web application designed for creating, saving, and practicing flash-cards
-    written in <em>Markdown</em>, with support for <em>syntax highlighting</em> and <em>fill-in-the-blanks</em>.
-    
+<div class="two">
+  <div class="three">
+    <div>
+      <h1>Flash Cards for Developers</h1>
+      <div class="summary">
+        Create, save, and practice flash cards with<br>  Markdown, Syntax Highlighting, and Fill in the Blanks.
+      </div>
+
+
+      <div>
+        <button color="primary" [routerLink]="['/login']" mat-raised-button>Get Started</button>
+        <button color="accent" [routerLink]="['/guides']" mat-raised-button>Read the Guides</button>
+      </div>
+    </div>
   </div>
-  <div class="button-container">
-    <button color="primary" [routerLink]="['/login']" mat-raised-button>Get Started</button>
-    <button color="accent" [routerLink]="['/guides']" mat-raised-button>Read the Guides</button>
+  <div class="four">
+    <div class=" embed-responsive" *ngIf="landingVideo | async as videoSrc; else loading">
+        <video controls="" controlslist="nodownload" disablepictureinpicture="" autoplay="" loop="" muted="" class="embed-responsive-item">
+          <source [src]="videoSrc" type="video/mp4">
+        </video>
+    </div>
   </div>
 </div>
 
-  <div class="grid-container">
-    <div class="video-container">
-      <ng-container *ngIf="landingVideo | async as videoSrc; else loading">
-        <video class="content" autoplay muted loop>
-          <source [src]="videoSrc" type="video/mp4">
-          My video is broken. Oh no. :(
-        </video>
-      </ng-container>
-    </div>
-  </div>
-    
-
 
 <ng-template #loading>
-  <app-loading></app-loading>
+  <div class="loader">
+    <app-loading></app-loading>
+  </div>
+ 
 </ng-template>
