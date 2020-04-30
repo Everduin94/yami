@@ -16,9 +16,7 @@
 
 .container {
     display:grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     background: var(--box-color);   
 }
 
@@ -70,11 +68,14 @@
 .item--link, .item--link__divider, .container__title {
     font-size: 24px;
     font-weight: 600;
+    margin-left: 10px;
+    margin-right: 10px;
     color: var(--text-color);
     text-decoration: underline;
 }
 
 .container__title {
+    padding-left: 10px;
     text-decoration: none;
     cursor: pointer ;
 }
@@ -89,6 +90,6 @@
     margin-right: 5px;
 }
 
-.log-button:hover {
+.log-button:hover, .log-button-active {
     background: var(--primary-color);
 }
