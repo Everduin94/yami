@@ -9,17 +9,23 @@
 
       <div>
         <button color="primary" [routerLink]="['/login']" mat-raised-button>Get Started</button>
-        <button color="accent" style="color: #1111111" [routerLink]="['/guides']" mat-raised-button>Read the Guides</button>
+        <button color="accent" [routerLink]="['/guides']" mat-raised-button>Read the Guides</button>
       </div>
     </div>
   </div>
   <div class="four">
-    <div class=" embed-responsive">
-      <ng-container *ngIf="landingVideo | async as videoSrc; else loading">
+    <div class=" embed-responsive" *ngIf="landingVideo | async as videoSrc; else loading">
         <video controls="" controlslist="nodownload" disablepictureinpicture="" autoplay="" loop="" muted="" class="embed-responsive-item">
           <source [src]="videoSrc" type="video/mp4">
         </video>
-      </ng-container>
     </div>
   </div>
 </div>
+
+
+<ng-template #loading>
+  <div class="loader">
+    <app-loading></app-loading>
+  </div>
+ 
+</ng-template>

@@ -86,12 +86,12 @@
       -moz-box-shadow: -3px 3px 20px 0px var(--box-shadow);
       box-shadow: -3px 3px 20px 0px var(--box-shadow);
   }
+
+  .loader {
+    justify-self: center;
+    align-self: center;
+  }
   
-  /**
-  Note
-  - If I bring the previous class four div back I believe that the div respects the 16:9. But with 50/50 this is losing a lot of real-estate.
-  - I think if I used 3/7 or something I could go back to that setup to maintain video size.
-  */
 
 
 
