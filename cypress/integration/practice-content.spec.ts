@@ -38,4 +38,11 @@ describe('Starter', () => {
         cy.get('[data-cy=next-button]').click();
         cy.get('[data-cy=card-1]').should('be.visible').should('have.class', 'filter-body__content--active');
     })
+
+    it('should work when a card does not have fib', () => {
+        cy.get('[data-cy=category]').click();
+        cy.get('span.mat-option-text').contains(' History ')
+            .then(option => option[0].click());
+    });
+
 });

@@ -30,12 +30,15 @@ export class ClientStateService {
   answers$ = merge(this.updateAnswersEvent.asObservable(), this.reset$).pipe(
     observeOn(asyncScheduler), // emit in separate macrotask (for when reset emits ) (See notes at bottom)
     scan((acc: any, part) => {
-      if (part.fib) {
+      if (part && part.fib) {
         return part.fib.reduce((acc, v, i) => {
           const key = 'fib-' + i;
           return {...acc, [key]: ""};
         }, {});
-      } 
+      }
+
+      if (!part) return acc;
+
       else return {...acc, ...part};
     }),
     withLatestFrom(this.activeContent$),
@@ -60,7 +63,8 @@ export class ClientStateService {
   activeContentByIndex = new Subject;
   activeContentByIndex$ = this.activeContentByIndex.pipe(
     withLatestFrom(this.content$),
-    tap(([index, content]) => { 
+    tap(([index, content]) => {
+      if (content.length === 0) return;
       let activeContent = content.find(v => v.index === index);
       if (!activeContent) activeContent = content[0];
       this.updateActiveContent(activeContent); // Side Effect

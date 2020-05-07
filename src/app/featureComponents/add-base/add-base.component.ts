@@ -84,7 +84,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     const payload = {
       title: this.title.value,
       question: this.question.value,
-      answer: this.answer.value,
+      answer: this.isFibMode.value ? this.question.value : this.answer.value,
       category: this.category.value,
       fib: FibUtil.getPredefinedAnswers(this.question.value),
       isFibMode: this.isFibMode.value

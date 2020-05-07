@@ -1,22 +1,25 @@
 :host {
     /* TODO: Extract to base component */
-    display: grid;
-    justify-items: center;
-    align-items: center;
+    display: block;
     grid-column: 1 / -1;
     grid-row: 1 / -1;
     min-height: 0;
     overflow: hidden;
+    
 }
 
 .container__filter-list__empty-message {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     gap: 20px;
 }
 
 .container__filter-list {
     border-right: none;
+    grid-row: 1 / -1;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    margin-bottom: 5px;
 }
 
 .container__filter-list__empty-message > div {
@@ -25,8 +28,7 @@
 
 .container {
     display: grid;
-    overflow: auto;
-    grid-template-columns: 2fr 4fr 4fr;
+    grid-template-columns: 2fr 3fr 5fr;
     grid-template-rows: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
     height: 100%;
     width: 100%;
@@ -47,8 +49,16 @@
     gap: 5px;
 }
 
+.actions {
+    grid-row: span 1 / -1;
+    grid-column: 3 / -1;
+    display: flex;
+    justify-self: right;
+    align-self: center;
+}
+
 button {
-    width: 100%;
+    height: min-content;
 }
 
 .help-tip {
@@ -109,16 +119,10 @@ button {
     grid-column: span 2;
 }
 
-.container__filter-list {
-    grid-row: span 4;
-    display: grid;
-    grid-template-rows: minmax(0, 1fr);
-}
-
 .container__meta-data {
     border: 1px solid var(--box-shadow);
-    grid-column: span 1 / -1;
-    grid-row: span 4 / -1;
+    grid-column: span 1 / -2;
+    grid-row: 1 / span 4;
 
     display: grid;
     grid-template-rows:  min-content minmax(0,1fr) min-content;
@@ -150,12 +154,24 @@ button {
 /* End - Details Grid */
 
 .container__question, .container__answer {
+    
     display: grid;
     grid-template-rows: min-content minmax(0,1fr);
-    border-left: 1px solid var(--box-shadow);
     border-top: 1px solid var(--box-shadow);
-    grid-column: span 1 / -2;
+    grid-column: span 1 / -1;
     grid-row: span 2;
+}
+
+.expand {
+    grid-row: span 4;
+}
+
+.other-class {
+    background: var(--box-color);
+}
+
+.other-class:hover {
+    background: var(--primary-color);
 }
 
 .hover-button--warn:hover {
