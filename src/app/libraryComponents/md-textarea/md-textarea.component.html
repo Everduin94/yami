@@ -1,0 +1,14 @@
+
+<div class="buttons-bar">
+  <button>{{test.inputElement.nativeElement.selectionStart}}</button>
+  <button>{{test.inputElement.nativeElement.selectionEnd}}</button>
+  <button>{{test.inputElement.nativeElement.tabIndex}}</button>
+  
+  
+  
+</div>
+<app-form-textarea 
+ (keyup)="cd.detectChanges()"
+ (mouseup)="cd.detectChanges()"
+#test [form]="form" [label]="label" [controlName]="controlName" [disabled]="disabled">
+</app-form-textarea>

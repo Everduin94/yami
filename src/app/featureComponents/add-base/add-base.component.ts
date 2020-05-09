@@ -23,10 +23,14 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   readonly questionIcon = faQuestion;
 
-  @ViewChild('question', { static: false }) questionElement;
+  @ViewChild('title', { static: false }) titleElement;
 
   constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { }
 
+
+  test() {
+    console.log('hi')
+  }
 
   ngOnInit() {
 
@@ -34,15 +38,14 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       category: new FormControl('', [Validators.required]),
       title: new FormControl('', [Validators.required]),
       question: new FormControl('', [Validators.required]),
-      answer: new FormControl('', [Validators.required]),
+      answer: new FormControl(''),
       isFibMode: new FormControl(false),
       previewMode: new FormControl(false),
     });
 
 
-    this.client.activeContent$.pipe(take(1)).subscribe(v => {
+    const activeContentSub = this.client.activeContent$.subscribe(v => {
       this.form.patchValue(v, {emitEvent: false})
-      return v.isFibMode ? this.answer.disable() : this.answer.enable();
     });
 
     
@@ -64,10 +67,14 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       this.category.patchValue(v, {emitEvent:false});
     })
 
+    const contentByIdSub = this.client.activeContentById$.subscribe();
+
+    this.formSubscriptions.add(activeContentSub);
     this.formSubscriptions.add(categorySub);
     this.formSubscriptions.add(clientCategorySub);
     this.formSubscriptions.add(questionSub);
     this.formSubscriptions.add(fillInBlankSub);
+    this.formSubscriptions.add(contentByIdSub);
   }
 
   ngOnDestroy(): void {
@@ -80,7 +87,8 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   }
 
 
-  onSubmit(userId) {
+  onSubmit(userId, activeContent) {
+    console.log('yo!')
     const payload = {
       title: this.title.value,
       question: this.question.value,
@@ -90,7 +98,12 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       isFibMode: this.isFibMode.value
     };
 
-    this.cs.addContentToFS(userId, payload);
+    if (activeContent && activeContent.id) {
+      this.cs.updateContentOnFS(userId, activeContent.id, payload);
+    } else {
+      this.cs.addContentToFS(userId, payload);
+    }
+
     const category = this.category.value;
     this.form.reset({category});
     this.client.updateActiveContent({});
@@ -101,16 +114,20 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       answer: '',
       question: '',
       title: '',
-      category: '',
+      category: this.category.value,
       isFibMode: false
     });
 
-    if (this.questionElement && this.questionElement.inputElement) { // TODO: Use Renderer / update to Question?
-      this.questionElement.inputElement.nativeElement.focus();
+    if (this.titleElement && this.titleElement.inputElement) { // TODO: Use Renderer / update to Question?
+      this.titleElement.inputElement.nativeElement.focus();
     }
     
     const category = this.category.value;
     this.form.reset({category});
+  }
+
+  cancel(selection) {
+    this.form.reset(selection);
   }
 
   deleteRow(userId, selection) {
@@ -122,6 +139,22 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       this.client.updateActiveContent({});
     }
     
+  }
+
+  async copyRow(userId, activeContent) {
+    const title = this.title.value + ' (copy)';
+    console.log(title);
+    const payload = {
+      title: title,
+      question: this.question.value,
+      answer: this.isFibMode.value ? this.question.value : this.answer.value,
+      category: this.category.value,
+      fib: FibUtil.getPredefinedAnswers(this.question.value),
+      isFibMode: this.isFibMode.value
+    };
+
+    const copiedCard = await this.cs.addContentToFS(userId, payload);
+    this.client.updateActiveContentById(copiedCard.id);
   }
 
   updateForm(event) {

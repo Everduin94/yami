@@ -23,9 +23,18 @@ export class ContentStateService {
     this.fs.createItemsEntryById("categories", userId, entry);
   }
 
+  readContentFromFS(userId, id) {
+    if (!userId) return;
+    return this.fs.getItemById("flash_cards", userId, id);
+  }
+
   addContentToFS(userId, entry) {
     if (!userId) return;
-    this.fs.createItemsEntryById("flash_cards", userId, entry);
+    return this.fs.createItemsEntryById("flash_cards", userId, entry);
+  }
+
+  updateContentOnFS(userId, documentId, entry) {
+    return this.fs.updateItemsEntryById("flash_cards", userId, documentId, entry);
   }
 
   deleteContentFromFS(userId, entryId) {

@@ -20,6 +20,7 @@ export class ClientStateService {
   });
   public activeContent$: Observable<any> = this.activeContent.asObservable();
 
+
   isAnswerShowing = new Subject();
   public isAnswerShowing$ = this.isAnswerShowing.asObservable().pipe(
     startWith("hide")
@@ -55,12 +56,11 @@ export class ClientStateService {
       return this.cs.getUsersContentFromFS(data.userId, ref => ref.where('category', '==', data.category))
     }),
     map(v => v.map((b,i) => ({...b, index: i}))),
-    tap(v => console.log('from content$', v)),
     shareReplay(1)
   ); // TODO: Active content can't be the same because of that map above. So I had to switch to ID
 
-  // TODO: Okay or refactor?
-  activeContentByIndex = new Subject;
+  // TODO: Okay or refactor? -- Yes refactor both (05/07/2020)
+  activeContentByIndex = new Subject();
   activeContentByIndex$ = this.activeContentByIndex.pipe(
     withLatestFrom(this.content$),
     tap(([index, content]) => {
@@ -71,12 +71,27 @@ export class ClientStateService {
     })
   )
 
+  activeContentById = new Subject();
+  activeContentById$  = this.activeContentById.asObservable().pipe(
+    withLatestFrom(this.content$),
+    tap(([id, content]) => {
+      if (content.length === 0) return;
+      let activeContent = content.find(v => v.id === id);
+      if (!activeContent) return;
+      this.updateActiveContent(activeContent); // Side Effect
+    })
+  );
+
 
   constructor(private auth: FirebaseAuthService, private cs: ContentStateService) {
    }
 
   public updateActiveContentByIndex(i) {
     this.activeContentByIndex.next(i);
+  }
+
+  public updateActiveContentById(i) {
+    this.activeContentById.next(i);
   }
 
   public updateActiveContent(value) {

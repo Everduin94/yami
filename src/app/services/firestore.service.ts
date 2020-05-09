@@ -28,6 +28,10 @@ export class FirestoreService {
     return this.getAll(tableName).add(entry);
   }
 
+  getItemById(tableName, userId, id) {
+    return this.get(tableName, userId).collection("items").doc(id);
+  }
+
   createItemsEntryById(tableName, userId, entry: any) {
     return this.get(tableName, userId).collection("items").add(entry);
   }

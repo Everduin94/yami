@@ -25,7 +25,7 @@ describe('Starter', () => {
         cy.get('[data-cy=submit-content-button]').should('be.disabled');
         cy.get('[data-cy=form-text-input-title]').should('be.visible');
         cy.get('[data-cy=form-textarea-question]').should('be.visible');
-        cy.get('[data-cy=form-textarea-answer]').should('be.visible');
+        // cy.get('[data-cy=form-textarea-answer]').should('be.visible');
         cy.get('[data-cy=form-select-category]').should('be.visible')
     });
 
@@ -34,7 +34,7 @@ describe('Starter', () => {
         cy.get('[data-cy=submit-content-button]').should('not.be.enabled');
         cy.get('[data-cy=form-text-input-title]').type('Cypress Full API')
         cy.get('[data-cy=form-textarea-question]').type('My Q')
-        cy.get('[data-cy=form-textarea-answer]').type('My A');
+        // cy.get('[data-cy=form-textarea-answer]').type('My A');
         cy.get('[data-cy=form-select-category]').click();
         cy.get('span.mat-option-text').contains(' DEMO ')
             .then(option => option[0].click()); // Side effect - Form Updates. 
@@ -45,10 +45,20 @@ describe('Starter', () => {
         cy.get('[data-cy=card-0]').should('be.visible');
         cy.get('[data-cy=card-0]').click(); // TODO: Fragile
         cy.get('[data-cy=form-textarea-question]').should('not.have.value', '');
-        cy.get('[data-cy=form-textarea-answer]').should('not.have.value', ''); // On edit screen
+
+
+        cy.get('[data-cy=copy-content-button]').click();
+        cy.get('[data-cy=card-1]').should('be.visible');
+        cy.get('[data-cy=card-1]').click();
+        // cy.get('[data-cy=form-textarea-answer]').should('not.have.value', ''); // On edit screen
         cy.get('[data-cy=delete-content-button]').click();
         cy.get('[data-cy=form-textarea-question]').should('have.value', '');
-        cy.get('[data-cy=form-textarea-answer]').should('have.value', ''); // On edit screen
+        // cy.get('[data-cy=form-textarea-answer]').should('not.be.visible'); // Because fill in blank
+
+        cy.get('[data-cy=card-0]').should('be.visible');
+        cy.get('[data-cy=card-0]').click();
+        cy.get('[data-cy=delete-content-button]').click();
+        cy.get('[data-cy=form-textarea-question]').should('have.value', '');
     });
 
     it('Details', () => {
@@ -63,13 +73,13 @@ describe('Starter', () => {
         cy.get('[data-cy=details-header-info]').should('be.visible');
         cy.get('[data-cy=fill-in-blank-mode]').should('be.visible').click();
         cy.get('[data-cy=form-textarea-question').should('have.value', 'My Q');
-        cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q').should('be.disabled');
+        // cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q').should('be.disabled');
         cy.get('[data-cy=form-textarea-question').type(' FIB');
-        cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q FIB')
+        // cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q FIB')
         cy.get('[data-cy=fill-in-blank-mode]').click();
         cy.get('[data-cy=preview-mode]').click();
         cy.get('[data-cy=preview-question]').should('be.visible');
         cy.get('[data-cy=preview-answer]').should('be.visible');
-    })
+    });
 
 });

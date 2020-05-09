@@ -13,6 +13,7 @@
     --text-color: #ffffff;
     --border-color:#ffffff;
     --box-shadow: #111111;
+    --cancel-color: #37474f;
 }
 
 body {
@@ -94,4 +95,11 @@ pre {
 * {
     scrollbar-width: thin;
     scrollbar-color: var(--box-color) var(--background-color);
+}
+
+
+table, td, th {
+    padding: 5px;
+    border-collapse: collapse;
+    border: 1px solid var(--primary-color);
 }

@@ -49,12 +49,17 @@
     gap: 5px;
 }
 
-.actions {
+.save-cancel {
     grid-row: span 1 / -1;
     grid-column: 3 / -1;
     display: flex;
     justify-self: right;
     align-self: center;
+}
+
+.save-cancel > button {
+    width: 100%;
+    margin: 5px;
 }
 
 button {
@@ -144,6 +149,10 @@ button {
     grid-column: span 2;
 }
 
+.preview-control { 
+    text-align: center;
+}
+
 .save-category-control, .back-category-control {
     grid-column: span 1;
 }
@@ -174,11 +183,15 @@ button {
     background: var(--primary-color);
 }
 
+.hover-button--cancel:hover {
+    background: var(--cancel-color);
+}
+
 .hover-button--warn:hover {
     background: var(--warn-color);
 }
 /* dup */
-.submit-content-button, .hover-button, .hover-button--warn {
+.submit-content-button, .hover-button, .hover-button--warn, .hover-button--cancel {
     background: var(--box-color);
 }
 
