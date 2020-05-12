@@ -48,7 +48,8 @@
               </div>
             </ng-container>
             <ng-template #questionEl>
-              <app-md-textarea (keydown.enter)="$event.stopPropagation();" #question [form]="form" [label]="textAreaPlaceholder" controlName="question">
+              <app-md-textarea (keydown.enter)="$event.stopPropagation();" #question [form]="form"
+                [label]="textAreaPlaceholder" controlName="question">
               </app-md-textarea>
             </ng-template>
 
@@ -58,14 +59,15 @@
 
         <div class="container__answer" *ngIf="!isFibMode.value">
           <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
-          <div class="padded-container padded-container--bottom-shadow">
+          <div class="padded-container--bottom-shadow">
 
             <ng-container *ngIf="previewMode.value && answer?.value; else answerEl">
               <div [innerHtml]="answer.value | mdToHtml:'answer':[]" data-cy="preview-answer"></div>
             </ng-container>
             <ng-template #answerEl>
-              <app-form-textarea [disabled]="answer.disabled" [form]="form" [label]="textAreaPlaceholder"
-                controlName="answer"></app-form-textarea>
+              <app-md-textarea (keydown.enter)="$event.stopPropagation();" #answer [form]="form"
+                [label]="textAreaPlaceholder" controlName="answer">
+              </app-md-textarea>
             </ng-template>
 
           </div>
@@ -88,21 +90,23 @@
                   class="category-control">
                 </app-form-select>
               </ng-container>
+              <span>
+                <!-- Filler --></span>
               <button mat-raised-button class="hover-button new-category-control" (click)="showAddCategory = !showAddCategory;
                $event.preventDefault();
-               ">+ New Category</button>
+               ">Add New Category</button>
             </ng-container>
 
             <ng-container *ngIf="showAddCategory">
               <mat-form-field class="category-control">
-                <input #addCategoryInput matInput placeholder="Category" appAutofocus>
+                <input #addCategoryInput matInput placeholder="Category *" appAutofocus>
               </mat-form-field>
+              <button mat-raised-button class="back-category-control hover-button--cancel"
+                (click)="showAddCategory = !showAddCategory;$event.preventDefault();">Back</button>
               <button mat-raised-button color="primary" [disabled]="!addCategoryInput.value"
                 class="save-category-control" (click)="addCategory(addCategoryInput.value, userId);
             showAddCategory = !showAddCategory;
             $event.preventDefault();">Save Category</button>
-              <button mat-raised-button color="accent" class="back-category-control"
-                (click)="showAddCategory = !showAddCategory;$event.preventDefault();">Back</button>
             </ng-container>
 
 
@@ -115,7 +119,9 @@
               </div>
             </div>
 
-
+            <app-form-select [form]="form" [selectData]="[{id: 'default', value: 'Default'}]" label="Group (Optional)"
+              controlName="group" class="category-control">
+            </app-form-select>
 
           </div>
 

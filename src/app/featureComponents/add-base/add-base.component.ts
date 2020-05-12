@@ -37,10 +37,13 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       category: new FormControl('', [Validators.required]),
       title: new FormControl('', [Validators.required]),
+      group: new FormControl('default'),
+      // type: new FormControl('', [Validators.required]),
       question: new FormControl('', [Validators.required]),
       answer: new FormControl(''),
       isFibMode: new FormControl(false),
       previewMode: new FormControl(false),
+      
     });
 
 
@@ -88,14 +91,15 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
 
   onSubmit(userId, activeContent) {
-    console.log('yo!')
     const payload = {
       title: this.title.value,
       question: this.question.value,
       answer: this.isFibMode.value ? this.question.value : this.answer.value,
       category: this.category.value,
+      // type: this.type.value,
       fib: FibUtil.getPredefinedAnswers(this.question.value),
-      isFibMode: this.isFibMode.value
+      isFibMode: this.isFibMode.value,
+      group: this.group.value ? this.group.value : 'default'
     };
 
     if (activeContent && activeContent.id) {
@@ -164,6 +168,10 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   /* Getters */
   get title() {
     return this.form.get('title');
+  }
+
+  get group() {
+    return this.form.get('group');
   }
 
   get question() {

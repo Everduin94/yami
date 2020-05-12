@@ -14,6 +14,8 @@
     --border-color:#ffffff;
     --box-shadow: #111111;
     --cancel-color: #37474f;
+    --dark-primary: rgb(41, 121, 255, 0.55);
+    --light-primary: #75a7ff;
 }
 
 body {
@@ -71,8 +73,32 @@ pre {
     line-height: 3;
 }
 
+
+
+/* Material Overrides */
 .mat-form-field-flex {
     height: 100%;
+}
+
+mat-option {
+    background: var(--box-shadow);
+}
+
+mat-option:hover {
+    background: var(--cancel-color);
+}
+
+mat-option.mat-option:hover {
+    background: var(--background-color) !important;
+}
+
+mat-option.mat-option.mat-active {
+    background: var(--primary-color) !important;
+}
+
+mat-option.mat-option.mat-selected {
+    color: #111111 !important;
+    background: var(--light-primary) !important;
 }
 
 /* Chromium */

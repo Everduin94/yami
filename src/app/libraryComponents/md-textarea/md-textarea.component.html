@@ -1,14 +1,35 @@
 
 <div class="buttons-bar">
-  <button>{{test.inputElement.nativeElement.selectionStart}}</button>
-  <button>{{test.inputElement.nativeElement.selectionEnd}}</button>
-  <button>{{test.inputElement.nativeElement.tabIndex}}</button>
+
+  <!-- <select>
+    <option value="">
+    </option>
+    <option #test [value]="token.headingOne"
+    (click)="applyToken(
+    textarea.inputElement.nativeElement.value,
+    textarea.inputElement.nativeElement.selectionStart,
+    textarea.inputElement.nativeElement.selectionEnd,
+    token.headingOne
+    ); $event.preventDefault();">
+      Heading
+    </option>
+  </select> --> <!-- Remove select and use a custom element -->
+
+
+  <button *ngFor="let action of actions" (click)="applyToken(
+    textarea.inputElement.nativeElement.value,
+    textarea.inputElement.nativeElement.selectionStart,
+    textarea.inputElement.nativeElement.selectionEnd,
+    action.token
+    ); $event.preventDefault();
+    applyFocus(textarea.inputElement.nativeElement.selectionStart)">
+    <fa-icon [icon]="action.icon"></fa-icon>
+  </button>
   
-  
-  
+
 </div>
 <app-form-textarea 
  (keyup)="cd.detectChanges()"
  (mouseup)="cd.detectChanges()"
-#test [form]="form" [label]="label" [controlName]="controlName" [disabled]="disabled">
+#textarea [form]="form" [label]="label" [controlName]="controlName" [disabled]="disabled">
 </app-form-textarea>

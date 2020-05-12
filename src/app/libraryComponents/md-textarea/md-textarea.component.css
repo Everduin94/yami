@@ -10,3 +10,20 @@
     box-shadow:  0 4px 3px -3px var(--box-shadow);
     padding: 5px;
 }
+
+button {
+    border: 0;
+    appearance: none;
+    cursor: pointer;
+    background: transparent;
+}
+
+fa-icon {
+    transition: color .2s linear;
+    color: var(--text-color);
+    padding: 5px;
+}
+
+fa-icon:hover {
+    color: var(--primary-color);
+}
