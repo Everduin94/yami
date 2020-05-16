@@ -2,8 +2,8 @@
   <mat-form-field style="width: 100%">
     <mat-label>{{label}}</mat-label>
     <mat-select [formControlName]="controlName" [attr.data-cy]="'form-select-' + controlName" autocomplete="off">
-      <mat-option *ngFor="let category of selectData" [value]="category.value">
-        {{category.value}}
+      <mat-option *ngFor="let data of selectData" [value]="data.id">
+        {{data.value}}
       </mat-option>
     </mat-select>
   </mat-form-field>

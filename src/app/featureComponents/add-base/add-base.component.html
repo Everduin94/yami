@@ -39,7 +39,7 @@
 
         </div>
 
-        <div class="container__question" [class.expand]="isFibMode.value">
+        <div class="container__question" [class.expand]="type.value === 'fib'">
           <app-header-span dataCy="question-header" label="Question *"></app-header-span>
           <div>
 
@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <div class="container__answer" *ngIf="!isFibMode.value">
+        <div class="container__answer" *ngIf="type.value !== 'fib'">
           <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
           <div class="padded-container--bottom-shadow">
 
@@ -84,43 +84,19 @@
             <app-form-text-input #title [form]="form" label="Name *" controlName="title" class="title-control">
             </app-form-text-input>
 
-            <ng-container *ngIf="!showAddCategory">
-              <ng-container *ngIf="cs.categoryRef$ | async as categories">
-                <app-form-select [form]="form" [selectData]="categories" label="Category *" controlName="category"
-                  class="category-control">
-                </app-form-select>
+            <ng-container *ngIf="cs.categoryRef$ | async as categories">
+              <ng-container *ngIf="cs.groupRef$ | async as groups">
+                <app-deck-input
+                  [decks]="categories"
+                  [form]="form"
+                  [groups]="groups"> 
+                </app-deck-input>
               </ng-container>
-              <span>
-                <!-- Filler --></span>
-              <button mat-raised-button class="hover-button new-category-control" (click)="showAddCategory = !showAddCategory;
-               $event.preventDefault();
-               ">Add New Category</button>
             </ng-container>
+            
 
-            <ng-container *ngIf="showAddCategory">
-              <mat-form-field class="category-control">
-                <input #addCategoryInput matInput placeholder="Category *" appAutofocus>
-              </mat-form-field>
-              <button mat-raised-button class="back-category-control hover-button--cancel"
-                (click)="showAddCategory = !showAddCategory;$event.preventDefault();">Back</button>
-              <button mat-raised-button color="primary" [disabled]="!addCategoryInput.value"
-                class="save-category-control" (click)="addCategory(addCategoryInput.value, userId);
-            showAddCategory = !showAddCategory;
-            $event.preventDefault();">Save Category</button>
-            </ng-container>
-
-
-            <div style="padding-top: 10px; font-size: 24px;" class="fill-in-blank-control">
-              <mat-checkbox formControlName="isFibMode" data-cy="fill-in-blank-mode">Fill in the Blank (Cloze)
-              </mat-checkbox>
-
-              <div class="help-tip">
-                <fa-icon [icon]="questionIcon"></fa-icon> Replace answer with fill-in-the-blanks
-              </div>
-            </div>
-
-            <app-form-select [form]="form" [selectData]="[{id: 'default', value: 'Default'}]" label="Group (Optional)"
-              controlName="group" class="category-control">
+            <app-form-select [form]="form" [selectData]="[{id: 'basic', value: 'Basic'}, {id: 'fib', value: 'Fill in Blank (Cloze)'}]" label="Type"
+              controlName="type" class="category-control">
             </app-form-select>
 
           </div>

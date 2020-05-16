@@ -5,6 +5,7 @@ describe('Starter', () => {
     before(() => {
         cy.visit('http://localhost:4200/flashCards');
         cy.login();
+        cy.wait(1000);
     })
 
     it('should find the category drop-down', () => {
@@ -31,10 +32,6 @@ describe('Starter', () => {
 
 
     it('should have a functioning next button', () => {
-        cy.get('[data-cy=category]').click();
-        cy.get('span.mat-option-text').contains(' guide-examples ')
-            .then(option => option[0].click());
-        cy.wait(1200); // Hack: Make sure button is enabled
         cy.get('[data-cy=next-button]').click();
         cy.get('[data-cy=card-1]').should('be.visible').should('have.class', 'filter-body__content--active');
     })

@@ -16,7 +16,11 @@ export class ClientStateService {
     answer: '',
     category: '',
     fib: [],
-    isFibMode: false
+    isFibMode: false,
+
+    deck: '',
+    group: '',
+    type: 'basic',
   });
   public activeContent$: Observable<any> = this.activeContent.asObservable();
 

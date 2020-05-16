@@ -6,7 +6,6 @@ import { FibUtil } from './fib-util';
 import { ClientStateService } from 'src/app/services/client-state.service';
 import { Subscription } from 'rxjs';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-base',
@@ -27,39 +26,25 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { }
 
-
-  test() {
-    console.log('hi')
-  }
-
   ngOnInit() {
 
     this.form = this.fb.group({
       category: new FormControl('', [Validators.required]),
       title: new FormControl('', [Validators.required]),
-      group: new FormControl('default'),
-      // type: new FormControl('', [Validators.required]),
+      
+      
       question: new FormControl('', [Validators.required]),
       answer: new FormControl(''),
-      isFibMode: new FormControl(false),
       previewMode: new FormControl(false),
+
+      group: new FormControl('default'),
+      deck: new FormControl(''),
+      type: new FormControl('basic', [Validators.required]),
       
     });
 
-
     const activeContentSub = this.client.activeContent$.subscribe(v => {
       this.form.patchValue(v, {emitEvent: false})
-    });
-
-    
-    const fillInBlankSub = this.isFibMode.valueChanges.subscribe(v => {
-      // Side Effects (Refactor) 
-      v ? this.answer.disable() : this.answer.enable();
-      if (v) this.answer.patchValue(this.question.value);
-    });
-
-    const questionSub = this.question.valueChanges.subscribe(v => {
-      if (this.isFibMode.value) this.answer.patchValue(v);
     });
 
     const categorySub = this.category.valueChanges.subscribe(v => {
@@ -75,8 +60,6 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     this.formSubscriptions.add(activeContentSub);
     this.formSubscriptions.add(categorySub);
     this.formSubscriptions.add(clientCategorySub);
-    this.formSubscriptions.add(questionSub);
-    this.formSubscriptions.add(fillInBlankSub);
     this.formSubscriptions.add(contentByIdSub);
   }
 
@@ -87,6 +70,12 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   addCategory(inputValue: string, userId) {
     this.cs.addCategoryToFS(userId, { active: true, value: inputValue })
     this.form.patchValue({ category: inputValue })
+    this.form.patchValue({ deck: inputValue })
+  }
+
+
+  addGroup(inputValue:string, userId) {
+    this.cs.addGroupToFS(userId, {active: true, value: inputValue});
   }
 
 
@@ -94,11 +83,11 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     const payload = {
       title: this.title.value,
       question: this.question.value,
-      answer: this.isFibMode.value ? this.question.value : this.answer.value,
+      answer: this.type.value === 'fib' ? this.question.value : this.answer.value,
       category: this.category.value,
-      // type: this.type.value,
+      type: this.type.value,
+      deck: this.category.value,
       fib: FibUtil.getPredefinedAnswers(this.question.value),
-      isFibMode: this.isFibMode.value,
       group: this.group.value ? this.group.value : 'default'
     };
 
@@ -119,7 +108,10 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       question: '',
       title: '',
       category: this.category.value,
-      isFibMode: false
+
+      type: 'basic',
+      deck: this.category.value,
+      group: this.group.value
     });
 
     if (this.titleElement && this.titleElement.inputElement) { // TODO: Use Renderer / update to Question?
@@ -127,7 +119,8 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     }
     
     const category = this.category.value;
-    this.form.reset({category});
+    const group = this.category.value;
+    this.form.reset({category, group});
   }
 
   cancel(selection) {
@@ -151,10 +144,13 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     const payload = {
       title: title,
       question: this.question.value,
-      answer: this.isFibMode.value ? this.question.value : this.answer.value,
+      answer: this.type.value === 'fib' ? this.question.value : this.answer.value,
       category: this.category.value,
       fib: FibUtil.getPredefinedAnswers(this.question.value),
-      isFibMode: this.isFibMode.value
+
+      deck: this.deck.value,
+      type: this.type.value,
+      group: this.group.value ? this.group.value : 'default'
     };
 
     const copiedCard = await this.cs.addContentToFS(userId, payload);
@@ -166,12 +162,21 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   }
 
   /* Getters */
-  get title() {
-    return this.form.get('title');
-  }
-
   get group() {
     return this.form.get('group');
+  }
+
+  get deck() {
+    return this.form.get('deck');
+  }
+
+  get type() {
+    return this.form.get('type');
+  }
+
+
+  get title() {
+    return this.form.get('title');
   }
 
   get question() {
@@ -184,10 +189,6 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   get category() {
     return this.form.get('category');
-  }
-
-  get isFibMode() {
-    return this.form.get('isFibMode');
   }
 
   get previewMode() {

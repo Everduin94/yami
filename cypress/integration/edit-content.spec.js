@@ -2,14 +2,22 @@
 
 describe('Starter', () => {
 
+
     before(() => {
         cy.login();
+
+
+
         cy.wait(1200); // TODO: Again, hackky.
+
+       
         cy.visit('http://localhost:4200/manage');
+        
     })
 
 
     it('should find the category drop-down', () => {
+    
         cy.get('[data-cy=filters-header').should('be.visible');
         cy.get('[data-cy=category]').should('be.visible');
         cy.wait(750); // Hack, until we figure out server firebase mocking

@@ -16,11 +16,23 @@ export class ContentStateService {
     shareReplay(1)
   );
 
+  groupRef$ = this.auth.userId$.pipe(
+    switchMap(id => this.fs.get(`groups`, id).collection('items').valueChanges({ idField: 'id' })),
+    map(item => item.filter(val => val.active).map(val => ({ value: val.value, id: val.id }))),
+    shareReplay(1)
+  );
+
   constructor(private fs: FirestoreService, private auth: FirebaseAuthService) { }
 
   addCategoryToFS(userId, entry) {
     if (!userId) return; // Add validation for entry
     this.fs.createItemsEntryById("categories", userId, entry);
+    this.fs.createItemsEntryById("decks", userId, entry);
+  }
+
+  addGroupToFS(userId, entry) {
+    if (!userId) return; // Add validation for entry
+    this.fs.createItemsEntryById("groups", userId, entry);
   }
 
   readContentFromFS(userId, id) {
