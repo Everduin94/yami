@@ -116,8 +116,8 @@
               <button class="hover-button--cancel" (click)="cancel(activeContent); $event.preventDefault();"
                 mat-raised-button data-cy="cancel-content-button">
                 Cancel
-              </button>
-              <button [disabled]="!form.valid" mat-raised-button color="primary" data-cy="submit-content-button"
+              </button> <!-- [disabled]="!form.valid" -->
+              <button mat-raised-button color="primary" data-cy="submit-content-button"
                 class="submit-content-button">
                 Save
               </button>

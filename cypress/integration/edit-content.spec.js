@@ -90,4 +90,18 @@ describe('Starter', () => {
         cy.get('[data-cy=preview-answer]').should('be.visible');
     });
 
+
+
+
+
+    it('should enforce proper data when adjusting deck / group', () => {
+        // If deck is set, and then we click the "Add New Deck" -- Deck Text Field Should be Erased
+        // If Text deck is set, and we click back, deck should be erased.
+        // If Text group is set, and we click back, group should be erased. (can't really cypress test both of these)
+        // If group dropdown is set, and we click back, group should be erased. (can't really cypress test both of these)
+
+
+        // Because it's form heavy, may need to do component unit test
+    });
+
 });

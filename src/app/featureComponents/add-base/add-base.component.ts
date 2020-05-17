@@ -24,12 +24,14 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   @ViewChild('title', { static: false }) titleElement;
 
-  constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { }
+  constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { 
+    
+  }
 
   ngOnInit() {
 
     this.form = this.fb.group({
-      category: new FormControl('', [Validators.required]),
+      category: new FormControl(''),
       title: new FormControl('', [Validators.required]),
       
       
@@ -38,7 +40,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       previewMode: new FormControl(false),
 
       group: new FormControl('default'),
-      deck: new FormControl(''),
+      deck: new FormControl('', [Validators.required]),
       type: new FormControl('basic', [Validators.required]),
       
     });
@@ -61,6 +63,9 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     this.formSubscriptions.add(categorySub);
     this.formSubscriptions.add(clientCategorySub);
     this.formSubscriptions.add(contentByIdSub);
+
+// TODO: TEST
+    this.cs.saveData$.subscribe();
   }
 
   ngOnDestroy(): void {
@@ -79,7 +84,18 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   }
 
 
+  handleReferences(userId, activeContent) {
+    // Make sure that group exists
+      // Save Group if it does not exist -- Store ID from response
+    // Make sure that Deck exists
+      // Save Deck if it does not exist -- Store ID from response
+
+    // Save the card
+
+  }
+
   onSubmit(userId, activeContent) {
+
     const payload = {
       title: this.title.value,
       question: this.question.value,
@@ -91,11 +107,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       group: this.group.value ? this.group.value : 'default'
     };
 
-    if (activeContent && activeContent.id) {
-      this.cs.updateContentOnFS(userId, activeContent.id, payload);
-    } else {
-      this.cs.addContentToFS(userId, payload);
-    }
+    this.cs.saveDataEvent.next({payload, isExisting: activeContent.id});
 
     const category = this.category.value;
     this.form.reset({category});
