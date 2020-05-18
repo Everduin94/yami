@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import {faLongArrowAltLeft} from '@fortawesome/free-solid-svg-icons/faLongArrowAltLeft';
+import { tap } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-deck-input',
@@ -20,11 +22,18 @@ export class DeckInputComponent implements OnInit {
   showAddDeck = false;
   showAddGroup = false;
   
-  
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  clearForm() {
+    this.clearGroup();
+    this.clearDeck();
+  }
+
+  private clearDeck = () => this.form.get('deck').reset();
+  private clearGroup = () => this.form.get('group').reset();
+  
 }

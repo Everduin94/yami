@@ -57,7 +57,7 @@ export class ClientStateService {
     map(([category, userId]) => ({ category, userId })),
     switchMap(data => {
       if (!data.category) return of([]);
-      return this.cs.getUsersContentFromFS(data.userId, ref => ref.where('category', '==', data.category))
+      return this.cs.getUsersContentFromFS(data.userId, ref => ref.where('deck', '==', data.category))
     }),
     map(v => v.map((b,i) => ({...b, index: i}))),
     shareReplay(1)

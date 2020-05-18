@@ -4,8 +4,9 @@ import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { ContentStateService } from 'src/app/services/content-state.service';
 import { FibUtil } from './fib-util';
 import { ClientStateService } from 'src/app/services/client-state.service';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion';
+import { withLatestFrom, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-base',
@@ -39,7 +40,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       answer: new FormControl(''),
       previewMode: new FormControl(false),
 
-      group: new FormControl('default'),
+      group: new FormControl(''),
       deck: new FormControl('', [Validators.required]),
       type: new FormControl('basic', [Validators.required]),
       
@@ -49,50 +50,35 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       this.form.patchValue(v, {emitEvent: false})
     });
 
-    const categorySub = this.category.valueChanges.subscribe(v => {
+    
+
+    // TODO: Update these to Deck
+   /* const categorySub = this.category.valueChanges.subscribe(v => {
       this.client.updateCategory(v);
     });
 
     const clientCategorySub = this.client.category$.subscribe(v => {
       this.category.patchValue(v, {emitEvent:false});
-    })
+    }) */
 
     const contentByIdSub = this.client.activeContentById$.subscribe();
 
-    this.formSubscriptions.add(activeContentSub);
-    this.formSubscriptions.add(categorySub);
-    this.formSubscriptions.add(clientCategorySub);
-    this.formSubscriptions.add(contentByIdSub);
+    // TODO: TEST
+    const saveDataSub = this.cs.saveData$.subscribe();
 
-// TODO: TEST
-    this.cs.saveData$.subscribe();
+    this.formSubscriptions.add(activeContentSub);
+    /*this.formSubscriptions.add(categorySub);
+    this.formSubscriptions.add(clientCategorySub);*/
+    this.formSubscriptions.add(contentByIdSub);
+    this.formSubscriptions.add(saveDataSub);
+
+    
   }
 
   ngOnDestroy(): void {
     this.formSubscriptions.unsubscribe();
   }
 
-  addCategory(inputValue: string, userId) {
-    this.cs.addCategoryToFS(userId, { active: true, value: inputValue })
-    this.form.patchValue({ category: inputValue })
-    this.form.patchValue({ deck: inputValue })
-  }
-
-
-  addGroup(inputValue:string, userId) {
-    this.cs.addGroupToFS(userId, {active: true, value: inputValue});
-  }
-
-
-  handleReferences(userId, activeContent) {
-    // Make sure that group exists
-      // Save Group if it does not exist -- Store ID from response
-    // Make sure that Deck exists
-      // Save Deck if it does not exist -- Store ID from response
-
-    // Save the card
-
-  }
 
   onSubmit(userId, activeContent) {
 
@@ -100,11 +86,10 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       title: this.title.value,
       question: this.question.value,
       answer: this.type.value === 'fib' ? this.question.value : this.answer.value,
-      category: this.category.value,
       type: this.type.value,
-      deck: this.category.value,
+      deck: this.deck.value,
       fib: FibUtil.getPredefinedAnswers(this.question.value),
-      group: this.group.value ? this.group.value : 'default'
+      group: this.group.value
     };
 
     this.cs.saveDataEvent.next({payload, isExisting: activeContent.id});
@@ -119,10 +104,9 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       answer: '',
       question: '',
       title: '',
-      category: this.category.value,
 
       type: 'basic',
-      deck: this.category.value,
+      deck: this.deck.value,
       group: this.group.value
     });
 
@@ -130,9 +114,9 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       this.titleElement.inputElement.nativeElement.focus();
     }
     
-    const category = this.category.value;
-    const group = this.category.value;
-    this.form.reset({category, group});
+    const deck = this.deck.value;
+    const group = this.group.value;
+    this.form.reset({deck, group});
   }
 
   cancel(selection) {
@@ -157,12 +141,11 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       title: title,
       question: this.question.value,
       answer: this.type.value === 'fib' ? this.question.value : this.answer.value,
-      category: this.category.value,
       fib: FibUtil.getPredefinedAnswers(this.question.value),
 
       deck: this.deck.value,
       type: this.type.value,
-      group: this.group.value ? this.group.value : 'default'
+      group: this.group.value
     };
 
     const copiedCard = await this.cs.addContentToFS(userId, payload);

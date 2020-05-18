@@ -5,9 +5,21 @@
     <mat-form-field style="margin-right: 5px;">
       <mat-label>Category</mat-label>
       <mat-select data-cy="category" (selectionChange)="changeCategory($event)" [value]="category">
-        <mat-option *ngFor="let category of categories" [value]="category.value">
-          {{category.value}}
+
+        <mat-option *ngFor="let defaultDeck of groups?.defaultDecks" [value]="defaultDeck.id">
+          {{defaultDeck.value}}        
         </mat-option>
+    
+        <mat-optgroup *ngFor="let group of groups?.groups" [label]="group.value">
+          <mat-option *ngFor="let deck of group.decks" [value]="deck.id">
+            {{deck.value}}
+          </mat-option>
+        </mat-optgroup>
+
+        
+
+
+
       </mat-select>
     </mat-form-field>
 

@@ -101,6 +101,11 @@ mat-option.mat-option.mat-selected {
     background: var(--light-primary) !important;
 }
 
+label.mat-optgroup-label {
+    text-decoration: underline;
+    background: var(--box-shadow);
+}
+
 /* Chromium */
 ::-webkit-scrollbar {
     width: 5px;
