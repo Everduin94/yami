@@ -23,7 +23,7 @@
         </mat-form-field>
     
         <button class="hover-button return-button" style="grid-row: 1 / span 1" 
-        (click)="showAddDeck = !showAddDeck; clearForm(); $event.preventDefault();">
+        (click)="showAddDeck = !showAddDeck; clearForm(); returnToForm(); $event.preventDefault();">
           <fa-icon title="Return to Dropdown" [icon]="backIcon"></fa-icon>
         </button>
     

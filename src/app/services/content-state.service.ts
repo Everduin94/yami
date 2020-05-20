@@ -42,7 +42,6 @@ export class ContentStateService {
 
   saveDataEvent = new Subject<any>();
   saveData$ = this.saveDataEvent.asObservable().pipe(
-    tap(console.log),
     concatMap(event => this.groupRef$.pipe(
       take(1),
       concatMap(groupRefs => {

@@ -4,7 +4,7 @@ import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { ContentStateService } from 'src/app/services/content-state.service';
 import { FibUtil } from './fib-util';
 import { ClientStateService } from 'src/app/services/client-state.service';
-import { Subscription, combineLatest } from 'rxjs';
+import { Subscription, combineLatest, Subject } from 'rxjs';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion';
 import { withLatestFrom, map } from 'rxjs/operators';
 
@@ -20,6 +20,9 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   form: FormGroup;
   showAddCategory = false;
   formSubscriptions: Subscription = new Subscription();
+
+  formSubmittedEvent = new Subject();
+  formSubmittedEvent$ = this.formSubmittedEvent.asObservable();
 
   readonly questionIcon = faQuestion;
 
@@ -53,13 +56,13 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     
 
     // TODO: Update these to Deck
-   /* const categorySub = this.category.valueChanges.subscribe(v => {
+   const deckSub = this.deck.valueChanges.subscribe(v => {
       this.client.updateCategory(v);
     });
 
-    const clientCategorySub = this.client.category$.subscribe(v => {
-      this.category.patchValue(v, {emitEvent:false});
-    }) */
+    const clientDeckSub = this.client.deck$.subscribe(v => {
+      this.deck.patchValue(v, {emitEvent:false});
+    })
 
     const contentByIdSub = this.client.activeContentById$.subscribe();
 
@@ -67,8 +70,8 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     const saveDataSub = this.cs.saveData$.subscribe();
 
     this.formSubscriptions.add(activeContentSub);
-    /*this.formSubscriptions.add(categorySub);
-    this.formSubscriptions.add(clientCategorySub);*/
+    this.formSubscriptions.add(deckSub);
+    this.formSubscriptions.add(clientDeckSub);
     this.formSubscriptions.add(contentByIdSub);
     this.formSubscriptions.add(saveDataSub);
 
@@ -97,6 +100,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     const category = this.category.value;
     this.form.reset({category});
     this.client.updateActiveContent({});
+    this.formSubmittedEvent.next();
   }
 
   addRow() {
@@ -154,6 +158,12 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   updateForm(event) {
     this.form.patchValue(event);
+  }
+
+  returnToForm(activeContent) {
+    console.log('test');
+    this.deck.patchValue(activeContent.deck);
+    this.group.patchValue(activeContent.group);
   }
 
   /* Getters */

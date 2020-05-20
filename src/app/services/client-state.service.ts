@@ -51,8 +51,8 @@ export class ClientStateService {
   );
 
   categoryChangeEvent = new BehaviorSubject('');
-  category$ = this.categoryChangeEvent.asObservable();
-  content$ = combineLatest([this.category$, this.auth.userId$]).pipe(
+  deck$ = this.categoryChangeEvent.asObservable();
+  content$ = combineLatest([this.deck$, this.auth.userId$]).pipe(
     // filter(([category, userId]) => !!category),
     map(([category, userId]) => ({ category, userId })),
     switchMap(data => {

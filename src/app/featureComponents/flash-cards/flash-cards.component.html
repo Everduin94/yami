@@ -5,7 +5,7 @@
                 <ng-container *ngIf="client.isAnswerShowing$ | async as isAnswerShowing">
                     <app-filter-list 
                     [content]="client.content$ | async" 
-                    [category]="client.category$ | async"
+                    [category]="client.deck$ | async"
                     [categories]="cs.categoryRef$ | async"
                     [activeContent]="activeContent" 
                     (clickedEvent)="updateAnswer('hide')"

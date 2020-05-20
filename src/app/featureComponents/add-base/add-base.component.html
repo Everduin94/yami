@@ -10,7 +10,7 @@
           <app-filter-list 
           [content]="client.content$ | async" 
           [groups]="cs.aggregatedDecks$ | async"
-            [category]="client.category$ | async" 
+            [category]="client.deck$ | async" 
             [activeContent]="activeContent" 
             (clickedEvent)="updateForm($event)">
 
@@ -93,7 +93,9 @@
                 <app-deck-input
                   [decks]="categories"
                   [form]="form"
-                  [groups]="groups"> 
+                  [groups]="groups"
+                  [formSubmittedEvent]="formSubmittedEvent$"
+                  (returnedToForm)="returnToForm(activeContent)"> 
                 </app-deck-input>
               </ng-container>
             </ng-container>
