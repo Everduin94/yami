@@ -53,29 +53,23 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       this.form.patchValue(v, {emitEvent: false})
     });
 
-    
-
-    // TODO: Update these to Deck
-   const deckSub = this.deck.valueChanges.subscribe(v => {
-      this.client.updateCategory(v);
-    });
-
-    const clientDeckSub = this.client.deck$.subscribe(v => {
-      this.deck.patchValue(v, {emitEvent:false});
+    const clientDeckSub = this.client.deck$.pipe(
+      withLatestFrom(this.client.activeContent$)
+    ).subscribe(v => {
+      const deck = v[0];
+      const activeContent = v[1];
+      if (activeContent && activeContent.deck !== deck) this.addRow(true);
+      this.deck.patchValue(v[0], {emitEvent:false});
     })
 
     const contentByIdSub = this.client.activeContentById$.subscribe();
 
-    // TODO: TEST
     const saveDataSub = this.cs.saveData$.subscribe();
 
     this.formSubscriptions.add(activeContentSub);
-    this.formSubscriptions.add(deckSub);
     this.formSubscriptions.add(clientDeckSub);
     this.formSubscriptions.add(contentByIdSub);
     this.formSubscriptions.add(saveDataSub);
-
-    
   }
 
   ngOnDestroy(): void {
@@ -89,7 +83,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       title: this.title.value,
       question: this.question.value,
       answer: this.type.value === 'fib' ? this.question.value : this.answer.value,
-      type: this.type.value,
+      type: this.type.value ? this.type.value : 'basic',
       deck: this.deck.value,
       fib: FibUtil.getPredefinedAnswers(this.question.value),
       group: this.group.value
@@ -97,13 +91,13 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
     this.cs.saveDataEvent.next({payload, isExisting: activeContent.id});
 
-    const category = this.category.value;
-    this.form.reset({category});
-    this.client.updateActiveContent({});
+    const deck = this.deck.value;
+    this.form.reset({deck});
+    this.client.updateActiveContent({type: 'basic'});
     this.formSubmittedEvent.next();
   }
 
-  addRow() {
+  addRow(vetoFocus = false) {
     this.client.updateActiveContent({
       answer: '',
       question: '',
@@ -114,13 +108,14 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       group: this.group.value
     });
 
-    if (this.titleElement && this.titleElement.inputElement) { // TODO: Use Renderer / update to Question?
+    if (this.titleElement && this.titleElement.inputElement && !vetoFocus) { // TODO: Use Renderer / update to Question?
       this.titleElement.inputElement.nativeElement.focus();
     }
     
     const deck = this.deck.value;
     const group = this.group.value;
-    this.form.reset({deck, group});
+    const type = this.type.value;
+    this.form.reset({deck, group, type});
   }
 
   cancel(selection) {
@@ -131,9 +126,9 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
     if (window.confirm('Are you sure you want to delete this card?')) {
       this.cs.deleteContentFromFS(userId, selection.id);
-      const category = this.category.value;
-      this.form.reset({category});
-      this.client.updateActiveContent({});
+      const deck = this.deck.value;
+      this.form.reset({deck});
+      this.client.updateActiveContent({type: 'basic'});
     }
     
   }
@@ -148,7 +143,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       fib: FibUtil.getPredefinedAnswers(this.question.value),
 
       deck: this.deck.value,
-      type: this.type.value,
+      type: this.type.value ? this.type.value : 'basic',
       group: this.group.value
     };
 

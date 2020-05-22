@@ -6,7 +6,7 @@
                     <app-filter-list 
                     [content]="client.content$ | async" 
                     [category]="client.deck$ | async"
-                    [categories]="cs.categoryRef$ | async"
+                    [groups]="cs.aggregatedDecks$ | async"
                     [activeContent]="activeContent" 
                     (clickedEvent)="updateAnswer('hide')"
                     (contentLoadedEvent)="client.updateActiveContentByIndex(0)">

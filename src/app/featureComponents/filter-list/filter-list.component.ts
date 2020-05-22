@@ -41,7 +41,6 @@ export class FilterListComponent implements OnInit {
   }
 
   changeCategory(c) {
-    console.log(c.value);
     this.client.updateCategory(c.value);
   }
 

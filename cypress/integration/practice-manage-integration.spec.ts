@@ -16,6 +16,13 @@ describe('Practice Route', () => {
         cy.wait(3000); // hack again -- make sure animation is done
         cy.get('[data-cy=card-0]').should('be.visible');
         cy.get('[data-cy=form-textarea-answer]').should('not.be.enabled', ''); // On edit screen
+
+
+        cy.get('[data-cy=category]').click();
+        cy.get('span.mat-option-text').contains(' DEMO ')
+            .then(option => option[0].click());
+        cy.wait(250);
+        cy.get('[data-cy=details-header-info]').should('have.text', ' - Adding New Card');
     });
 
 });
