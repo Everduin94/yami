@@ -5,8 +5,8 @@
                 <ng-container *ngIf="client.isAnswerShowing$ | async as isAnswerShowing">
                     <app-filter-list 
                     [content]="client.content$ | async" 
-                    [category]="client.category$ | async"
-                    [categories]="cs.categoryRef$ | async"
+                    [category]="client.deck$ | async"
+                    [groups]="cs.aggregatedDecks$ | async"
                     [activeContent]="activeContent" 
                     (clickedEvent)="updateAnswer('hide')"
                     (contentLoadedEvent)="client.updateActiveContentByIndex(0)">
@@ -44,6 +44,7 @@
                 </ng-container>
             </ng-container>
         </ng-container>
+
     </ng-container>
 </div>
 

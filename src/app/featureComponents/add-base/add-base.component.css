@@ -1,22 +1,25 @@
 :host {
     /* TODO: Extract to base component */
-    display: grid;
-    justify-items: center;
-    align-items: center;
+    display: block;
     grid-column: 1 / -1;
     grid-row: 1 / -1;
     min-height: 0;
     overflow: hidden;
+    
 }
 
 .container__filter-list__empty-message {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     gap: 20px;
 }
 
 .container__filter-list {
     border-right: none;
+    grid-row: 1 / -1;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    margin-bottom: 5px;
 }
 
 .container__filter-list__empty-message > div {
@@ -25,8 +28,7 @@
 
 .container {
     display: grid;
-    overflow: auto;
-    grid-template-columns: 2fr 4fr 4fr;
+    grid-template-columns: 2fr 3fr 5fr;
     grid-template-rows: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
     height: 100%;
     width: 100%;
@@ -47,13 +49,26 @@
     gap: 5px;
 }
 
-button {
+.save-cancel {
+    grid-row: span 1 / -1;
+    grid-column: 3 / -1;
+    display: flex;
+    justify-self: right;
+    align-self: center;
+}
+
+.save-cancel > button {
     width: 100%;
+    margin: 5px;
+}
+
+button {
+    height: min-content;
 }
 
 .help-tip {
     /*background: rgba(0, 217, 255, 0.55);*/
-    background: rgb(41, 121, 255, 0.55);
+    background: var(--dark-primary);
     font-size: 14px;
     font-weight: 300;
     margin-top: 5px;
@@ -109,16 +124,10 @@ button {
     grid-column: span 2;
 }
 
-.container__filter-list {
-    grid-row: span 4;
-    display: grid;
-    grid-template-rows: minmax(0, 1fr);
-}
-
 .container__meta-data {
     border: 1px solid var(--box-shadow);
-    grid-column: span 1 / -1;
-    grid-row: span 4 / -1;
+    grid-column: span 1 / -2;
+    grid-row: 1 / span 4;
 
     display: grid;
     grid-template-rows:  min-content minmax(0,1fr) min-content;
@@ -136,8 +145,12 @@ button {
     grid-template-columns: 1fr 1fr;
 }
 
-.title-control, .category-control, .new-category-control, .fill-in-blank-control, .preview-control {
+.title-control, .category-control, .fill-in-blank-control, .preview-control {
     grid-column: span 2;
+}
+
+.preview-control { 
+    text-align: center;
 }
 
 .save-category-control, .back-category-control {
@@ -145,24 +158,44 @@ button {
 }
 
 .preview-div {
-    overflow: auto;
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 /* End - Details Grid */
 
 .container__question, .container__answer {
+    
     display: grid;
     grid-template-rows: min-content minmax(0,1fr);
-    border-left: 1px solid var(--box-shadow);
     border-top: 1px solid var(--box-shadow);
-    grid-column: span 1 / -2;
+    grid-column: span 1 / -1;
     grid-row: span 2;
+}
+
+.expand {
+    grid-row: span 4;
+}
+
+.other-class {
+    background: var(--box-color);
+}
+
+.other-class:hover {
+    background: var(--primary-color);
+}
+
+.hover-button--cancel:hover {
+    background: var(--cancel-color);
 }
 
 .hover-button--warn:hover {
     background: var(--warn-color);
 }
 /* dup */
-.submit-content-button, .hover-button, .hover-button--warn {
+.submit-content-button, .hover-button, .hover-button--warn, .hover-button--cancel {
     background: var(--box-color);
 }
 

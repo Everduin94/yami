@@ -2,14 +2,22 @@
 
 describe('Starter', () => {
 
+
     before(() => {
         cy.login();
+
+
+
         cy.wait(1200); // TODO: Again, hackky.
+
+       
         cy.visit('http://localhost:4200/manage');
+        
     })
 
 
     it('should find the category drop-down', () => {
+    
         cy.get('[data-cy=filters-header').should('be.visible');
         cy.get('[data-cy=category]').should('be.visible');
         cy.wait(750); // Hack, until we figure out server firebase mocking
@@ -25,8 +33,8 @@ describe('Starter', () => {
         cy.get('[data-cy=submit-content-button]').should('be.disabled');
         cy.get('[data-cy=form-text-input-title]').should('be.visible');
         cy.get('[data-cy=form-textarea-question]').should('be.visible');
-        cy.get('[data-cy=form-textarea-answer]').should('be.visible');
-        cy.get('[data-cy=form-select-category]').should('be.visible')
+        // cy.get('[data-cy=form-textarea-answer]').should('be.visible');
+        cy.get('[data-cy=form-select-deck]').should('be.visible')
     });
 
     it('Temp: Full API Cycle', () => {
@@ -34,8 +42,8 @@ describe('Starter', () => {
         cy.get('[data-cy=submit-content-button]').should('not.be.enabled');
         cy.get('[data-cy=form-text-input-title]').type('Cypress Full API')
         cy.get('[data-cy=form-textarea-question]').type('My Q')
-        cy.get('[data-cy=form-textarea-answer]').type('My A');
-        cy.get('[data-cy=form-select-category]').click();
+        // cy.get('[data-cy=form-textarea-answer]').type('My A');
+        cy.get('[data-cy=form-select-deck]').click();
         cy.get('span.mat-option-text').contains(' DEMO ')
             .then(option => option[0].click()); // Side effect - Form Updates. 
         // TODO: Add whole new category
@@ -45,14 +53,24 @@ describe('Starter', () => {
         cy.get('[data-cy=card-0]').should('be.visible');
         cy.get('[data-cy=card-0]').click(); // TODO: Fragile
         cy.get('[data-cy=form-textarea-question]').should('not.have.value', '');
-        cy.get('[data-cy=form-textarea-answer]').should('not.have.value', ''); // On edit screen
+
+
+        cy.get('[data-cy=copy-content-button]').click();
+        cy.get('[data-cy=card-1]').should('be.visible');
+        cy.get('[data-cy=card-1]').click();
+        // cy.get('[data-cy=form-textarea-answer]').should('not.have.value', ''); // On edit screen
         cy.get('[data-cy=delete-content-button]').click();
         cy.get('[data-cy=form-textarea-question]').should('have.value', '');
-        cy.get('[data-cy=form-textarea-answer]').should('have.value', ''); // On edit screen
+        // cy.get('[data-cy=form-textarea-answer]').should('not.be.visible'); // Because fill in blank
+
+        cy.get('[data-cy=card-0]').should('be.visible');
+        cy.get('[data-cy=card-0]').click();
+        cy.get('[data-cy=delete-content-button]').click();
+        cy.get('[data-cy=form-textarea-question]').should('have.value', '');
     });
 
     it('Details', () => {
-        cy.get('[data-cy=details-header-info]').should('have.text', ' - Adding New Content');
+        cy.get('[data-cy=details-header-info]').should('have.text', ' - Adding New Card');
         cy.get('[data-cy=category]').click();
         cy.get('span.mat-option-text').contains(' DEMO ')
             .then(option => option[0].click());
@@ -61,15 +79,19 @@ describe('Starter', () => {
         cy.get('[data-cy=card-0]').click(); // TODO: Fragile
         cy.get('[data-cy=submit-content-button]').should('be.enabled');
         cy.get('[data-cy=details-header-info]').should('be.visible');
-        cy.get('[data-cy=fill-in-blank-mode]').should('be.visible').click();
+        cy.get('[data-cy=form-select-type]').click();
+        cy.get('span.mat-option-text').contains(' Fill in Blank (Cloze) ')
+            .then(option => option[0].click());
         cy.get('[data-cy=form-textarea-question').should('have.value', 'My Q');
-        cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q').should('be.disabled');
+        // cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q').should('be.disabled');
         cy.get('[data-cy=form-textarea-question').type(' FIB');
-        cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q FIB')
-        cy.get('[data-cy=fill-in-blank-mode]').click();
+        // cy.get('[data-cy=form-textarea-answer]').should('have.value', 'My Q FIB')
+        
         cy.get('[data-cy=preview-mode]').click();
         cy.get('[data-cy=preview-question]').should('be.visible');
-        cy.get('[data-cy=preview-answer]').should('be.visible');
-    })
+
+
+    });
+
 
 });

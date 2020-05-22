@@ -14,7 +14,7 @@ export class FilterListComponent implements OnInit {
   @Output() clickedEvent = new EventEmitter();
   @Output() contentLoadedEvent = new EventEmitter();
   @Input() category;
-  @Input() categories;
+  @Input() groups;
 
   _content;
   @Input() set content(v) { 
@@ -28,7 +28,6 @@ export class FilterListComponent implements OnInit {
     private client: ClientStateService) { }
 
   ngOnInit() {
-    
   }
 
   raiseClickedEvent(content) {
@@ -44,4 +43,5 @@ export class FilterListComponent implements OnInit {
   changeCategory(c) {
     this.client.updateCategory(c.value);
   }
+
 }

@@ -1,139 +1,146 @@
 <ng-container *ngIf="auth.userId$ | async as userId">
   <ng-container *ngIf="client.activeContent$ | async as activeContent">
 
-  
-  <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(userId)" autocomplete="off">
-    <div class="container">
-      <div class="container__filter-list">
+
+    <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(userId, activeContent)" autocomplete="off">
+      <button type="submit" disabled style="display: none" aria-hidden="true"></button>
+      <div class="container">
+        <div class="container__filter-list">
 
           <app-filter-list 
           [content]="client.content$ | async" 
-          [categories]="cs.categoryRef$ | async"
-          [category]="client.category$ | async" 
-          [activeContent]="activeContent" 
-          (clickedEvent)="updateForm($event)">
+          [groups]="cs.aggregatedDecks$ | async"
+            [category]="client.deck$ | async" 
+            [activeContent]="activeContent" 
+            (clickedEvent)="updateForm($event)">
 
             <div class="container__filter-list__empty-message">
-              <div>
-                Fill out Question, Answer, Title and Category.
-              </div>
-              
-              <div>
-                Select a category to edit existing content!
-              </div>
-              
-              <div>
-                Clicking Add Content will reset all fields and start a new card!
-              </div>
+
             </div>
 
           </app-filter-list>
 
-          <div class="filter-list__button-container">
-
-            <button class="hover-button" (click)="addRow(); $event.preventDefault();" mat-raised-button
-              data-cy="add-content-button">
-              <h3>+ Add Content</h3>
-            </button>
-            <button class="hover-button--warn" [disabled]="!activeContent?.id" (click)="deleteRow(userId, activeContent); $event.preventDefault();"
-              mat-raised-button data-cy="delete-content-button">
-              <h3>- Delete Content</h3>
-            </button>
-    
-          </div>
-
-      </div>
-
-      <div class="container__question">
-        <app-header-span dataCy="question-header" label="Question"></app-header-span>
-        <div class="padded-container">
-
-          <ng-container *ngIf="previewMode.value && question?.value; else questionEl">
-            <div [innerHtml]="question.value | mdToHtml:'question'" data-cy="preview-question" class="preview-div"></div>
-          </ng-container>
-          <ng-template #questionEl>
-            <app-form-textarea #question [form]="form" [label]="textAreaPlaceholder" controlName="question"></app-form-textarea>
-          </ng-template>
-          
-
-        </div>
-      </div>
-
-      <div class="container__answer">
-        <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
-        <div class="padded-container padded-container--bottom-shadow">
-
-          <ng-container *ngIf="previewMode.value && answer?.value; else answerEl">
-            <div [innerHtml]="answer.value | mdToHtml:'answer':[]" data-cy="preview-answer"></div>
-          </ng-container>
-          <ng-template #answerEl>
-            <app-form-textarea [disabled]="answer.disabled" [form]="form" [label]="textAreaPlaceholder" controlName="answer"></app-form-textarea>
-          </ng-template>
-
-        </div>
-      </div>
-
-      <div class="container__meta-data">
-        <app-header-span dataCy="meta-header" label="Details">
-            <span data-cy="details-header-info"> - {{activeContent?.title ? activeContent.title : 'Adding New Content'}}</span>
-        </app-header-span>
-
-        <div class="padded-container padded-container--bottom-shadow details-grid">
-
-          <app-form-text-input #title [form]="form" label="Title" controlName="title" class="title-control"></app-form-text-input>
-
-          <ng-container *ngIf="!showAddCategory">
-            <ng-container *ngIf="cs.categoryRef$ | async as categories">
-              <app-form-select [form]="form" [selectData]="categories" label="Category" controlName="category" class="category-control">
-              </app-form-select>
-            </ng-container>
-            <button mat-raised-button class="hover-button new-category-control"
-              (click)="showAddCategory = !showAddCategory;
-               $event.preventDefault();
-               ">+ New Category</button>
-          </ng-container>
-
-          <ng-container *ngIf="showAddCategory">
-            <mat-form-field  class="category-control">
-              <input #addCategoryInput matInput placeholder="Category" appAutofocus>
-            </mat-form-field>
-            <button mat-raised-button color="primary" [disabled]="!addCategoryInput.value" class="save-category-control"
-              (click)="addCategory(addCategoryInput.value, userId);
-            showAddCategory = !showAddCategory;
-            $event.preventDefault();">Save Category</button>
-            <button mat-raised-button color="accent" class="back-category-control"
-              (click)="showAddCategory = !showAddCategory;$event.preventDefault();">Back</button>
-          </ng-container>
-
-          
-          <div style="padding-top: 10px; font-size: 24px;" class="fill-in-blank-control">
-            <mat-checkbox formControlName="isFibMode" data-cy="fill-in-blank-mode">Fill in Blank Mode</mat-checkbox>
-            
-              <div class="help-tip">
-                <fa-icon [icon]="questionIcon"></fa-icon> Question overwrites Answer to keep Fill-in-Blanks in sync
-              </div>
-          </div>
-
-          <div style="padding-top: 10px; font-size: 24px;" class="preview-control">
-            <mat-checkbox formControlName="previewMode" data-cy="preview-mode">Preview Mode</mat-checkbox>
-            <div class="help-tip">
-              <fa-icon [icon]="questionIcon"></fa-icon> Display Question & Answer as Markdown
+          <div class="actions-container">
+            <app-header-span dataCy="action-header" label="Actions"></app-header-span>
+            <div class="filter-list__button-container">
+              <button class="hover-button" (click)="addRow(); $event.preventDefault();" mat-raised-button
+                data-cy="add-content-button">
+                Start New Card
+              </button>
+              <button class="hover-button" [disabled]="!activeContent?.id"
+                (click)="copyRow(userId, activeContent); $event.preventDefault();" mat-raised-button
+                data-cy="copy-content-button">
+                Copy Card
+              </button>
+              <button class="hover-button--warn" [disabled]="!activeContent?.id"
+                (click)="deleteRow(userId, activeContent); $event.preventDefault();" mat-raised-button
+                data-cy="delete-content-button">
+                Delete Card
+              </button>
             </div>
           </div>
-          
+
+
         </div>
 
-        <div style="padding: 5px;">
-          <button [disabled]="!form.valid" mat-raised-button color="primary"
-            data-cy="submit-content-button" class="submit-content-button">
-            <h3>Save</h3>
-          </button>
+        <div class="container__question" [class.expand]="type.value === 'fib'">
+          <app-header-span dataCy="question-header" label="Question *"></app-header-span>
+          <div>
+
+            <ng-container *ngIf="previewMode.value && question?.value; else questionEl">
+              <div [innerHtml]="question.value | mdToHtml:'answer':[]" data-cy="preview-question" class="preview-div">
+              </div>
+            </ng-container>
+            <ng-template #questionEl>
+              <app-md-textarea (keydown.enter)="$event.stopPropagation();" #question [form]="form"
+                [label]="textAreaPlaceholder" controlName="question">
+              </app-md-textarea>
+            </ng-template>
+
+
+          </div>
+        </div>
+
+        <div class="container__answer" *ngIf="type.value !== 'fib'">
+          <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
+          <div class="padded-container--bottom-shadow">
+
+            <ng-container *ngIf="previewMode.value && answer?.value; else answerEl">
+              <div [innerHtml]="answer.value | mdToHtml:'answer':[]" data-cy="preview-answer"></div>
+            </ng-container>
+            <ng-template #answerEl>
+              <app-md-textarea (keydown.enter)="$event.stopPropagation();" #answer [form]="form"
+                [label]="textAreaPlaceholder" controlName="answer">
+              </app-md-textarea>
+            </ng-template>
+
+          </div>
+        </div>
+
+        <div class="container__meta-data">
+          <app-header-span dataCy="meta-header" label="Details">
+            <span data-cy="details-header-info"> -
+              {{activeContent?.title ? activeContent.title : 'Adding New Card'}}</span>
+          </app-header-span>
+
+          <div class="padded-container padded-container--bottom-shadow details-grid">
+
+            <app-form-text-input #title [form]="form" label="Name *" controlName="title" class="title-control">
+            </app-form-text-input>
+
+            <ng-container *ngIf="cs.categoryRef$ | async as categories">
+              <ng-container *ngIf="cs.groupRef$ | async as groups">
+                <app-deck-input
+                  [decks]="categories"
+                  [form]="form"
+                  [groups]="groups"
+                  [formSubmittedEvent]="formSubmittedEvent$"
+                  (returnedToForm)="returnToForm(activeContent)"> 
+                </app-deck-input>
+              </ng-container>
+            </ng-container>
+            
+
+            <app-form-select [form]="form" [selectData]="[{id: 'basic', value: 'Basic'}, {id: 'fib', value: 'Fill in Blank (Cloze)'}]" label="Type"
+              controlName="type" class="category-control">
+            </app-form-select>
+
+          </div>
+
+          <div style="padding: 5px;">
+
+            <div style="padding-top: 10px; font-size: 24px;" class="preview-control">
+
+              <mat-checkbox formControlName="previewMode" data-cy="preview-mode">Practice Preview</mat-checkbox>
+              <hr>
+              <!--<div class="help-tip">
+                <fa-icon [icon]="questionIcon"></fa-icon> Display Question & Answer as Markdown
+              </div>-->
+            </div>
+
+            <div class="save-cancel">
+              <button class="hover-button--cancel" (click)="cancel(activeContent); $event.preventDefault();"
+                mat-raised-button data-cy="cancel-content-button">
+                Cancel
+              </button> <!--  -->
+              <button mat-raised-button [disabled]="!form.valid" color="primary" data-cy="submit-content-button"
+                class="submit-content-button">
+                Save
+              </button>
+
+            </div>
+            <!-- <button [disabled]="!form.valid" mat-raised-button color="primary" data-cy="submit-content-button"
+              class="submit-content-button">
+              <h3>Save</h3>
+            </button> -->
+          </div>
+
+
         </div>
 
 
       </div>
-    </div>
-  </form>
+    </form>
 
-</ng-container>
+  </ng-container>
 </ng-container>

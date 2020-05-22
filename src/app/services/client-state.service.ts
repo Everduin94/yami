@@ -16,9 +16,14 @@ export class ClientStateService {
     answer: '',
     category: '',
     fib: [],
-    isFibMode: false
+    isFibMode: false,
+
+    deck: '',
+    group: '',
+    type: 'basic',
   });
   public activeContent$: Observable<any> = this.activeContent.asObservable();
+
 
   isAnswerShowing = new Subject();
   public isAnswerShowing$ = this.isAnswerShowing.asObservable().pipe(
@@ -30,12 +35,15 @@ export class ClientStateService {
   answers$ = merge(this.updateAnswersEvent.asObservable(), this.reset$).pipe(
     observeOn(asyncScheduler), // emit in separate macrotask (for when reset emits ) (See notes at bottom)
     scan((acc: any, part) => {
-      if (part.fib) {
+      if (part && part.fib) {
         return part.fib.reduce((acc, v, i) => {
           const key = 'fib-' + i;
           return {...acc, [key]: ""};
         }, {});
-      } 
+      }
+
+      if (!part) return acc;
+
       else return {...acc, ...part};
     }),
     withLatestFrom(this.activeContent$),
@@ -43,29 +51,40 @@ export class ClientStateService {
   );
 
   categoryChangeEvent = new BehaviorSubject('');
-  category$ = this.categoryChangeEvent.asObservable();
-  content$ = combineLatest([this.category$, this.auth.userId$]).pipe(
+  deck$ = this.categoryChangeEvent.asObservable();
+  content$ = combineLatest([this.deck$, this.auth.userId$]).pipe(
     // filter(([category, userId]) => !!category),
     map(([category, userId]) => ({ category, userId })),
     switchMap(data => {
       if (!data.category) return of([]);
-      return this.cs.getUsersContentFromFS(data.userId, ref => ref.where('category', '==', data.category))
+      return this.cs.getUsersContentFromFS(data.userId, ref => ref.where('deck', '==', data.category))
     }),
     map(v => v.map((b,i) => ({...b, index: i}))),
-    tap(v => console.log('from content$', v)),
     shareReplay(1)
   ); // TODO: Active content can't be the same because of that map above. So I had to switch to ID
 
-  // TODO: Okay or refactor?
-  activeContentByIndex = new Subject;
+  // TODO: Okay or refactor? -- Yes refactor both (05/07/2020)
+  activeContentByIndex = new Subject();
   activeContentByIndex$ = this.activeContentByIndex.pipe(
     withLatestFrom(this.content$),
-    tap(([index, content]) => { 
+    tap(([index, content]) => {
+      if (content.length === 0) return;
       let activeContent = content.find(v => v.index === index);
       if (!activeContent) activeContent = content[0];
       this.updateActiveContent(activeContent); // Side Effect
     })
   )
+
+  activeContentById = new Subject();
+  activeContentById$  = this.activeContentById.asObservable().pipe(
+    withLatestFrom(this.content$),
+    tap(([id, content]) => {
+      if (content.length === 0) return;
+      let activeContent = content.find(v => v.id === id);
+      if (!activeContent) return;
+      this.updateActiveContent(activeContent); // Side Effect
+    })
+  );
 
 
   constructor(private auth: FirebaseAuthService, private cs: ContentStateService) {
@@ -73,6 +92,10 @@ export class ClientStateService {
 
   public updateActiveContentByIndex(i) {
     this.activeContentByIndex.next(i);
+  }
+
+  public updateActiveContentById(i) {
+    this.activeContentById.next(i);
   }
 
   public updateActiveContent(value) {

@@ -21,6 +21,8 @@ import { AutofocusModule } from 'src/app/libraryComponents/autofocus/autofocus.m
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MdToHtmlModule } from 'src/app/pipes/md-to-html.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MdTextareaModule } from 'src/app/libraryComponents/md-textarea/md-textarea.module';
+import { DeckInputComponent } from './deck-input/deck-input.component';
 
 const routes: Routes = [
   {
@@ -30,7 +32,7 @@ const routes: Routes = [
 ] 
 
 @NgModule({
-  declarations: [AddBaseComponent],
+  declarations: [AddBaseComponent, DeckInputComponent],
   imports: [
     CommonModule,
     MatSliderModule,
@@ -46,6 +48,7 @@ const routes: Routes = [
     HeaderSpanModule,
     QuestionContentModule,
     AnswerContentModule,
+    MdTextareaModule,
     DetailsFormModule,
     FormComponentsModule,
     FontAwesomeModule,

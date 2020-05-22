@@ -7,20 +7,21 @@ import { ClientStateService } from 'src/app/services/client-state.service';
   styleUrls: ['./guides.component.css']
 })
 export class GuidesComponent implements OnInit, OnDestroy {
-  
+
 
   activeGuideContent;
 
   guideCategories = [
-    {value: 'Guides'},
+    { value: 'Guides' },
   ]
 
-  content = [
-    {title: 'What is Yami', key: 'yami', id:1},
-    {title: 'Adding Content', key: 'content', id:2},
-    {title: 'Practicing', key: 'practicing', id:3},
-    {title: 'What is Markdown', key: 'markdown', id:4}
-  ]
+  content =  [
+      { title: 'What is Yami', key: 'yami', id: 1 },
+      { title: 'Adding Content', key: 'content', id: 2 },
+      { title: 'Practicing', key: 'practicing', id: 3 },
+      { title: 'What is Markdown', key: 'markdown', id: 4 }
+    ]
+  
 
   constructor(private client: ClientStateService) { }
 
@@ -29,7 +30,7 @@ export class GuidesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.client.updateActiveContent({});
+    this.client.updateActiveContent({ type: 'basic' });
   }
 
 }

@@ -15,15 +15,6 @@ export class FlashCardsComponent {
 
   constructor(public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService, ) { }
 
-  // Lesson: How do you calculate the answers, with just "activeContent?"
-  // You can't. You need the inputs. To make this functional, pass in all the necessary state.
-  getAnswers(activeContent) {
-    
-    //const givenAnswers = inputs.map(v => v.value);
-    //const definedAnswers = activeContent.fib;
-    //return FibUtil.compareAnswers(definedAnswers, givenAnswers);
-  }
-
   toggleAnswer = (v) => v === 'show' ? 'hide' : 'show';
   updateAnswer = (v) => this.client.updateIsAnswerShowing(v);
   isShowing = (v) => v === 'show' ? true : false;
