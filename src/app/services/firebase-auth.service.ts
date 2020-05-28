@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { switchMap, tap, map, shareReplay, take } from 'rxjs/operators';
+import { switchMap, tap, map, shareReplay, take, filter } from 'rxjs/operators';
 import { of, BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
@@ -11,43 +11,28 @@ import { User } from '../models/user.model';
 })
 export class FirebaseAuthService {
 
-  user$;
   private errors = new BehaviorSubject(null);
   public errors$ = this.errors.asObservable();
-  /**
-   * Hypothetical testing
-   * 
-   * Testing subjects like this seems like there's nothing to test.
-   * In a TDD approach is the fact that it is a behavior subject vs a subject enough
-   * to warrant testing??
-   * 
-   */
 
-  userId$: Observable<any>;
+  public user$ = this.afAuth.authState.pipe(
+    switchMap(user => user ? this.afs.doc<User>(`users/${user.uid}`).valueChanges() : of(null))
+  )
+
+  public userId$: Observable<string | null> = this.afAuth.authState.pipe(
+    map(user => user ? user.uid : null),
+    shareReplay(1)
+  );
+
+  public getUserId(fn: (user: string) => Observable<any> | Promise<any>): Observable<any> {
+    return this.userId$.pipe(
+      filter(user => !!user),
+      switchMap(user => fn(user)),
+      take(1)
+    );
+  }
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {
-    this.user$ = afAuth.authState.pipe(
-      switchMap(user => user ? this.afs.doc<User>(`users/${user.uid}`).valueChanges() : of(null))
-    )
-
-    /**
-     * Hypothetical test
-     * 
-     * Mock authState, which may actually be useful
-     * Test map
-     * Test HOT
-     * - In a post-test sense, testing for an obs being hot seems like overkill
-     * - but in a TDD mindset, testing for being hot seems like a no-brainer
-     * Testing if something is hot when it is split into multiple child observables
-     * seems more pragmatic
-     * For example, in this case, authstate is cold, userId is hot.
-     * I may be misinterpretting hot/cold
-     * - Investigate.
-     */
-    this.userId$ = afAuth.authState.pipe(
-      map(user => user ? user.uid : null),
-      shareReplay(1)
-    );
+    
   }
 
   // TODO: Global error handler + Logging on Backend

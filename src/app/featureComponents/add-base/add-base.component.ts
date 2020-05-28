@@ -6,7 +6,7 @@ import { FibUtil } from './fib-util';
 import { ClientStateService } from 'src/app/services/client-state.service';
 import { Subscription, combineLatest, Subject } from 'rxjs';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion';
-import { withLatestFrom, map } from 'rxjs/operators';
+import { withLatestFrom, map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-base',
@@ -122,10 +122,10 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     this.form.reset(selection);
   }
 
-  deleteRow(userId, selection) {
+  async deleteRow(userId, selection) {
 
     if (window.confirm('Are you sure you want to delete this card?')) {
-      this.cs.deleteContentFromFS(userId, selection.id);
+      await this.cs.deleteContentFromFS(selection.id).toPromise();
       const deck = this.deck.value;
       this.form.reset({deck});
       this.client.updateActiveContent({type: 'basic'});
@@ -147,7 +147,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       group: this.group.value
     };
 
-    const copiedCard = await this.cs.addContentToFS(userId, payload);
+    const copiedCard = await this.cs.addContentToFS(payload).toPromise();
     this.client.updateActiveContentById(copiedCard.id);
   }
 

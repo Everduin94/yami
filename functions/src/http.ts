@@ -17,7 +17,7 @@ const app = express();
 app.use(cors({ origin: true }));
 
 app.delete('/cat', (request, response) => {
-
+    
   response.send('{"message": "this is a test"}');
 });
 
