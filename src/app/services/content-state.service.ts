@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { FirebaseAuthService } from './firebase-auth.service';
-import { map, shareReplay, switchMap, tap, take, concatMap, delay, withLatestFrom } from 'rxjs/operators';
+import { map, shareReplay, switchMap, tap, take, concatMap, withLatestFrom, delay, } from 'rxjs/operators';
 import { Observable, of, Subject, from, combineLatest } from 'rxjs';
 import { QueryFn } from '@angular/fire/firestore';
 
@@ -22,34 +22,27 @@ export class ContentStateService {
     shareReplay(1)
   );
 
-  // TODO: Consider combining groupsWithDecks & defaultDecks into 1 object 2 properties (2 arrays)
-  // TODO: Consider using blank, instead of default. 
-    // You're taking away default as an option, making the app easier to break, and its pointless.
   aggregatedDecks$ = combineLatest([this.categoryRef$, this.groupRef$]).pipe(
     map(([decks, groups]) => {
-    
       return {
-
         defaultDecks: decks.filter(d => !d.group),
         groups: groups.map(g => ({...g, decks: decks.filter(d => d.group === g.id)}))
-
       }
-    
-      
     }),
-    tap(console.log)
+    shareReplay(1)
   );
 
   saveDataEvent = new Subject<any>();
   saveData$ = this.saveDataEvent.asObservable().pipe(
-    concatMap(event => this.groupRef$.pipe(
+    withLatestFrom(this.auth.userId$),
+    concatMap(([event, userId]) => this.groupRef$.pipe(
       take(1),
       concatMap(groupRefs => {
         if (!event.payload.group) return of({value: '', id: ''});
         const groupRef = groupRefs.find(g => g.id === event.payload.group || g.value === event.payload.group);
         if (groupRef) return of(groupRef);
         else return this.addGroupToFS(
-          'vEgiUKTcUBOY4RuzXTjPTkKfBYA2',
+          userId,
           { active: true, value: event.payload.group }
         );
       }),
@@ -60,35 +53,33 @@ export class ContentStateService {
           const deckRef = deckRefs.find(d => d.id === event.payload.deck || d.value === event.payload.deck);
           if (deckRef) return of(deckRef);
           else return this.addCategoryToFS(
-            'vEgiUKTcUBOY4RuzXTjPTkKfBYA2',
+            userId,
             { active: true, value: event.payload.deck, group: groupId.id }
           );
         }),
-        map(v => [{...event.payload, group: groupId.id, deck: v.id }, event.isExisting])
+        map(v => [{...event.payload, group: groupId.id, deck: v.id }, event.isExisting, userId])
       ))
 
     )),
-    concatMap(([payload, existingId]) => {
-      if (existingId) return this.updateContentOnFS('vEgiUKTcUBOY4RuzXTjPTkKfBYA2', existingId, payload);
-      else return this.addContentToFS('vEgiUKTcUBOY4RuzXTjPTkKfBYA2', payload);
+    concatMap(([payload, existingId, userId]) => {
+      if (existingId) return this.updateContentOnFS(userId, existingId, payload);
+      else return this.addContentToFS(userId, payload);
     })
   );
 
 
   constructor(private fs: FirestoreService, private auth: FirebaseAuthService) {
-    this.aggregatedDecks$.subscribe();
+  
   }
 
   addCategoryToFS(userId, entry): Promise<any> {
     if (!userId) return; // Add validation for entry
-    console.log('adding deck!')
     // this.fs.createItemsEntryById("categories", userId, entry);
     return this.fs.createItemsEntryById("decks", userId, entry);
   }
 
   addGroupToFS(userId, entry): Promise<any> {
     if (!userId) return; // Add validation for entry
-    console.log('adding!')
     return this.fs.createItemsEntryById("groups", userId, entry);
   }
 

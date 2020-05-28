@@ -10,6 +10,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN } from '@angular/fire/functions';
 
 import { environment } from '../environments/environment';
 import { PageNotFoundComponent } from './appComponents/page-not-found/page-not-found.component';
@@ -45,6 +46,7 @@ import { LoadingModule } from './libraryComponents/loading/loading.module';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
+    AngularFireFunctionsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
     LoadingModule,
@@ -57,6 +59,7 @@ import { LoadingModule } from './libraryComponents/loading/loading.module';
     HttpClientModule
   ],
   providers: [
+    { provide: FUNCTIONS_ORIGIN, useValue: 'http://localhost:5000' }
   ],
   bootstrap: [AppComponent]
 })

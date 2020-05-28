@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { faAtom } from '@fortawesome/free-solid-svg-icons/faAtom';
 
 @Component({
@@ -8,6 +8,7 @@ import { faAtom } from '@fortawesome/free-solid-svg-icons/faAtom';
 })
 export class LoadingComponent implements OnInit {
 
+  @Input() size;
   icon=faAtom;
 
   constructor() { }

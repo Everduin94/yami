@@ -8,6 +8,9 @@
     "strict": true,
     "target": "es2017"
   },
+  "typeRoots": [
+    "./functions/node_modules/@types"
+    ],
   "compileOnSave": true,
   "include": [
     "src"
