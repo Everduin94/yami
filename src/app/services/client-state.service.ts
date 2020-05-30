@@ -5,6 +5,13 @@ import { FibUtil } from '../featureComponents/add-base/fib-util';
 import { FirebaseAuthService } from './firebase-auth.service';
 import { ContentStateService } from './content-state.service';
 
+
+export interface FlashCardEntity {
+  entities: [];
+  activeCard: {};
+  activeIndex: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -51,19 +58,18 @@ export class ClientStateService {
   deckChangeEvent = new BehaviorSubject('');
   deck$ = this.deckChangeEvent.asObservable();
   flashCards$ = this.deck$.pipe(
-    switchMap(deck => deck ? this.cs.fsGetAllFlashcards(deck) : of([])),
+    switchMap(deck => deck ? this.cs.fsSelectAllFlashcards(deck) : of([])),
     map(v => v.map((b,i) => ({...b, index: i}))),
     shareReplay(1)
   );
 
   // TODO: Okay or refactor? -- Yes refactor both (05/07/2020)
-  activeContentByIndex = new Subject();
+  activeContentByIndex = new Subject<number>();
   activeContentByIndex$ = this.activeContentByIndex.pipe(
     withLatestFrom(this.flashCards$),
     tap(([index, content]) => {
-      if (content.length === 0) return;
-      let activeContent = content.find(v => v.index === index);
-      if (!activeContent) activeContent = content[0];
+      if (!content.length) return;
+      let activeContent = content[index] ? content[index] : content[0];
       this.updateActiveContent(activeContent); // Side Effect
     })
   )
@@ -72,14 +78,39 @@ export class ClientStateService {
   activeContentById$  = this.activeContentById.asObservable().pipe(
     withLatestFrom(this.flashCards$),
     tap(([id, content]) => {
-      if (content.length === 0) return;
+      if (!content.length) return;
       let activeContent = content.find(v => v.id === id);
       if (!activeContent) return;
       this.updateActiveContent(activeContent); // Side Effect
     })
   );
 
+  myTest = new BehaviorSubject<Partial<{index: number, id: string, fn: (flashCards) => {}}>>({});
+  setActiveFlashcard(value: Partial<{index: number, id: string, fn: (flashCards) => {}}>) {
+      this.myTest.next(value);
+  }
+
    // TODO: Try something like this
+   flashCards2$ = this.deck$.pipe(
+    tap(v => console.log('deck changed')),
+    switchMap(deck => deck ? this.cs.fsSelectAllFlashcards(deck) : of([])),
+    tap(v => console.log('flash cards changed', v)),
+    shareReplay(1),
+    switchMap(flashCards => this.myTest.asObservable().pipe(
+      map(v => {
+        let activeCard = {};
+        if (!flashCards.length) activeCard = {}
+        else if (v.index) activeCard = flashCards[v.index];
+        else if (v.id) activeCard = flashCards.find(f => f.id === v.id);
+        else if (v.fn) activeCard = v.fn(flashCards);
+        return {entities: flashCards, activeCard, activeIndex: flashCards.findIndex(f => f === activeCard)};
+      })
+    )),
+    tap(v => console.log('logging flash cards 2', v))
+  ).subscribe(v => console.log(v));
+
+
+
   test = new Subject();
   test$ = this.test.asObservable().pipe(
     switchMap((fn: (fc) => boolean) => this.flashCards$.pipe(
@@ -88,6 +119,7 @@ export class ClientStateService {
     map(fc => fc ? fc : {}), // TODO: Missing side effect for set by index (could try to pipe onto usage)
     shareReplay(1)
   );
+
   setActiveContent(fn: (fc) => boolean) {
     this.test.next(fn);
   }

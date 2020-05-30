@@ -1,15 +1,13 @@
-<ng-container *ngIf="auth.userId$ | async as userId">
+
   <ng-container *ngIf="client.activeContent$ | async as activeContent">
+    <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(activeContent)" autocomplete="off">
 
-
-    <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(userId, activeContent)" autocomplete="off">
-      <button type="submit" disabled style="display: none" aria-hidden="true"></button>
       <div class="container">
         <div class="container__filter-list">
 
           <app-filter-list 
-          [content]="client.flashCards$ | async" 
-          [groups]="cs.aggregatedDecks$ | async"
+            [content]="client.flashCards$ | async" 
+            [groups]="cs.aggregatedDecks$ | async"
             [category]="client.deck$ | async" 
             [activeContent]="activeContent" 
             (clickedEvent)="updateForm($event)">
@@ -28,7 +26,7 @@
                 Start New Card
               </button>
               <button class="hover-button" [disabled]="!activeContent?.id"
-                (click)="copyRow(userId, activeContent); $event.preventDefault();" mat-raised-button
+                (click)="copyRow(); $event.preventDefault();" mat-raised-button
                 data-cy="copy-content-button">
                 Copy Card
               </button>
@@ -142,5 +140,4 @@
       </div>
     </form>
 
-  </ng-container>
 </ng-container>

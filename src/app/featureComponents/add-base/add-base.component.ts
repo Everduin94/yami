@@ -77,7 +77,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   }
 
 
-  onSubmit(userId, activeContent) {
+  onSubmit(activeContent) {
 
     const payload = {
       title: this.title.value,
@@ -92,8 +92,9 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     this.cs.saveFlashCard.next({payload, isExisting: activeContent.id});
 
     const deck = this.deck.value;
-    this.form.reset({deck});
-    this.client.updateActiveContent({type: 'basic'});
+    const type = this.type.value;
+    this.form.reset({deck, type});
+    this.client.updateActiveContent({deck, type});
     this.formSubmittedEvent.next();
   }
 
@@ -133,9 +134,8 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     
   }
 
-  async copyRow(userId, activeContent) {
+  async copyRow() {
     const title = this.title.value + ' (copy)';
-    console.log(title);
     const payload = {
       title: title,
       question: this.question.value,
@@ -149,9 +149,11 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
     const copiedCard = await this.cs.fsAddFlashcard(payload);
     this.client.updateActiveContentById(copiedCard.id);
+    this.client.setActiveFlashcard({id: copiedCard.id});
   }
 
   updateForm(event) {
+    console.log(event);
     this.form.patchValue(event);
   }
 

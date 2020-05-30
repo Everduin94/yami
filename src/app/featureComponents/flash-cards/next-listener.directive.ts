@@ -15,6 +15,7 @@ export class NextListenerDirective implements OnDestroy, OnInit {
     e.preventDefault();
     this.clientState.updateIsAnswerShowing('hide');
     this.clientState.updateActiveContentByIndex(this.activeContent.index + 1);
+    this.clientState.setActiveFlashcard({index: this.activeContent.index + 1});
   }
 
   subscription: Subscription;

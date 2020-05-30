@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 import { ContentStateService } from 'src/app/services/content-state.service';
 import { ClientStateService } from 'src/app/services/client-state.service';
 
@@ -23,9 +22,7 @@ export class FilterListComponent implements OnInit {
   };
   get content() { return this._content; }
 
-  constructor(
-    public cs: ContentStateService,
-    private client: ClientStateService) { }
+  constructor(public cs: ContentStateService, private client: ClientStateService) { }
 
   ngOnInit() {
   }
@@ -36,6 +33,7 @@ export class FilterListComponent implements OnInit {
     
     if (this.activeContent !== content) {
       this.client.updateActiveContent(content);
+      this.client.setActiveFlashcard({id: content.id});
     }
 
   }

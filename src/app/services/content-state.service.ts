@@ -85,7 +85,7 @@ export class ContentStateService {
     return this.auth.getUserIdOrCancel(userId => this.fs.deleteItemsEntryById("flash_cards", userId, entryId));
   }
 
-  fsGetAllFlashcards(deck): Observable<any[]> {
+  fsSelectAllFlashcards(deck): Observable<any[]> {
     return this.auth.selectUserIdOrCancel(userId => 
       this.fs.get('flash_cards', userId)
         .collection('items', ref => ref.where('deck', '==', deck))
