@@ -4,7 +4,7 @@
             <ng-container *ngIf="client.answers$ | async as answers">
                 <ng-container *ngIf="client.isAnswerShowing$ | async as isAnswerShowing">
                     <app-filter-list 
-                    [content]="client.content$ | async" 
+                    [content]="client.flashCards$ | async" 
                     [category]="client.deck$ | async"
                     [groups]="cs.aggregatedDecks$ | async"
                     [activeContent]="activeContent" 

@@ -5,20 +5,20 @@
     box-sizing: border-box;
 }
 
-textarea {
+.textarea {
     resize: none;
     outline: none; /* TODO: Revisit in future */
-    font-size: 1.5em;
     color: var(--text-color);
+    font-size: 1.2rem;
     background: var(--background-color);
     border: none;
     border-bottom: 2px solid var(--box-shadow);
     padding: 10px;
-    transition: border .3s linear;
+    /*transition: border-color .3s linear;*/
 }
 
-textarea:active, textarea:hover, textarea:focus {
-    border-bottom: 2px solid var(--primary-color);
+.textarea:active, .textarea:hover, .textarea:focus {
+    border-bottom-color: var(--primary-color);
 }
 
 .disabled {

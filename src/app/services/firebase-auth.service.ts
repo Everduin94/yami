@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { switchMap, tap, map, shareReplay, take, filter } from 'rxjs/operators';
+import { switchMap, tap, map, shareReplay, take, filter, first } from 'rxjs/operators';
 import { of, BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
@@ -23,17 +23,22 @@ export class FirebaseAuthService {
     shareReplay(1)
   );
 
-  public getUserId(fn: (user: string) => Observable<any> | Promise<any>): Observable<any> {
-    return this.userId$.pipe(
-      filter(user => !!user),
-      switchMap(user => fn(user)),
-      take(1)
-    );
+  public getUserId(): Promise<any> {
+    return this.userId$.pipe(first()).toPromise();
   }
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {
-    
+  public getUserIdOrCancel(fn: (user: string) => Observable<any> | Promise<any>, defaultValue = null): Promise<any> {
+    return this.userId$.pipe(
+      switchMap(user =>  user ? fn(user) : of(defaultValue)),
+      take(1)
+    ).toPromise();
   }
+
+  public selectUserIdOrCancel(fn: (user: string) => Observable<any> | Promise<any>, defaultValue = null) : Observable<any>  {
+    return this.userId$.pipe(switchMap(user =>  user ? fn(user) : of(defaultValue)));
+  }
+
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {}
 
   // TODO: Global error handler + Logging on Backend
   async signIn(provider) {

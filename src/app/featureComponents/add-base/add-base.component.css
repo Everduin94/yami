@@ -14,6 +14,10 @@
     gap: 20px;
 }
 
+.divider {
+    border-color: var(--box-color);
+}
+
 .container__filter-list {
     border-right: none;
     grid-row: 1 / -1;

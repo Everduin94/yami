@@ -8,7 +8,7 @@
         <div class="container__filter-list">
 
           <app-filter-list 
-          [content]="client.content$ | async" 
+          [content]="client.flashCards$ | async" 
           [groups]="cs.aggregatedDecks$ | async"
             [category]="client.deck$ | async" 
             [activeContent]="activeContent" 
@@ -33,7 +33,7 @@
                 Copy Card
               </button>
               <button class="hover-button--warn" [disabled]="!activeContent?.id"
-                (click)="deleteRow(userId, activeContent); $event.preventDefault();" mat-raised-button
+                (click)="deleteRow(activeContent); $event.preventDefault();" mat-raised-button
                 data-cy="delete-content-button">
                 Delete Card
               </button>
@@ -88,10 +88,10 @@
             <app-form-text-input #title [form]="form" label="Name *" controlName="title" class="title-control">
             </app-form-text-input>
 
-            <ng-container *ngIf="cs.categoryRef$ | async as categories">
+            <ng-container *ngIf="cs.deckRef$ | async as decks">
               <ng-container *ngIf="cs.groupRef$ | async as groups">
                 <app-deck-input
-                  [decks]="categories"
+                  [decks]="decks"
                   [form]="form"
                   [groups]="groups"
                   [formSubmittedEvent]="formSubmittedEvent$"
@@ -112,7 +112,7 @@
             <div style="padding-top: 10px; font-size: 24px;" class="preview-control">
 
               <mat-checkbox formControlName="previewMode" data-cy="preview-mode">Practice Preview</mat-checkbox>
-              <hr>
+              <hr class="divider">
               <!--<div class="help-tip">
                 <fa-icon [icon]="questionIcon"></fa-icon> Display Question & Answer as Markdown
               </div>-->

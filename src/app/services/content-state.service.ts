@@ -1,92 +1,94 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { FirebaseAuthService } from './firebase-auth.service';
-import { map, shareReplay, switchMap, tap, take, concatMap, withLatestFrom, delay, } from 'rxjs/operators';
-import { Observable, of, Subject, from, combineLatest } from 'rxjs';
-import { QueryFn, DocumentReference } from '@angular/fire/firestore';
+import { map, shareReplay, switchMap, take } from 'rxjs/operators';
+import { Observable, of, Subject, combineLatest } from 'rxjs';
+import { DocumentReference } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContentStateService {
 
-  categoryRef$: Observable<any[]> = this.auth.userId$.pipe(
-    switchMap(id => this.fs.get(`decks`, id).collection('items').valueChanges({ idField: 'id' })),
-    map(item => item.filter(val => val.active).map(val => ({ value: val.value, id: val.id, group: val.group }))),
-    shareReplay(1)
-  );
+  deckRef$: Observable<any[]> = this.auth.selectUserIdOrCancel(userId => {
+    return this.fs.get(`decks`, userId).collection('items').valueChanges({ idField: 'id' }).pipe(
+      map(item => item.filter(val => val.active).map(val => ({ value: val.value, id: val.id, group: val.group }))),
+      shareReplay(1)
+    );
+  }, []);
 
-  groupRef$ = this.auth.userId$.pipe(
-    switchMap(id => this.fs.get(`groups`, id).collection('items').valueChanges({ idField: 'id' })),
-    map(item => item.filter(val => val.active).map(val => ({ value: val.value, id: val.id }))),
-    shareReplay(1)
-  );
+  groupRef$ = this.auth.selectUserIdOrCancel(userId => {
+    return this.fs.get(`groups`, userId).collection('items').valueChanges({ idField: 'id' }).pipe(
+      map(item => item.filter(val => val.active).map(val => ({ value: val.value, id: val.id }))),
+      shareReplay(1)
+    )
+  }, []);
 
-  aggregatedDecks$ = combineLatest([this.categoryRef$, this.groupRef$]).pipe(
+  // TODO: This could be a server-side query (Denormalization)
+  aggregatedDecks$ = combineLatest([this.deckRef$, this.groupRef$]).pipe(
     map(([decks, groups]) => {
       return {
         defaultDecks: decks.filter(d => !d.group),
-        groups: groups.map(g => ({...g, decks: decks.filter(d => d.group === g.id)}))
+        groups: groups.map(g => ({ ...g, decks: decks.filter(d => d.group === g.id) }))
       }
     }),
     shareReplay(1)
   );
 
-  saveDataEvent = new Subject<any>();
-  saveData$ = this.saveDataEvent.asObservable().pipe(
-    concatMap(event => this.groupRef$.pipe(
+  saveFlashCard = new Subject<any>();
+  saveFlashCard$ = this.saveFlashCard.asObservable().pipe(
+    switchMap(event => this.groupRef$.pipe(
       take(1),
-      concatMap(groupRefs => {
-        if (!event.payload.group) return of({value: '', id: ''});
+      switchMap(groupRefs => {
+        if (!event.payload.group) return of({ value: '', id: '' });
         const groupRef = groupRefs.find(g => g.id === event.payload.group || g.value === event.payload.group);
         if (groupRef) return of(groupRef);
-        else return this.addGroupToFS({ active: true, value: event.payload.group });
+        else return this.fsAddGroup({ active: true, value: event.payload.group });
       }),
 
-      concatMap(groupId => this.categoryRef$.pipe(
+      switchMap(groupId => this.deckRef$.pipe(
         take(1),
-        concatMap(deckRefs => {
+        switchMap(deckRefs => {
           const deckRef = deckRefs.find(d => d.id === event.payload.deck || d.value === event.payload.deck);
           if (deckRef) return of(deckRef);
-          else return this.addCategoryToFS({ active: true, value: event.payload.deck, group: groupId.id });
+          else return this.fsAddDeck({ active: true, value: event.payload.deck, group: groupId.id });
         }),
-        map(v => [{...event.payload, group: groupId.id, deck: v.id }, event.isExisting])
+        map(v => [{ ...event.payload, group: groupId.id, deck: v.id }, event.isExisting])
       ))
 
     )),
-    concatMap(([payload, existingId]) => {
-      if (existingId) return this.updateContentOnFS(existingId, payload);
-      else return this.addContentToFS(payload);
+    switchMap(([payload, existingId]) => {
+      if (existingId) return this.fsUpdateFlashcard(existingId, payload);
+      else return this.fsAddFlashcard(payload);
     })
   );
 
+  constructor(private fs: FirestoreService, private auth: FirebaseAuthService) { }
 
-  constructor(private fs: FirestoreService, private auth: FirebaseAuthService) {}
-
-  addCategoryToFS(entry): Observable<DocumentReference> {
-    return this.auth.getUserId(userId => this.fs.createItemsEntryById("decks", userId, entry))
+  fsAddDeck(entry): Promise<DocumentReference> {
+    return this.auth.getUserIdOrCancel(userId => this.fs.createItemsEntryById("decks", userId, entry))
   }
 
-  addGroupToFS(entry): Observable<DocumentReference> {
-    return this.auth.getUserId(userId => this.fs.createItemsEntryById("groups", userId, entry));
+  fsAddGroup(entry): Promise<DocumentReference> {
+    return this.auth.getUserIdOrCancel(userId => this.fs.createItemsEntryById("groups", userId, entry));
   }
 
-  addContentToFS(entry): Observable<DocumentReference> {
-    return this.auth.getUserId(userId => this.fs.createItemsEntryById("flash_cards", userId, entry));
+  fsAddFlashcard(entry): Promise<DocumentReference> {
+    return this.auth.getUserIdOrCancel(userId => this.fs.createItemsEntryById("flash_cards", userId, entry));
   }
 
-  updateContentOnFS(documentId, entry): Observable<void> {
-    return this.auth.getUserId(userId => this.fs.updateItemsEntryById("flash_cards", userId, documentId, entry));
+  fsUpdateFlashcard(documentId, entry): Promise<void> {
+    return this.auth.getUserIdOrCancel(userId => this.fs.updateItemsEntryById("flash_cards", userId, documentId, entry));
   }
 
-  deleteContentFromFS(entryId) {
-    return this.auth.getUserId(userId => this.fs.deleteItemsEntryById("flash_cards", userId, entryId));
+  fsDeleteFlashcard(entryId): Promise<void> {
+    return this.auth.getUserIdOrCancel(userId => this.fs.deleteItemsEntryById("flash_cards", userId, entryId));
   }
 
-  getUsersContentFromFS(userId, query?: QueryFn): Observable<any[]> {
-    if (!userId) return of(null);
-    const fcDoc = this.fs.get('flash_cards', userId);
-    const collectionWithQuery = query ? fcDoc.collection('items', query) : fcDoc.collection('items')
-    return collectionWithQuery.valueChanges({ idField: 'id' });
+  fsGetAllFlashcards(deck): Observable<any[]> {
+    return this.auth.selectUserIdOrCancel(userId => 
+      this.fs.get('flash_cards', userId)
+        .collection('items', ref => ref.where('deck', '==', deck))
+        .valueChanges({ idField: 'id' }), [])
   }
 }

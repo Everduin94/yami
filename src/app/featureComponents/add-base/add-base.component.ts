@@ -64,12 +64,12 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
     const contentByIdSub = this.client.activeContentById$.subscribe();
 
-    const saveDataSub = this.cs.saveData$.subscribe();
+    const saveFlashCard = this.cs.saveFlashCard$.subscribe();
 
     this.formSubscriptions.add(activeContentSub);
     this.formSubscriptions.add(clientDeckSub);
     this.formSubscriptions.add(contentByIdSub);
-    this.formSubscriptions.add(saveDataSub);
+    this.formSubscriptions.add(saveFlashCard);
   }
 
   ngOnDestroy(): void {
@@ -89,7 +89,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       group: this.group.value
     };
 
-    this.cs.saveDataEvent.next({payload, isExisting: activeContent.id});
+    this.cs.saveFlashCard.next({payload, isExisting: activeContent.id});
 
     const deck = this.deck.value;
     this.form.reset({deck});
@@ -122,10 +122,10 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     this.form.reset(selection);
   }
 
-  async deleteRow(userId, selection) {
+  async deleteRow(selection) {
 
     if (window.confirm('Are you sure you want to delete this card?')) {
-      await this.cs.deleteContentFromFS(selection.id).toPromise();
+      await this.cs.fsDeleteFlashcard(selection.id);
       const deck = this.deck.value;
       this.form.reset({deck});
       this.client.updateActiveContent({type: 'basic'});
@@ -147,7 +147,7 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       group: this.group.value
     };
 
-    const copiedCard = await this.cs.addContentToFS(payload).toPromise();
+    const copiedCard = await this.cs.fsAddFlashcard(payload);
     this.client.updateActiveContentById(copiedCard.id);
   }
 
@@ -156,7 +156,6 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   }
 
   returnToForm(activeContent) {
-    console.log('test');
     this.deck.patchValue(activeContent.deck);
     this.group.patchValue(activeContent.group);
   }

@@ -106,6 +106,10 @@ label.mat-optgroup-label {
     background: var(--box-shadow);
 }
 
+textarea {
+    font-size: 1.2rem;
+}
+
 /* Chromium */
 ::-webkit-scrollbar {
     width: 5px;

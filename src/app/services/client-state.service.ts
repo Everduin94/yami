@@ -16,7 +16,7 @@ export class ClientStateService {
     answer: '',
     category: '',
     fib: [],
-    isFibMode: false,
+    isFibMode: false, // TODO: Remove
 
     deck: '',
     group: '',
@@ -42,31 +42,24 @@ export class ClientStateService {
         }, {});
       }
 
-      if (!part) return acc;
-
-      else return {...acc, ...part};
+      return part ? {...acc, ...part} : acc;
     }),
-    withLatestFrom(this.activeContent$),
+    withLatestFrom(this.activeContent$), // TODO: This seems weird, and compareAnswers says (from DB)
     map(([v, ac]) =>  FibUtil.compareAnswers(v, ac)),
   );
 
-  categoryChangeEvent = new BehaviorSubject('');
-  deck$ = this.categoryChangeEvent.asObservable();
-  content$ = combineLatest([this.deck$, this.auth.userId$]).pipe(
-    // filter(([category, userId]) => !!category),
-    map(([category, userId]) => ({ category, userId })),
-    switchMap(data => {
-      if (!data.category) return of([]);
-      return this.cs.getUsersContentFromFS(data.userId, ref => ref.where('deck', '==', data.category))
-    }),
+  deckChangeEvent = new BehaviorSubject('');
+  deck$ = this.deckChangeEvent.asObservable();
+  flashCards$ = this.deck$.pipe(
+    switchMap(deck => deck ? this.cs.fsGetAllFlashcards(deck) : of([])),
     map(v => v.map((b,i) => ({...b, index: i}))),
     shareReplay(1)
-  ); // TODO: Active content can't be the same because of that map above. So I had to switch to ID
+  );
 
   // TODO: Okay or refactor? -- Yes refactor both (05/07/2020)
   activeContentByIndex = new Subject();
   activeContentByIndex$ = this.activeContentByIndex.pipe(
-    withLatestFrom(this.content$),
+    withLatestFrom(this.flashCards$),
     tap(([index, content]) => {
       if (content.length === 0) return;
       let activeContent = content.find(v => v.index === index);
@@ -77,7 +70,7 @@ export class ClientStateService {
 
   activeContentById = new Subject();
   activeContentById$  = this.activeContentById.asObservable().pipe(
-    withLatestFrom(this.content$),
+    withLatestFrom(this.flashCards$),
     tap(([id, content]) => {
       if (content.length === 0) return;
       let activeContent = content.find(v => v.id === id);
@@ -86,6 +79,19 @@ export class ClientStateService {
     })
   );
 
+   // TODO: Try something like this
+  test = new Subject();
+  test$ = this.test.asObservable().pipe(
+    switchMap((fn: (fc) => boolean) => this.flashCards$.pipe(
+      map(flashcards => fn ? flashcards.find(fc => fn(fc)) : null)
+    )),
+    map(fc => fc ? fc : {}), // TODO: Missing side effect for set by index (could try to pipe onto usage)
+    shareReplay(1)
+  );
+  setActiveContent(fn: (fc) => boolean) {
+    this.test.next(fn);
+  }
+  // End test
 
   constructor(private auth: FirebaseAuthService, private cs: ContentStateService) {
    }
@@ -111,7 +117,7 @@ export class ClientStateService {
   }
 
   public updateCategory(c) {
-    this.categoryChangeEvent.next(c);
+    this.deckChangeEvent.next(c);
   }
 }
 
