@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, OnDestroy, EventEmitter } from '@angu
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import {faLongArrowAltLeft} from '@fortawesome/free-solid-svg-icons/faLongArrowAltLeft';
 import { tap } from 'rxjs/operators';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -18,7 +18,6 @@ export class DeckInputComponent implements OnInit, OnDestroy {
   @Input() formSubmittedEvent: Observable<any>;
   @Output() returnedToForm = new EventEmitter();
   
-
   readonly addIcon = faPlusCircle;
   readonly backIcon = faLongArrowAltLeft;
 

@@ -1,6 +1,4 @@
 <form style="display: contents" [formGroup]="form">
-
-
   <ng-container *ngIf="!showAddDeck">
     <app-form-select [form]="form" [selectData]="decks" label="Deck *" controlName="deck" class="category-control">
     </app-form-select>
@@ -51,28 +49,7 @@
           </button>
         </ng-container>
   
-  
-  
       </div>
-
     </fieldset>
-    
-
-    
-
-
-    <!-- <button mat-raised-button class="back-category-control hover-button--cancel"
-      (click)="showAddDeck = !showAddDeck;$event.preventDefault();">
-      Back
-    </button>
-
-    <button mat-raised-button color="primary" [disabled]="!addCategoryInput.value" class="save-category-control"
-      (click)="addCategory(addCategoryInput.value, userId);
-  showAddDeck = !showAddDeck;$event.preventDefault();">
-      Save Deck
-    </button> -->
   </ng-container>
-
-
-
 </form>

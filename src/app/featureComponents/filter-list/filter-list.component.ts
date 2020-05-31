@@ -28,14 +28,8 @@ export class FilterListComponent implements OnInit {
   }
 
   raiseClickedEvent(content) {
-    // TODO: Add DB call up higher, this is still needed for patch form
     this.clickedEvent.emit(content);
-    
-    if (this.activeContent !== content) {
-      this.client.updateActiveContent(content);
-      this.client.setActiveFlashcard({id: content.id});
-    }
-
+    if (this.activeContent !== content) this.client.setActiveFlashcard({id: content.id});
   }
 
   changeCategory(c) {

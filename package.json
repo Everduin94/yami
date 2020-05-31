@@ -41,7 +41,9 @@
     "modulePathIgnorePatterns": [
       "./cypress/",
       "cache/Cypress/",
-      "/Cypress/"
+      "/Cypress/",
+      "/dist",
+      "./dist"
     ]
   },
   "private": true,

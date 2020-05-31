@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { switchMap, tap, map, shareReplay, take, filter, first } from 'rxjs/operators';
+import { switchMap, map, shareReplay, first } from 'rxjs/operators';
 import { of, BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
@@ -30,7 +30,7 @@ export class FirebaseAuthService {
   public getUserIdOrCancel(fn: (user: string) => Observable<any> | Promise<any>, defaultValue = null): Promise<any> {
     return this.userId$.pipe(
       switchMap(user =>  user ? fn(user) : of(defaultValue)),
-      take(1)
+      first()
     ).toPromise();
   }
 

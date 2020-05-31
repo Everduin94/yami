@@ -19,4 +19,6 @@ export class FlashCardsComponent {
   updateAnswer = (v) => this.client.updateIsAnswerShowing(v);
   isShowing = (v) => v === 'show' ? true : false;
   updateAnswers = (v) => this.client.updateAnswersEvent.next(v);
+  setNextActiveFlashcard = (v) => this.client.setActiveFlashcard({index: v.activeIndex + 1});
+
 }
