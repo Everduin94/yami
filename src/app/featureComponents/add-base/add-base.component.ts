@@ -4,9 +4,9 @@ import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { ContentStateService } from 'src/app/services/content-state.service';
 import { FibUtil } from './fib-util';
 import { ClientStateService } from 'src/app/services/client-state.service';
-import { Subscription, combineLatest, Subject } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion';
-import { withLatestFrom, map } from 'rxjs/operators';
+import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-base',
@@ -18,7 +18,6 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   readonly textAreaPlaceholder = `# Heading\n## Sub Heading\n### ...\nList\n- One\n- Two\nFIB Fill in blank FIB\n**Bold**\n*Italics*\n--- (line)`
   
   form: FormGroup;
-  showAddCategory = false;
   formSubscriptions: Subscription = new Subscription();
 
   formSubmittedEvent = new Subject();
@@ -29,55 +28,44 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   @ViewChild('title', { static: false }) titleElement;
 
   constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { 
-    
   }
 
   ngOnInit() {
 
     this.form = this.fb.group({
-      category: new FormControl(''),
       title: new FormControl('', [Validators.required]),
-      
-      
       question: new FormControl('', [Validators.required]),
       answer: new FormControl(''),
       previewMode: new FormControl(false),
-
       group: new FormControl(''),
       deck: new FormControl('', [Validators.required]),
       type: new FormControl('basic', [Validators.required]),
-      
     });
 
-    const activeContentSub = this.client.activeContent$.subscribe(v => {
-      this.form.patchValue(v, {emitEvent: false})
-    });
+    
 
-    const clientDeckSub = this.client.deck$.pipe(
-      withLatestFrom(this.client.activeContent$)
-    ).subscribe(v => {
-      const deck = v[0];
-      const activeContent = v[1];
-      if (activeContent && activeContent.deck !== deck) this.addRow(true);
-      this.deck.patchValue(v[0], {emitEvent:false});
+    const clientDeckSub = this.client.deck$.pipe(skip(1)).subscribe(deck => {
+      const formDeck = this.deck.value;
+      if (formDeck !== deck) this.addRow(true);
+      this.deck.patchValue(deck, {emitEvent:false});
     })
 
-    const contentByIdSub = this.client.activeContentById$.subscribe();
+    const activeContentSub = this.client.flashCards$.subscribe((v:any) => {
+      if (v.activeCard.id) this.form.patchValue(v.activeCard, {emitEvent: false})
+    });
 
-    const saveDataSub = this.cs.saveData$.subscribe();
+    const saveFlashCard = this.cs.saveFlashCard$.subscribe();
 
-    this.formSubscriptions.add(activeContentSub);
     this.formSubscriptions.add(clientDeckSub);
-    this.formSubscriptions.add(contentByIdSub);
-    this.formSubscriptions.add(saveDataSub);
+    this.formSubscriptions.add(activeContentSub);
+    this.formSubscriptions.add(saveFlashCard);
   }
 
   ngOnDestroy(): void {
     this.formSubscriptions.unsubscribe();
   }
 
-
-  onSubmit(userId, activeContent) {
+  onSubmit(activeContent) {
 
     const payload = {
       title: this.title.value,
@@ -89,24 +77,17 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       group: this.group.value
     };
 
-    this.cs.saveDataEvent.next({payload, isExisting: activeContent.id});
+    this.cs.saveFlashCard.next({payload, isExisting: activeContent.id});
 
     const deck = this.deck.value;
-    this.form.reset({deck});
-    this.client.updateActiveContent({type: 'basic'});
+    const type = this.type.value;
+    this.form.reset({deck, type});
+    this.client.setActiveFlashcard({});
     this.formSubmittedEvent.next();
   }
 
   addRow(vetoFocus = false) {
-    this.client.updateActiveContent({
-      answer: '',
-      question: '',
-      title: '',
-
-      type: 'basic',
-      deck: this.deck.value,
-      group: this.group.value
-    });
+    this.client.setActiveFlashcard({});
 
     if (this.titleElement && this.titleElement.inputElement && !vetoFocus) { // TODO: Use Renderer / update to Question?
       this.titleElement.inputElement.nativeElement.focus();
@@ -118,24 +99,25 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     this.form.reset({deck, group, type});
   }
 
-  cancel(selection) {
-    this.form.reset(selection);
+  cancel(activeCard) {
+    if (activeCard.id) this.form.reset(activeCard);
+    else this.addRow();
   }
 
-  deleteRow(userId, selection) {
+  async deleteRow(selection) {
 
     if (window.confirm('Are you sure you want to delete this card?')) {
-      this.cs.deleteContentFromFS(userId, selection.id);
+      await this.cs.fsDeleteFlashcard(selection.id);
+      this.client.setActiveFlashcard({});
       const deck = this.deck.value;
-      this.form.reset({deck});
-      this.client.updateActiveContent({type: 'basic'});
+      const type = this.type.value;
+      this.form.reset({deck, type});
     }
     
   }
 
-  async copyRow(userId, activeContent) {
+  async copyRow() {
     const title = this.title.value + ' (copy)';
-    console.log(title);
     const payload = {
       title: title,
       question: this.question.value,
@@ -147,8 +129,8 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       group: this.group.value
     };
 
-    const copiedCard = await this.cs.addContentToFS(userId, payload);
-    this.client.updateActiveContentById(copiedCard.id);
+    const copiedCard = await this.cs.fsAddFlashcard(payload);
+    this.client.setActiveFlashcard({id: copiedCard.id});
   }
 
   updateForm(event) {
@@ -156,7 +138,6 @@ export class AddBaseComponent implements OnInit, OnDestroy {
   }
 
   returnToForm(activeContent) {
-    console.log('test');
     this.deck.patchValue(activeContent.deck);
     this.group.patchValue(activeContent.group);
   }
@@ -174,7 +155,6 @@ export class AddBaseComponent implements OnInit, OnDestroy {
     return this.form.get('type');
   }
 
-
   get title() {
     return this.form.get('title');
   }
@@ -185,10 +165,6 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   get answer() {
     return this.form.get('answer');
-  }
-
-  get category() {
-    return this.form.get('category');
   }
 
   get previewMode() {

@@ -23,16 +23,25 @@ import { MdToHtmlModule } from 'src/app/pipes/md-to-html.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MdTextareaModule } from 'src/app/libraryComponents/md-textarea/md-textarea.module';
 import { DeckInputComponent } from './deck-input/deck-input.component';
+import { DeckManagerComponent } from './deck-manager/deck-manager.component';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatIconModule} from '@angular/material/icon';
+import { DeckTreeComponent } from './deck-manager/deck-tree/deck-tree.component';
+import { LoadingModule } from 'src/app/libraryComponents/loading/loading.module';
 
 const routes: Routes = [
   {
     path: '',
     component: AddBaseComponent,
+  },
+  {
+    path:'table',
+    component: DeckManagerComponent
   }
 ] 
 
 @NgModule({
-  declarations: [AddBaseComponent, DeckInputComponent],
+  declarations: [AddBaseComponent, DeckInputComponent, DeckManagerComponent, DeckTreeComponent],
   imports: [
     CommonModule,
     MatSliderModule,
@@ -41,6 +50,9 @@ const routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatTreeModule,
+    MatIconModule,
+    LoadingModule,
     FormsModule,
     ReactiveFormsModule,
     BoxRouteLinkModule,

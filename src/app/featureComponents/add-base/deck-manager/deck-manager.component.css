@@ -1,0 +1,13 @@
+:host {
+    /* TODO: Extract to base component */
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    min-height: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+
+    justify-items: center;
+    align-items: center;
+}

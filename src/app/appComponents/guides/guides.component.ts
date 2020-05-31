@@ -30,7 +30,7 @@ export class GuidesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.client.updateActiveContent({ type: 'basic' });
+    this.client.setActiveFlashcard({});
   }
 
 }
