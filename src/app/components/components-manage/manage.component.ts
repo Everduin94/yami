@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ClientStateService } from 'src/app/services/client-state.service';
 
 @Component({
   selector: 'app-manage',
   template: `
     <ng-container *ngIf="client.flashCards$ | async as flashCardsEntity">
-        <!-- Place add-base here as manage-container and add the directive -->
+        <app-manage-container appFormController
+            [activeContent]="flashCardsEntity?.activeCard"
+            [flashCardsEntity]="flashCardsEntity"
+        ></app-manage-container>
     </ng-container>
   `,
   styles: [`
@@ -18,11 +21,8 @@ import { ClientStateService } from 'src/app/services/client-state.service';
     }
   `]
 })
-export class ManageComponent implements OnInit {
+export class ManageComponent {
 
   constructor(public client: ClientStateService) { }
-
-  ngOnInit() {
-  }
 
 }

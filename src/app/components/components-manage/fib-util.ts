@@ -18,7 +18,6 @@ export class FibUtil {
 
     private static trimCompare(client, db): boolean {
         if (!client || !db) return client === db;
-        console.log(client.trim(), db.trim());
         return client.trim() === db.trim();
     }
 }

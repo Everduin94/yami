@@ -1,14 +1,14 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { ManageEvent, ManageEventType } from 'src/app/featureComponents/add-base/add-base.component';
+import { ManageEventType, ManageEvent } from '../form-controller.directive';
 
 @Component({
   selector: 'app-actions-drawer',
   template: `
     <app-filter-list 
-      [content]="flashCardsEntity.entities" 
+      [content]="flashCardsEntity?.entities" 
       [groups]="aggregatedDecks"
       [category]="deck" 
-      [activeContent]="flashCardsEntity.activeCard"
+      [activeContent]="flashCardsEntity?.activeCard"
       (clickedEvent)="updateForm($event)">
       <div class="container__filter-list__empty-message">
       </div>

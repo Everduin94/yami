@@ -19,7 +19,7 @@ const routes: Routes = [
       },
       {
         path: 'manage',
-        loadChildren: () => import('./featureComponents/add-base/add-base.module').then(mod => mod.AddBaseModule),
+        loadChildren: () => import('./components/components-manage/manage.module').then(mod => mod.ManageModule),
         canLoad: [FlashCardsGuard],
         canActivate: [FlashCardsGuard]
       },

@@ -1,6 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DeckManagerComponent } from './deck-manager.component';
 import { DeckManagerUtil } from './deck-manager-util';
 
 describe('DeckManagerComponent', () => {
