@@ -3,11 +3,6 @@
     --secondary-color: #1de9b6;
     --dark-secondary-color: #00b686;
     --warn-color: #ff1744;
-    --yellow: #ffea00;
-    --purple: #d500f9;
-    --red: #ff1744;
-    --orange: #ff3d00;
-    --indigo: #3d5afe;
     --background-color: #212834;
     --box-color: #11111170;
     --text-color: #ffffff;
@@ -33,7 +28,7 @@ body {
 }
 html { height: 100%; }
 
-body > * {
+body > *, div {
     box-sizing: border-box;
 }
 
@@ -108,6 +103,7 @@ label.mat-optgroup-label {
 
 textarea {
     font-size: 1.2rem;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 /* Chromium */

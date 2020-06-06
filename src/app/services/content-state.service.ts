@@ -29,7 +29,9 @@ export class ContentStateService {
     map(([decks, groups]) => {
       return {
         defaultDecks: decks.filter(d => !d.group),
-        groups: groups.map(g => ({ ...g, decks: decks.filter(d => d.group === g.id) }))
+        groups: groups
+        .map(g => ({ ...g, decks: decks.filter(d => d.group === g.id) }))
+        .filter(g => g.decks.length !== 0)
       }
     }),
     shareReplay(1)

@@ -9,16 +9,11 @@
         <mat-option *ngFor="let defaultDeck of groups?.defaultDecks" [value]="defaultDeck.id">
           {{defaultDeck.value}}        
         </mat-option>
-    
         <mat-optgroup *ngFor="let group of groups?.groups" [label]="group.value">
           <mat-option *ngFor="let deck of group.decks" [value]="deck.id">
             {{deck.value}}
           </mat-option>
         </mat-optgroup>
-
-        
-
-
 
       </mat-select>
     </mat-form-field>

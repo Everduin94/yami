@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import {faLongArrowAltLeft} from '@fortawesome/free-solid-svg-icons/faLongArrowAltLeft';
 import { tap } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { FormControllerDirective } from '@components/components-manage/form-controller.directive';
 
 @Component({
   selector: 'app-deck-input',
@@ -15,8 +16,6 @@ export class DeckInputComponent implements OnInit, OnDestroy {
   @Input() form: FormGroup;
   @Input() decks;
   @Input() groups;
-  @Input() formSubmittedEvent: Observable<any>;
-  @Output() returnedToForm = new EventEmitter();
   
   readonly addIcon = faPlusCircle;
   readonly backIcon = faLongArrowAltLeft;
@@ -26,10 +25,10 @@ export class DeckInputComponent implements OnInit, OnDestroy {
 
   subs = new Subscription();
 
-  constructor() { }
+  constructor(private formController: FormControllerDirective) { }
 
   ngOnInit() {
-    this.subs.add(this.formSubmittedEvent.pipe(
+    this.subs.add(this.formController.formSubmittedEvent.pipe(
       tap(v => {
         this.showAddDeck = false;
         this.showAddGroup = false;
@@ -48,6 +47,6 @@ export class DeckInputComponent implements OnInit, OnDestroy {
 
   private clearDeck = () => this.form.get('deck').reset();
   private clearGroup = () => this.form.get('group').reset();
-  private returnToForm = () => this.returnedToForm.emit();
+  public returnToForm = () => this.formController.returnToForm();
   
 }

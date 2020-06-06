@@ -5,7 +5,14 @@
   "projects": {
     "yami": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "flat": true,
+          "inlineStyle": true,
+          "inlineTemplate": true,
+          "spec": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",

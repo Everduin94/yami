@@ -28,6 +28,12 @@ import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
 import { DeckTreeComponent } from './deck-manager/deck-tree/deck-tree.component';
 import { LoadingModule } from 'src/app/libraryComponents/loading/loading.module';
+import { ActionsDrawerComponent } from 'src/app/components/components-manage/sub-components/actions-drawer.component';
+import { QuestionInputComponent } from '@components/components-manage/sub-components/question-input.component';
+import { MdTextareaWithPreviewComponent } from '@components/components-manage/sub-components/md-textarea-with-preview.component';
+import { AnswerInputComponent } from '@components/components-manage/sub-components/answer-input.component';
+import { FormControllerDirective } from '@components/components-manage/form-controller.directive';
+import { FlashCardDetailsComponent } from '@components/components-manage/sub-components/flash-card-details.component';
 
 const routes: Routes = [
   {
@@ -41,7 +47,14 @@ const routes: Routes = [
 ] 
 
 @NgModule({
-  declarations: [AddBaseComponent, DeckInputComponent, DeckManagerComponent, DeckTreeComponent],
+  declarations: [
+    ActionsDrawerComponent,
+    QuestionInputComponent,
+    MdTextareaWithPreviewComponent,
+    AnswerInputComponent,
+    FormControllerDirective,
+    FlashCardDetailsComponent,
+    AddBaseComponent, DeckInputComponent, DeckManagerComponent, DeckTreeComponent],
   imports: [
     CommonModule,
     MatSliderModule,

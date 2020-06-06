@@ -8,10 +8,22 @@ import { Subscription, Subject } from 'rxjs';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons/faQuestion';
 import { skip } from 'rxjs/operators';
 
+export enum ManageEventType {
+  ADD,
+  DELETE,
+  COPY,
+  UPDATE_FORM
+}
+
+export interface ManageEvent {
+  type: ManageEventType | string,
+  payload?: {}
+}
+
 @Component({
   selector: 'app-add-base',
   templateUrl: './add-base.component.html',
-  styleUrls: ['./add-base.component.css']
+  styleUrls: ['./add-base.component.css', '../../components/common-styles.css']
 })
 export class AddBaseComponent implements OnInit, OnDestroy {
 
@@ -42,8 +54,6 @@ export class AddBaseComponent implements OnInit, OnDestroy {
       type: new FormControl('basic', [Validators.required]),
     });
 
-    
-
     const clientDeckSub = this.client.deck$.pipe(skip(1)).subscribe(deck => {
       const formDeck = this.deck.value;
       if (formDeck !== deck) this.addRow(true);
@@ -63,6 +73,13 @@ export class AddBaseComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.formSubscriptions.unsubscribe();
+  }
+
+  consumeActionEvent(manageEvent: ManageEvent) {
+    if (manageEvent.type === ManageEventType.ADD) this.addRow();
+    if (manageEvent.type === ManageEventType.COPY) this.copyRow();
+    if (manageEvent.type === ManageEventType.DELETE) this.deleteRow(manageEvent.payload);
+    if (manageEvent.type === ManageEventType.UPDATE_FORM) this.updateForm(manageEvent.payload);
   }
 
   onSubmit(activeContent) {

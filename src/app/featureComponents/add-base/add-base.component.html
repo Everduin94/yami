@@ -2,105 +2,41 @@
     <form style="display:contents" [formGroup]="form" (ngSubmit)="onSubmit(flashCardsEntity.activeCard)" autocomplete="off">
 
       <div class="container">
-        <div class="container__filter-list">
+        <app-actions-drawer 
+        [flashCardsEntity]="flashCardsEntity"
+        [deck]="client.deck$ | async"
+        [aggregatedDecks]="cs.aggregatedDecks$ | async"
+        (actionEvent)="consumeActionEvent($event)"></app-actions-drawer>
 
-          <app-filter-list 
-            [content]="flashCardsEntity.entities" 
-            [groups]="cs.aggregatedDecks$ | async"
-            [category]="client.deck$ | async" 
-            [activeContent]="flashCardsEntity.activeCard"
-            (clickedEvent)="updateForm($event)">
+        <app-question-input 
+        [form]="form"
+        [type]="type?.value"
+        [value]="question?.value"
+        [practicePreview]="previewMode?.value">
+        </app-question-input>
 
-            <div class="container__filter-list__empty-message">
+        <app-answer-input 
+        [form]="form"
+        [type]="type?.value"
+        [value]="answer?.value"
+        [practicePreview]="previewMode?.value">
+        </app-answer-input>
 
-            </div>
-
-          </app-filter-list>
-
-          <div class="actions-container">
-            <app-header-span dataCy="action-header" label="Actions"></app-header-span>
-            <div class="filter-list__button-container">
-              <button class="hover-button" (click)="addRow(); $event.preventDefault();" mat-raised-button
-                data-cy="add-content-button">
-                Start New Card
-              </button>
-              <button class="hover-button" [disabled]="!flashCardsEntity?.activeCard?.id"
-                (click)="copyRow(); $event.preventDefault();" mat-raised-button
-                data-cy="copy-content-button">
-                Copy Card
-              </button>
-              <button class="hover-button--warn" [disabled]="!flashCardsEntity?.activeCard?.id"
-                (click)="deleteRow(flashCardsEntity.activeCard); $event.preventDefault();" mat-raised-button
-                data-cy="delete-content-button">
-                Delete Card
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="container__question" [class.expand]="type.value === 'fib'">
-          <app-header-span dataCy="question-header" label="Question *"></app-header-span>
-          <div>
-
-            <ng-container *ngIf="previewMode.value && question?.value; else questionEl">
-              <div [innerHtml]="question.value | mdToHtml:'answer':[]" data-cy="preview-question" class="preview-div">
-              </div>
-            </ng-container>
-            <ng-template #questionEl>
-              <app-md-textarea (keydown.enter)="$event.stopPropagation();" #question [form]="form"
-                [label]="textAreaPlaceholder" controlName="question">
-              </app-md-textarea>
-            </ng-template>
-
-          </div>
-        </div>
-
-        <div class="container__answer" *ngIf="type.value !== 'fib'">
-          <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
-          <div class="padded-container--bottom-shadow">
-
-            <ng-container *ngIf="previewMode.value && answer?.value; else answerEl">
-              <div [innerHtml]="answer.value | mdToHtml:'answer':[]" data-cy="preview-answer"></div>
-            </ng-container>
-            <ng-template #answerEl>
-              <app-md-textarea (keydown.enter)="$event.stopPropagation();" #answer [form]="form"
-                [label]="textAreaPlaceholder" controlName="answer">
-              </app-md-textarea>
-            </ng-template>
-
-          </div>
-        </div>
-
+        <!-- Meta Data & Save -->
         <div class="container__meta-data">
           <app-header-span dataCy="meta-header" label="Details">
             <span data-cy="details-header-info"> -
               {{flashCardsEntity?.activeCard?.title ? flashCardsEntity?.activeCard?.title : 'Adding New Card'}}</span>
           </app-header-span>
 
-          <div class="padded-container padded-container--bottom-shadow details-grid">
-            <app-form-text-input #title [form]="form" label="Name *" controlName="title" class="title-control">
-            </app-form-text-input>
-
-            <ng-container *ngIf="cs.deckRef$ | async as decks">
-              <ng-container *ngIf="cs.groupRef$ | async as groups">
-                <app-deck-input
-                  [decks]="decks"
-                  [form]="form"
-                  [groups]="groups"
-                  [formSubmittedEvent]="formSubmittedEvent$"
-                  (returnedToForm)="returnToForm(flashCardsEntity?.activeCard)"> 
-                </app-deck-input>
-              </ng-container>
-            </ng-container>
-            
-            <app-form-select [form]="form" [selectData]="[{id: 'basic', value: 'Basic'}, {id: 'fib', value: 'Fill in Blank (Cloze)'}]" label="Type"
-              controlName="type" class="category-control">
-            </app-form-select>
-          </div>
-
+          <app-flash-card-details
+            [activeContent]="flashCardsEntity?.activeCard"
+            [appFormController]="form"
+            [formSubmittedEvent]="formSubmittedEvent$">
+          </app-flash-card-details>
+          
           <div style="padding: 5px;">
-            <div style="padding-top: 10px; font-size: 24px;" class="preview-control">
+            <div style="padding-top: 10px; font-size: 24px; grid-column: span 2; text-align: center;">
               <mat-checkbox formControlName="previewMode" data-cy="preview-mode">Practice Preview</mat-checkbox>
               <hr class="divider">
             </div>
