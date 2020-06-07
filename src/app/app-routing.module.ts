@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './appComponents/page-not-found/page-not-found.component';
-import { LoginComponent } from './appComponents/login/login.component';
-import { ShellComponent } from './appComponents/header/shell.component';
+import { PageNotFoundComponent } from './components/components-app/page-not-found/page-not-found.component';
+import { LoginComponent } from './components/components-app/login/login.component';
+import { ShellComponent } from './components/components-app/header/shell.component';
 import { FlashCardsGuard } from './guards/flash-cards.guard';
-import { LandingComponent } from './appComponents/landing/landing.component';
+import { LandingComponent } from './components/components-app/landing/landing.component';
 
 const routes: Routes = [
   {
@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: 'flashCards',
-        loadChildren: () => import('./featureComponents/flash-cards/flash-cards.module').then(mod => mod.FlashCardsModule),
+        loadChildren: () => import('./components/components-practice/flash-cards/flash-cards.module').then(mod => mod.FlashCardsModule),
         canLoad: [FlashCardsGuard],
         canActivate: [FlashCardsGuard]
       },
@@ -25,7 +25,7 @@ const routes: Routes = [
       },
       {
         path: 'guides',
-        loadChildren: () => import('./appComponents/guides/guides.module').then(mod => mod.GuidesModule)
+        loadChildren: () => import('./components/components-guides/guides/guides.module').then(mod => mod.GuidesModule)
       },
       {
         path: 'login',

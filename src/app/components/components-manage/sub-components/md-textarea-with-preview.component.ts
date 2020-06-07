@@ -11,7 +11,7 @@ import { Component, Input, HostBinding } from '@angular/core';
     </ng-container>
   
     <ng-template #textareaEl>
-      <app-md-textarea [form]="form" label="temp" [controlName]="controlName" (keydown.enter)="$event.stopPropagation();">
+      <app-md-textarea [form]="form" [placeholder]="placeholder" [controlName]="controlName" (keydown.enter)="$event.stopPropagation();">
       </app-md-textarea>
     </ng-template>
   `,
@@ -23,6 +23,7 @@ export class MdTextareaWithPreviewComponent {
   @Input() label;
   @Input() form;
   @Input() value;
+  @Input() placeholder;
   @Input() controlName;
   @Input() practicePreview;
   @HostBinding('class') class = 'basic-header-block';

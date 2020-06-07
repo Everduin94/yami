@@ -9,22 +9,21 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BoxRouteLinkModule } from 'src/app/libraryComponents/box-route-link/box-route-link.module';
-import { FilterListModule } from '../../featureComponents/filter-list/filter-list.module';
-import { HeaderSpanModule } from 'src/app/libraryComponents/header-span/header-span.module';
-import { QuestionContentModule } from '../../featureComponents/question-content/question-content.module';
-import { AnswerContentModule } from '../../featureComponents/answer-content/answer-content.module';
-import { DetailsFormModule } from '../../featureComponents/details-form/details-form.module';
-import { FormComponentsModule } from 'src/app/formComponents/form-components.module';
-import { AutofocusModule } from 'src/app/libraryComponents/autofocus/autofocus.module';
+import { BoxRouteLinkModule } from '@components/components-lib/box-route-link/box-route-link.module';
+import { FilterListModule } from '../components-practice/filter-list/filter-list.module';
+import { HeaderSpanModule } from '@components/components-lib/header-span/header-span.module';
+import { QuestionContentModule } from '../components-practice/question-content/question-content.module';
+import { AnswerContentModule } from '../components-practice/answer-content/answer-content.module';
+import { FormComponentsModule } from '@components/components-lib/form-components.module';
+import { AutofocusModule } from '@components/components-lib/autofocus/autofocus.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MdToHtmlModule } from 'src/app/pipes/md-to-html.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MdTextareaModule } from 'src/app/libraryComponents/md-textarea/md-textarea.module';
+import { MdTextareaModule } from '@components/components-lib/md-textarea/md-textarea.module';
 import { DeckInputComponent } from './sub-components/deck-input/deck-input.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
-import { LoadingModule } from 'src/app/libraryComponents/loading/loading.module';
+import { LoadingModule } from '@components/components-lib/loading/loading.module';
 import { ActionsDrawerComponent } from 'src/app/components/components-manage/sub-components/actions-drawer.component';
 import { QuestionInputComponent } from '@components/components-manage/sub-components/question-input.component';
 import { MdTextareaWithPreviewComponent } from '@components/components-manage/sub-components/md-textarea-with-preview.component';
@@ -80,7 +79,6 @@ const routes: Routes = [
     QuestionContentModule,
     AnswerContentModule,
     MdTextareaModule,
-    DetailsFormModule,
     FormComponentsModule,
     FontAwesomeModule,
     MdToHtmlModule,

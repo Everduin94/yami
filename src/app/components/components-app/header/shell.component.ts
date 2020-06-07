@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from 'src/app/services/theme.service';
-import { Theme } from '../../models/theme.model';
+import { Theme } from '../../../models/theme.model';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { RouterOutlet } from '@angular/router';
 import { fader } from 'src/app/route-animations';

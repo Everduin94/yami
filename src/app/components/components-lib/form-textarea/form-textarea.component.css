@@ -14,7 +14,8 @@
     border: none;
     border-bottom: 2px solid var(--box-shadow);
     padding: 10px;
-    /*transition: border-color .3s linear;*/
+    padding-left: 15px;
+    transition: border-color .3s linear;
 }
 
 .textarea:active, .textarea:hover, .textarea:focus {

@@ -71,6 +71,19 @@ pre {
 
 
 /* Material Overrides */
+/* <div class="mat-form-field-underline ng-tns-c16-6 ng-star-inserted" style="
+    color:  blue;
+    background: blue;
+"><span class="mat-form-field-ripple"></span></div> */
+
+.mat-form-field-underline {
+    transition: background .3s linear;
+}
+
+div:hover > .mat-form-field-underline {
+    background: var(--primary-color) !important; 
+}
+
 .mat-form-field-flex {
     height: 100%;
 }

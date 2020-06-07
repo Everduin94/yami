@@ -1,4 +1,5 @@
 import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import { FormControllerDirective } from '../form-controller.directive';
 
 @Component({
   selector: 'app-question-input',
@@ -9,6 +10,7 @@ import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular
     [form]="form"
     [value]="value"
     [practicePreview]="practicePreview"
+    [placeholder]="fc.textAreaPlaceholder"
     ></app-md-textarea-with-preview>
   `,
   styles: [`
@@ -28,5 +30,9 @@ export class QuestionInputComponent {
   @Input() practicePreview;
   @HostBinding('class') class = 'basic-block'
   @HostBinding('class.expand') get expand() { return this.type === 'fib' }
+
+  constructor(public fc: FormControllerDirective) {
+
+  }
 
 }

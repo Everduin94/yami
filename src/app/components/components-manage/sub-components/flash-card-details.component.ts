@@ -1,5 +1,6 @@
-import { Component, OnInit, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostBinding, ChangeDetectionStrategy, ViewChild, OnInit } from '@angular/core';
 import { FormControllerDirective } from '../form-controller.directive';
+import { tap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-flash-card-details',
@@ -19,6 +20,8 @@ import { FormControllerDirective } from '../form-controller.directive';
             
       <app-form-select [form]="formController.form" [selectData]="types" label="Type" controlName="type">
       </app-form-select>
+
+      <ng-container *ngIf="focusTitle$ | async"></ng-container>
   `,
   styles: [`
     :host {
@@ -36,10 +39,16 @@ import { FormControllerDirective } from '../form-controller.directive';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlashCardDetailsComponent {
+  
 
   @HostBinding('class') scrollDiv = 'scroll-div'
+  @ViewChild('title', { static: false }) titleElement;
   readonly types = [{id: 'basic', value: 'Basic'}, {id: 'fib', value: 'Fill in Blank (Cloze)'}]
+  readonly focusTitle$ = this.formController.addEvent$.pipe(
+    filter(_ => this.titleElement && this.titleElement.inputElement),
+    tap(_ => this.titleElement.inputElement.nativeElement.focus())
+  );
 
   constructor(public formController: FormControllerDirective) { }
-
+  
 }

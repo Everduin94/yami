@@ -25,6 +25,7 @@
 }
 
 .body__content {
+    margin-bottom: 10px;
     min-height: 0;
     overflow-y: auto;
     box-shadow:  0 4px 3px -3px var(--box-shadow);

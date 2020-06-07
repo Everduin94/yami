@@ -29,6 +29,8 @@ export class FormControllerDirective {
 
   readonly questionIcon = faQuestion;
   readonly textAreaPlaceholder = `# Heading\n## Sub Heading\n### ...\nList\n- One\n- Two\nFIB Fill in blank FIB\n**Bold**\n*Italics*\n--- (line)`
+  private readonly addEvent = new Subject();
+  public readonly addEvent$ = this.addEvent.asObservable();
   readonly deckRef$ = this.cs.deckRef$;
   readonly groupRef$ = this.cs.groupRef$;
   readonly selectedDeck$ = this.client.deck$;
@@ -39,8 +41,6 @@ export class FormControllerDirective {
 
   form: FormGroup;
   formSubscriptions: Subscription = new Subscription();
-
-  @ViewChild('title', { static: false }) titleElement;
 
   constructor(private fb: FormBuilder, public auth: FirebaseAuthService, public cs: ContentStateService, public client: ClientStateService) { 
   }
@@ -60,7 +60,7 @@ export class FormControllerDirective {
     // This is the same emission #1
     const clientDeckSub = this.client.deck$.pipe(skip(1)).subscribe(deck => {
       const formDeck = this.deck.value;
-      if (formDeck !== deck) this.addRow(true);
+      if (formDeck !== deck) this.addRow();
       this.deck.patchValue(deck, {emitEvent:false});
       [this.showAddDeck, this.showAddGroup] = [false, false];
     })
@@ -82,7 +82,10 @@ export class FormControllerDirective {
   }
 
   consumeActionEvent(manageEvent: ManageEvent) {
-    if (manageEvent.type === ManageEventType.ADD) this.addRow();
+    if (manageEvent.type === ManageEventType.ADD)  {
+      this.addRow();
+      this.addEvent.next();
+    }
     if (manageEvent.type === ManageEventType.COPY) this.copyRow();
     if (manageEvent.type === ManageEventType.DELETE) this.deleteRow(manageEvent.payload);
     if (manageEvent.type === ManageEventType.UPDATE_FORM) this.updateForm(manageEvent.payload);
@@ -109,13 +112,8 @@ export class FormControllerDirective {
     [this.showAddDeck, this.showAddGroup] = [false, false];
   }
 
-  addRow(vetoFocus = false) {
+  addRow() {
     this.client.setActiveFlashcard({});
-
-    if (this.titleElement && this.titleElement.inputElement && !vetoFocus) { // TODO: Use Renderer / update to Question?
-      this.titleElement.inputElement.nativeElement.focus();
-    }
-    
     const deck = this.deck.value;
     const group = this.group.value;
     const type = this.type.value;

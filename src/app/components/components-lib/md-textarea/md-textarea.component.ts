@@ -18,7 +18,7 @@ export class MdTextareaComponent implements OnInit {
 
   @Input() form;
   @Input() controlName;
-  @Input() label;
+  @Input() placeholder;
   @Input() disabled;
   @ViewChild('textarea', { static: true }) textarea;
 

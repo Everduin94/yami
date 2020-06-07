@@ -9,7 +9,7 @@ export class FormTextareaComponent implements OnInit {
 
   @Input() form;
   @Input() controlName;
-  @Input() label;
+  @Input() placeholder;
   @Input() disabled;
   @ViewChild('inputEl', {static: true}) inputElement;
 

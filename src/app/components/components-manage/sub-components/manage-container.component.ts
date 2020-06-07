@@ -105,7 +105,8 @@ import { FormControllerDirective } from '../form-controller.directive';
     app-filter-list {
         border-bottom: var(--box-shadow) 1px solid;
     }                    
-  `]
+  `],
+  styleUrls: ['../../common-styles.css']
 })
 export class ManageContainerComponent {
 

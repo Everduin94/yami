@@ -1,4 +1,5 @@
 import { Component, Input, HostBinding } from '@angular/core';
+import { FormControllerDirective } from '../form-controller.directive';
 
 @Component({
   selector: 'app-answer-input',
@@ -8,6 +9,7 @@ import { Component, Input, HostBinding } from '@angular/core';
     label="Answer"
     [form]="form"
     [value]="value"
+    [placeholder]="fc.textAreaPlaceholder"
     [practicePreview]="practicePreview"
     ></app-md-textarea-with-preview>
   `,
@@ -27,5 +29,9 @@ export class AnswerInputComponent {
   @Input() practicePreview;
   @HostBinding('class') class = 'basic-block'
   @HostBinding('style.display') get expand() { return this.type === 'fib' ? 'none' : 'block' }
+
+  constructor(public fc: FormControllerDirective) {
+
+  }
 
 }
