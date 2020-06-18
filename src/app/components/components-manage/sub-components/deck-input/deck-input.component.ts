@@ -13,7 +13,19 @@ export class DeckInputComponent  {
 
   @Input() form: FormGroup;
   @Input() decks;
-  @Input() groups;
+
+  allGroups = [];
+  _groups;
+  @Input() set groups (update) {
+    console.log('update', update)
+    this._groups = update;
+    this.allGroups = this._groups.groups.map(g => ({value: g.value, id: g.value}));
+    
+  }
+  get groups() {
+    return this._groups
+  }
+  // TODO: make a map of all groups
   
   readonly addIcon = faPlusCircle;
   readonly backIcon = faLongArrowAltLeft;

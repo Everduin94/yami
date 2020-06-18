@@ -2,6 +2,22 @@
   <ng-container *ngIf="!fc.showAddDeck">
     <app-form-select [form]="form" [selectData]="decks" label="Deck *" controlName="deck" class="category-control">
     </app-form-select>
+    
+    <mat-form-field style="margin-right: 5px;">
+      <mat-label>Deck</mat-label>
+      <mat-select formControlName="deck" data-cy="form-select-deck" autocomplete="off">
+
+        <mat-option *ngFor="let defaultDeck of groups?.defaultDecks" [value]="defaultDeck.id">
+          {{defaultDeck.value}}        
+        </mat-option>
+        <mat-optgroup *ngFor="let group of groups?.groups" [label]="group.value">
+          <mat-option *ngFor="let deck of group.decks" [value]="deck.id">
+            {{deck.value}}
+          </mat-option>
+        </mat-optgroup>
+
+      </mat-select>
+    </mat-form-field>
 
     <button class="hover-button add-button" style="grid-row: 1 / span 1" 
     (click)="fc.showAddDeck = !fc.showAddDeck; clearForm(); $event.preventDefault();">
@@ -11,7 +27,7 @@
 
   <ng-container *ngIf="fc.showAddDeck">
 
-    <fieldset>
+    <fieldset class="new-deck-fieldset">
       <legend>New Deck</legend>
 
       <div class="add-container">
@@ -39,7 +55,7 @@
     
     
         <ng-container *ngIf="!fc.showAddGroup">
-          <app-form-select class="group-select" [form]="form" [selectData]="groups" label="Group (Optional)"
+          <app-form-select class="group-select" [form]="form" [selectData]="allGroups" label="Group (Optional)"
             controlName="group">
           </app-form-select>
     

@@ -1,9 +1,16 @@
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <!-- This is the tree node template for leaf nodes -->
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="flow-right">
     <!-- use a disabled button to provide padding for tree leaf -->
-    <button mat-icon-button disabled></button>
-    {{node.name}}
+    <span class="left">
+      <button mat-icon-button disabled></button>
+      <span>{{node.name}}</span>
+    </span>
+    <span class="right">
+      <mat-icon class="mat-icon-rtl-mirror delete-button" (click)="removeItem(node)">
+        {{'delete'}}
+      </mat-icon>
+    </span>
   </mat-tree-node>
   <!-- This is the tree node template for expandable nodes -->
   <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>

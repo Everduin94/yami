@@ -1,4 +1,4 @@
-import { Component, HostBinding, ChangeDetectionStrategy, ViewChild, OnInit } from '@angular/core';
+import { Component, HostBinding, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { FormControllerDirective } from '../form-controller.directive';
 import { tap, filter } from 'rxjs/operators';
 
@@ -9,13 +9,13 @@ import { tap, filter } from 'rxjs/operators';
       </app-form-text-input>
 
        <ng-container *ngIf="formController.deckRef$ | async as decks">
-         <ng-container *ngIf="formController.groupRef$ | async as groups">
+          <ng-container *ngIf="formController.aggregatedDecks$ | async as groups">
            <app-deck-input
              [decks]="decks"
              [form]="formController.form"
              [groups]="groups"> 
            </app-deck-input>
-        </ng-container>
+          </ng-container>
       </ng-container>
             
       <app-form-select [form]="formController.form" [selectData]="types" label="Type" controlName="type">

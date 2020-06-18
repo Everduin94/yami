@@ -8,6 +8,11 @@
     grid-template-columns: 1fr min-content;
 }
 
+.add-container {
+    gap: 4px;
+    padding-left: 8px;
+}
+
 fieldset {
     width: 100%;
     border: var(--primary-color) 2px solid;
@@ -57,4 +62,11 @@ legend {
 
 .add-button fa-icon, .return-button fa-icon {
     color: var(--text-color);
+}
+
+/* Prevents horizontal scroll */
+.new-deck-fieldset {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 5px;
 }

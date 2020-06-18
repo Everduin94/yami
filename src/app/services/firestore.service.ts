@@ -8,6 +8,19 @@ export class FirestoreService {
 
   constructor(private af: AngularFirestore) { }
 
+  testSave(tableName, userId, data) {
+    return this.get(tableName, userId).set(data);
+  }
+
+  getAggregateDecks(userId): AngularFirestoreDocument<any> {
+    return this.get('aggregateDeck', userId);
+  }
+
+  selectAggregateDecks(userId) {
+    return this.getAggregateDecks(userId).valueChanges();
+  }
+
+
   getAll(tableName) {
     return this.af.collection(tableName);
   }

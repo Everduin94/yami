@@ -14,34 +14,6 @@ interface FoodNode {
   children?: FoodNode[];
 }
 
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Fruit',
-    children: [
-      {name: 'Apple'},
-      {name: 'Banana'},
-      {name: 'Fruit loops'},
-    ]
-  }, {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [
-          {name: 'Broccoli'},
-          {name: 'Brussels sprouts'},
-        ]
-      }, {
-        name: 'Orange',
-        children: [
-          {name: 'Pumpkins'},
-          {name: 'Carrots'},
-        ]
-      },
-    ]
-  },
-];
-
 /** Flat node with expandable and level information */
 interface ExampleFlatNode {
   expandable: boolean;
@@ -51,6 +23,7 @@ interface ExampleFlatNode {
 
 interface DeckOrGroupNode {
   expandable: boolean;
+  children?: DeckOrGroupNode[];
   name: string;
   level: number;
   type: string;
@@ -65,11 +38,12 @@ export class DeckTreeComponent implements OnInit {
 
   @Input() aggregateGroupData;
 
-  private _transformer = (node: FoodNode, level: number) => {
+  private _transformer = (node: DeckOrGroupNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
+      type: node.type,
     };
   }
   treeControl = new FlatTreeControl<ExampleFlatNode>(node => node.level, node => node.expandable);
@@ -87,6 +61,8 @@ export class DeckTreeComponent implements OnInit {
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
-
+  removeItem(node) {
+    console.log(node);
+  }
   
 }

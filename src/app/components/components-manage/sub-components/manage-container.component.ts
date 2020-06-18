@@ -60,7 +60,7 @@ import { FormControllerDirective } from '../form-controller.directive';
     
     :host {
         display: grid;
-        grid-template-columns: 2fr minmax(240px, 2fr) 6fr;
+        grid-template-columns: 2fr minmax(255px, 2fr) 6fr;
         grid-template-rows: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
         height: 100%;
         width: 100%;

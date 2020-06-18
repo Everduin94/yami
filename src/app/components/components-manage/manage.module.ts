@@ -34,6 +34,7 @@ import { ManageContainerComponent } from '@components/components-manage/sub-comp
 import { ManageComponent } from './manage.component';
 import { DeckManagerComponent } from './sub-components/deck-manager/deck-manager.component';
 import { DeckTreeComponent } from './sub-components/deck-manager/deck-tree/deck-tree.component';
+import { DeckSelectComponent } from './sub-components/deck-select.component';
 
 const routes: Routes = [
   {
@@ -58,7 +59,8 @@ const routes: Routes = [
     ManageContainerComponent,
     DeckInputComponent,
     DeckManagerComponent,
-    DeckTreeComponent
+    DeckTreeComponent,
+    DeckSelectComponent
   ],
   imports: [
     CommonModule,
