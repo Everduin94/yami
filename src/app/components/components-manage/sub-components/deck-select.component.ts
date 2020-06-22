@@ -5,7 +5,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   template: `
     <mat-form-field style="margin-right: 5px;">
       <mat-label>Deck</mat-label>
-      <mat-select data-cy="category" (selectionChange)="selectionChangeEvent($event)" [value]="deck">
+      <mat-select data-cy="deck" (selectionChange)="selectionChangeEvent($event)" [value]="deck">
 
         <mat-option *ngFor="let defaultDeck of groups?.defaultDecks" [value]="defaultDeck.id">
           {{defaultDeck.value}}        

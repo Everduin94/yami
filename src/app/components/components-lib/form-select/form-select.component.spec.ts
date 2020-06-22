@@ -23,8 +23,8 @@ describe('FormSelectComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FormSelectComponent);
     component = fixture.componentInstance;
-    component.form = new FormGroup({'category': new FormControl('DEMO')});
-    component.controlName = 'category';
+    component.form = new FormGroup({'deck': new FormControl('DEMO')});
+    component.controlName = 'deck';
     component.selectData = [
       {value: 'DEMO'},
       {value: 'Hello!'},
@@ -36,9 +36,9 @@ describe('FormSelectComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a cy tag of form-select-category given formControlName of category', () => {
+  it('should have a cy tag of form-select-deck given formControlName of deck', () => {
     const compiled = fixture.debugElement.nativeElement;
-    const categorySelect = compiled.querySelector('mat-select[data-cy=form-select-category]');
+    const categorySelect = compiled.querySelector('mat-select[data-cy=form-select-deck]');
     expect(categorySelect).toBeTruthy();
     /*const actual = categorySelect.value;
     const expected = "DEMO";

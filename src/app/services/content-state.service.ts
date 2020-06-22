@@ -45,7 +45,7 @@ export class ContentStateService {
       take(1),
       switchMap(deckRefs => {
         const deckRef = deckRefs.find(d => d.id === event.payload.deck || d.value === event.payload.deck);
-        if (deckRef) return of(deckRef);
+        if (deckRef) return of(deckRef.id);
         else return this.fsAddDeck({ active: true, value: event.payload.deck, group: event.payload.group });
       }),
       map(id => [{ ...event.payload, group: event.payload.group, deck: id }, event.isExisting])
