@@ -67,7 +67,7 @@ export class FormControllerDirective {
 
     // This is the same emission #2
     const activeContentSub = this.client.flashCards$.subscribe((v:any) => {
-      if (v.activeCard.id) this.form.patchValue(v.activeCard, {emitEvent: false})
+      if (v.activeCard && v.activeCard.id) this.form.patchValue(v.activeCard, {emitEvent: false})
     });
 
     const saveFlashCard = this.cs.saveFlashCard$.subscribe();
@@ -100,7 +100,7 @@ export class FormControllerDirective {
       type: this.type.value ? this.type.value : 'basic',
       deck: this.deck.value,
       fib: FibUtil.getPredefinedAnswers(this.question.value),
-      group: this.group.value
+      group: this.group.value == null ? '' : this.group.value
     };
 
     this.cs.saveFlashCard.next({payload, isExisting: activeContent.id});

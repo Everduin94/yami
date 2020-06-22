@@ -11,29 +11,13 @@ import { DocumentReference } from '@angular/fire/firestore';
 })
 export class ContentStateService {
 
-
-  /* deckRef$: Observable<any[]> = this.auth.selectUserIdOrCancel(userId => {
-    return this.fs.get(`decks`, userId).collection('items').valueChanges({ idField: 'id' }).pipe(
-      map(item => item.filter(val => val.active).map(val => ({ value: val.value, id: val.id, group: val.group }))),
-      shareReplay(1)
-    );
-  }, []);
-
-  groupRef$ = this.auth.selectUserIdOrCancel(userId => {
-    return this.fs.get(`groups`, userId).collection('items').valueChanges({ idField: 'id' }).pipe(
-      map(item => item.filter(val => val.active).map(val => ({ value: val.value, id: val.id }))),
-      shareReplay(1)
-    )
-  }, []); */
-
-
   aggregatedDecks$ = this.fsSelectAggregateDecks().pipe(
     map(decks => {
-      
+
       const groupMapping = new Map();
       decks.forEach(d => {
-        if (d.group && groupMapping.has(d.group)) groupMapping.set(d.group, [...groupMapping.get(d.group), {value: d.value, id: d.id, group: d.group}])
-        else if (d.group) groupMapping.set(d.group, [{value: d.value, id: d.id, group: d.group}]);
+        if (d.group && groupMapping.has(d.group)) groupMapping.set(d.group, [...groupMapping.get(d.group), { value: d.value, id: d.id, group: d.group }])
+        else if (d.group) groupMapping.set(d.group, [{ value: d.value, id: d.id, group: d.group }]);
       });
       const groups = Array.from(groupMapping, ([value, decks]) => ({ value, decks }));
 
@@ -43,31 +27,75 @@ export class ContentStateService {
   )
 
   deckRef$: Observable<any[]> = this.aggregatedDecks$.pipe(
-    map(decks => [...decks.defaultDecks, 
-      ...decks.groups
+    map(decks => [...decks.defaultDecks,
+    ...decks.groups
       .map(g => g.decks)
-      .reduce((acc, curr) => [...curr, ...acc],[])]),
-      shareReplay(1)
+      .reduce((acc, curr) => [...curr, ...acc], [])]),
+    shareReplay(1)
   );
 
   groupRef$: Observable<any[]> = this.aggregatedDecks$.pipe(
-    map(decks => [...decks.groups.map(g => ({value: g.value}))]),
+    map(decks => [...decks.groups.map(g => ({ value: g.value }))]),
     shareReplay(1)
   );
 
+  saveFlashCard = new Subject<any>();
+  saveFlashCard$ = this.saveFlashCard.asObservable().pipe(
+    switchMap(event => this.deckRef$.pipe(
+      take(1),
+      switchMap(deckRefs => {
+        const deckRef = deckRefs.find(d => d.id === event.payload.deck || d.value === event.payload.deck);
+        if (deckRef) return of(deckRef);
+        else return this.fsAddDeck({ active: true, value: event.payload.deck, group: event.payload.group });
+      }),
+      map(id => [{ ...event.payload, group: event.payload.group, deck: id }, event.isExisting])
+    )),
+    switchMap(([payload, existingId]) => {
+      if (existingId) return this.fsUpdateFlashcard(existingId, payload);
+      else return this.fsAddFlashcard(payload);
+    })
+  );
 
-  // TODO: This could be a server-side query (Denormalization)
-  /* aggregatedDecks$ = combineLatest([this.deckRef$, this.groupRef$]).pipe(
-    map(([decks, groups]) => {
-      return {
-        defaultDecks: decks.filter(d => !d.group),
-        groups: groups
-        .map(g => ({ ...g, decks: decks.filter(d => d.group === g.id) }))
-        .filter(g => g.decks.length !== 0)
-      }
-    }),
-    shareReplay(1)
-  ); */
+  fsAddDeck(entry): Promise<any> {
+    return this.fsSelectAggregateDecks().pipe(
+      take(1),
+      switchMap((aggregateDecks: any[]) => {
+        return this.auth.getUserIdOrCancel(async (userId) => {
+          const newDeck = await this.fs.createItemsEntryById("decks", userId, entry)
+          const update = { value: entry.value, group: entry.group, id: newDeck.id };
+          aggregateDecks.push(update);
+          await this.fs.getAggregateDecks(userId).set({ decks: aggregateDecks });
+          return newDeck.id;
+        })
+      })
+    ).toPromise();
+  }
+
+  constructor(private fs: FirestoreService, private auth: FirebaseAuthService) { }
+
+  fsAddGroup(entry): Promise<DocumentReference> {
+    console.log('Creating a new group')
+    return this.auth.getUserIdOrCancel(userId => this.fs.createItemsEntryById("groups", userId, entry));
+  }
+
+  fsAddFlashcard(entry): Promise<DocumentReference> {
+    return this.auth.getUserIdOrCancel(userId => this.fs.createItemsEntryById("flash_cards", userId, entry));
+  }
+
+  fsUpdateFlashcard(documentId, entry): Promise<void> {
+    return this.auth.getUserIdOrCancel(userId => this.fs.updateItemsEntryById("flash_cards", userId, documentId, entry));
+  }
+
+  fsDeleteFlashcard(entryId): Promise<void> {
+    return this.auth.getUserIdOrCancel(userId => this.fs.deleteItemsEntryById("flash_cards", userId, entryId));
+  }
+
+  fsSelectAllFlashcards(deck): Observable<any[]> {
+    return this.auth.selectUserIdOrCancel(userId =>
+      this.fs.get('flash_cards', userId)
+        .collection('items', ref => ref.where('deck', '==', deck))
+        .valueChanges({ idField: 'id' }), [])
+  }
 
   fsSelectAggregateDecks(): Observable<any[]> {
     return this.auth.selectUserIdOrCancel(auth => this.fs.selectAggregateDecks(auth)).pipe(
@@ -76,41 +104,9 @@ export class ContentStateService {
     )
   }
 
-/*
-Get Aggregate Data [x]
-Set Aggregate Data [x]
 
-Situational
-------------
-Replace aggregateData [x]
-Replace Save Card
-Saving Aggregate Data [x]
-
-
-06/17/2020:
-- Remove groupref and deckref usage from details dropdown [X]
-- SaveDeck is using groupRef and DeckRef to determine what exists, use aggregate w/ value instead. []
-  - Also, I don't think that group having an id matters anymore.
-  - It's going to get added to the deck as is.
-- In the future, find a way to add a deck without the 2 network calls (first is to make id).
-  - Note, push does not work because push adds an ID to document (also I can't find it in angularfire api)
-
-*/
-
-// TODO: 06/19/2020 -- Save is using aggregate now.
-/*
-I am essentially abandoing group id, but it is still being used on the original deck collection.
-Should I remove it entirely?
-Should I remove adding groups to that collection entirely, if ID won't be referenced?
-
-TODO: Always saves new (invalid) group because the group value is an ID!
-- Fix [ ]
-- Also my groups / decks I added are now missing on refresh
-core.js:7187 ERROR FirebaseError: Function DocumentReference.set() called with invalid data. Unsupported field value: undefined (found in field groupValue)
-    at new FirestoreError (http://localhost:4200/vendor.js:125365:28)
-    at 
-*/
-
+  /* 
+  
   dataFix$ = combineLatest([this.deckRef$, this.groupRef$]).pipe(
     map(([decks, groups]) => {
       console.log(decks, groups)
@@ -131,75 +127,6 @@ core.js:7187 ERROR FirebaseError: Function DocumentReference.set() called with i
     switchMapTo(this.fsSelectAggregateDecks()),
     tap(console.log),
   )
-
-  saveFlashCard = new Subject<any>();
-  saveFlashCard$ = this.saveFlashCard.asObservable().pipe(
-    switchMap(event => this.groupRef$.pipe(
-      take(1),
-      switchMap(groupRefs => {
-        if (!event.payload.group) return of({ value: '', id: '' });
-        const groupRef = groupRefs.find(g => g.value === event.payload.group);
-        if (groupRef) return of(groupRef);
-        else return this.fsAddGroup({ active: true, value: event.payload.group });
-      }),
-
-      switchMap(groupId => this.deckRef$.pipe(
-        take(1),
-        switchMap(deckRefs => {
-          const deckRef = deckRefs.find(d => d.id === event.payload.deck || d.value === event.payload.deck);
-          if (deckRef) return of(deckRef);
-          else return this.fsAddDeck({ active: true, value: event.payload.deck, group: groupId.id, groupValue: groupId.value });
-        }),
-        map(v => [{ ...event.payload, group: groupId.id, deck: v.id }, event.isExisting])
-      ))
-
-    )),
-    switchMap(([payload, existingId]) => {
-      if (existingId) return this.fsUpdateFlashcard(existingId, payload);
-      else return this.fsAddFlashcard(payload);
-    })
-  );
-
-  constructor(private fs: FirestoreService, private auth: FirebaseAuthService) { }
-
-  fsAddDeck(entry): Promise<DocumentReference> {
-
-    return this.fsSelectAggregateDecks().pipe(
-      take(1),
-      switchMap((aggregateDecks: any[]) => {
-        return this.auth.getUserIdOrCancel(async (userId) => {
-          const newDeck = await this.fs.createItemsEntryById("decks", userId, entry)
-          const update = {value: entry.value, group: entry.groupValue, id: newDeck.id};
-          aggregateDecks.push(update);
-          this.fs.getAggregateDecks(userId).set({decks: aggregateDecks});
-          return this.fs.createItemsEntryById("decks", userId, entry)
-        })
-      })
-    ).toPromise();
-
-  }
-
-  fsAddGroup(entry): Promise<DocumentReference> {
-    console.log('Creating a new group')
-    return this.auth.getUserIdOrCancel(userId => this.fs.createItemsEntryById("groups", userId, entry));
-  }
-
-  fsAddFlashcard(entry): Promise<DocumentReference> {
-    return this.auth.getUserIdOrCancel(userId => this.fs.createItemsEntryById("flash_cards", userId, entry));
-  }
-
-  fsUpdateFlashcard(documentId, entry): Promise<void> {
-    return this.auth.getUserIdOrCancel(userId => this.fs.updateItemsEntryById("flash_cards", userId, documentId, entry));
-  }
-
-  fsDeleteFlashcard(entryId): Promise<void> {
-    return this.auth.getUserIdOrCancel(userId => this.fs.deleteItemsEntryById("flash_cards", userId, entryId));
-  }
-
-  fsSelectAllFlashcards(deck): Observable<any[]> {
-    return this.auth.selectUserIdOrCancel(userId => 
-      this.fs.get('flash_cards', userId)
-        .collection('items', ref => ref.where('deck', '==', deck))
-        .valueChanges({ idField: 'id' }), [])
-  }
+  
+  */
 }
