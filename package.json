@@ -67,6 +67,7 @@
     "dompurify": "^2.0.8",
     "faker": "^4.1.0",
     "firebase": "^6.2.2",
+    "firestore-size": "^2.0.6",
     "hammerjs": "^2.0.8",
     "highlight.js": "^9.18.1",
     "jest": "^25.1.0",

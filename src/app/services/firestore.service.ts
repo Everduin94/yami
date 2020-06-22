@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, CollectionReference, AngularFirestoreDocument } from '@angular/fire/firestore';
+import sizeof from 'firestore-size';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,9 @@ export class FirestoreService {
   }
 
   selectAggregateDecks(userId) {
+    
+    const bytes = this.getAggregateDecks(userId).valueChanges().subscribe(v =>  console.log(sizeof(v), v));
+    
     return this.getAggregateDecks(userId).valueChanges();
   }
 
