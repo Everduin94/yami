@@ -48,3 +48,13 @@
 app-filter-list {
     border-right: 1px solid var(--box-shadow);
 }
+
+
+@media (max-width: 768px) {     
+    
+    .container {
+      display: block;
+      height: inherit;
+    }
+
+}

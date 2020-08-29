@@ -16,9 +16,5 @@ export class DeckManagerComponent  {
   constructor(private cs: ContentStateService, private fns: FunctionsService) {
 
   }
-
-  testCall() {
-    this.fns.testCall();
-  }
-
+  
 }

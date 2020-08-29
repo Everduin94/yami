@@ -15,7 +15,15 @@ import { Component, Input, HostBinding } from '@angular/core';
       </app-md-textarea>
     </ng-template>
   `,
-  styles: [],
+  styles: [`
+      @media (max-width: 768px) { 
+    
+      :host {
+        min-height: 400px;
+      }
+
+      }
+  `],
   styleUrls: ['../../common-styles.css']
 })
 export class MdTextareaWithPreviewComponent {

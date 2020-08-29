@@ -20,7 +20,7 @@ export class FirestoreService {
 
   selectAggregateDecks(userId) {
     
-    const bytes = this.getAggregateDecks(userId).valueChanges().subscribe(v =>  console.log(sizeof(v), v));
+    // const bytes = this.getAggregateDecks(userId).valueChanges().subscribe(v =>  console.log(sizeof(v), v));
     
     return this.getAggregateDecks(userId).valueChanges();
   }

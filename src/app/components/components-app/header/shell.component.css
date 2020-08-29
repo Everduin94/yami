@@ -1,6 +1,6 @@
 :host {
     display: grid;
-    grid-template-rows: 64px minmax(0, 1fr);
+    grid-template-rows: 6vh minmax(0, 1fr);
     height: 100vh;
     max-height: 100vh;
     overflow: hidden;
@@ -93,4 +93,34 @@
 
 .log-button:hover, .log-button-active {
     background: var(--primary-color);
+}
+
+
+@media (max-width: 768px) { 
+    
+    :host {
+      display: block;
+      overflow: hidden;
+      height: inherit;
+      max-height: 2000vh;
+    }
+
+    .inner-host {
+        display: block; 
+        height: inherit;
+    }
+
+    .container__title {
+        display: none;
+    }
+
+    .container {
+        padding: 6px;
+    }
+
+    button {
+        padding: 0;
+    }
+
+
 }

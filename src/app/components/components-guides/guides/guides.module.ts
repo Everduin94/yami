@@ -15,6 +15,8 @@ import { ContentGuideComponent } from './content/content-guide.component';
 import { MarkdownGuideComponent } from './content/markdown-guide.component';
 import { PracticingGuideComponent } from './content/practicing-guide.component';
 import { YamiGuideComponent } from './content/yami-guide.component';
+import { ContactGuideComponent } from './content/contact-guide.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   {
@@ -28,11 +30,14 @@ const routes: Routes = [
     ContentGuideComponent,
     MarkdownGuideComponent,
     PracticingGuideComponent,
-    YamiGuideComponent],
+    ContactGuideComponent,
+    YamiGuideComponent,
+  ],
   imports: [
     CommonModule,
     MatSliderModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

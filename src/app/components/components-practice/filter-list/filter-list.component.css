@@ -2,7 +2,7 @@
     display: grid;
     height: 100%;
     width: 100%;
-    grid-template-rows: 150px minmax(0,1fr);
+    grid-template-rows: min-content minmax(0,1fr);
 }
 
 .filter__header {
@@ -56,4 +56,14 @@ button, mat-form-field {
 
 .filter__body__card:last-child {
     padding-bottom: 0px;
+}
+
+
+@media (max-width: 768px) { 
+    
+    :host {
+      max-height: 400px;
+    }
+
+    
 }

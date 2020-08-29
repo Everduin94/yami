@@ -28,7 +28,7 @@ export class FormControllerDirective {
   @Input() activeContent;
 
   readonly questionIcon = faQuestion;
-  readonly textAreaPlaceholder = `# Heading\n## Sub Heading\n### ...\nList\n- One\n- Two\nFIB Fill in blank FIB\n**Bold**\n*Italics*\n--- (line)`
+  readonly textAreaPlaceholder = `# Heading\n## Sub Heading\n### ...\nList\n- One\n- Two\nFIB Fill in blank FIB\n**Bold**\n*Italics*\n![Image Description](Your Image URL)\n[Hyperlink Text](Your URL)`
   private readonly addEvent = new Subject();
   public readonly addEvent$ = this.addEvent.asObservable();
   readonly deckRef$ = this.cs.deckRef$;
@@ -159,7 +159,6 @@ export class FormControllerDirective {
   }
 
   returnToForm() {
-    console.log(this.activeContent.deck, this.activeContent.group)
     this.deck.patchValue(this.activeContent.deck);
     this.group.patchValue(this.activeContent.group);
   }

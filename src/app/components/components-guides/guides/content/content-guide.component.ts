@@ -6,31 +6,86 @@ import { AngularFireStorage } from '@angular/fire/storage';
   selector: 'app-content-guide',
   template: `
   
-  <h1> Work in Progress </h1>
+  <h1> Your First Flashcard </h1>
+
+  <div>
+  Click "Manage" in the top right-hand corner.
+  </div>
+
+  <div>
+  This screen will handle all creation, editing, and deleting of cards, decks, and groups.
+  </div>
+
+  <div class="box-shadow" *ngIf="emptyManageScreen | async as ems; else loading">
+        <img [src]="ems"/>
+  </div>
+
+  <div>
+  All <strong>flashcards</strong> belong to a <strong>deck</strong>. A deck is a collection of flashcards.
+  </div>
+
+  <div>
+  You can select an existing deck via the Deck dropdown. Or you can add a new deck by clicking the plus icon.
+  </div>
+
+  <div>
+  Each deck may optionally have a <strong>group</strong> to organize multiple decks into one place 
+  </div>
+
+  <div class="inset">
+    <em>
+    After clicking the plus icon to add a new deck or group, once you save the flashcard, the new deck/group will be created.
+    You do <strong>not</strong> have to click the back arrow or perform a separate save
+    </em>
+  </div>
+
+  <div>
+    All cards have a <strong>type</strong>. Yami currently has two types. Basic - Which uses a freeform
+    entry of question and answer, as well as, "Fill in Blank".
+</div>
+
+<div>
+Fill in the blanks are commonly known as
+    "clozes". Selecting the "Fill in Blank" type allows us to use the "FIB" tag which will generate a fill-in-the-blank 
+    when that card is selected on the practice screen.
+</div>
+
+  <div>
+  Let's make a simple flashcard that utilizes features like markdown, fill-in-blanks, and syntax highlighting.
+  We will simutaneously create a new deck and it's first flashcard.
+  </div>
+
+  <div class="box-shadow" *ngIf="populatedManageScreen | async as pm; else loading">
+        <img [src]="pm"/>
+  </div>
+
+  <div>
+    By clicking the "Practice Preview" check box, we can see what the final version of our card will look like in practice.
+  </div>
+
+  <div class="box-shadow" *ngIf="previewManageScreen | async as pm2; else loading">
+        <img [src]="pm2"/>
+  </div>
 
 
-  Creating your first card: To create a card navigate to the manage screen by clicking "Manage" in the top left corner of the application. Enter a title, a title is how users can summarize and identify the card. The title will be displayed on each button on the left hand side when practicing or editing existing cards.
-
-  Create a new category. Categories allow users to organize groups of cards any way they like for when they practice. To create a new category, click the "new category" button, type a category name, and press save. Next time you want to add a card to this category, you can simply select it from the dropdown.
-  
-  Filling out the question and answer. Let's make a simple flash-card that has minimal use of Markdown.
-  
-  <ng-container *ngIf="profileUrl | async as imageSrc">
-  <img [src]="imageSrc" style="border: 1px solid var(--box-shadow); width: 1000px; height: 600px;"/>
-</ng-container>
-  
-  
-  Deleting a card: To delete a card, click the "Delete Content" button in the bottom left corner. Delete will only be available when an existing card is selected and will delete that selected card. -- A confirmation dialog will be prompted after clicking delete! 
-
+  <ng-template #loading>
+    <div class="mat-spinner-container">
+        <mat-spinner [diameter]="30"></mat-spinner>
+    </div>
+  </ng-template>
   `,
-  styles: ['']
+  styleUrls: ['./content.css']
 })
 export class ContentGuideComponent {
 
-    profileUrl: Observable<string | null>;
-    constructor(private storage: AngularFireStorage) {
-       const ref = this.storage.ref('create-react-card.png');
-       this.profileUrl = ref.getDownloadURL();
-    }
+  profileUrl: Observable<string | null>;
+  emptyManageScreen: Observable<string | null>;
+  populatedManageScreen: Observable<string | null>;
+  previewManageScreen: Observable<string | null>;
+  constructor(private storage: AngularFireStorage) {
+    this.emptyManageScreen = this.storage.ref('manage-yami.png').getDownloadURL();
+    this.populatedManageScreen = this.storage.ref('manage-yami-2.png').getDownloadURL();
+    this.previewManageScreen = this.storage.ref('manage-yami-3.png').getDownloadURL();
+  }
 
 }

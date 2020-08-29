@@ -2,6 +2,7 @@
     height: 400px;
     width: 400px;
     overflow-x: auto;
+    background: var(--dark-background-color);
     border-radius: .25rem!important;
       -webkit-box-shadow: -3px 3px 20px 0px var(--box-shadow);
       -moz-box-shadow: -3px 3px 20px 0px var(--box-shadow);
@@ -10,6 +11,17 @@
 
 mat-tree-node {
     background: var(--background-color);
+}
+
+mat-tree-node:nth-child(even) {
+    background: var(--dark-background-color);
+}
+
+.node-input {
+    background: transparent;
+    appearance: none;
+    border: none;
+    color: var(--text-color);
 }
 
 .flow-right {
@@ -32,8 +44,11 @@ mat-tree-node {
 
 .delete-button {
     cursor: pointer;
-    margin-right: 10px;
     transition: color linear .3s;
+}
+
+mat-spinner, .delete-button {
+    margin-right: 10px;
 }
 
 .delete-button:hover {

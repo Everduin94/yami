@@ -1,20 +1,47 @@
 import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { take } from 'rxjs/operators';
+import { FirebaseAuthService } from './firebase-auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FunctionsService {
 
-  constructor(private fns: AngularFireFunctions, private http: HttpClient) { }
+  constructor(private auth: FirebaseAuthService, private http: HttpClient) { }
 
 
-  testCall() {
-    this.http.delete('http://localhost:5000/yami-backend/us-central1/api/cat').subscribe(console.log);
+  async removeDeckOrGroup(params) {
+     return await this.auth.getUserIdOrCancel(userId => {
 
-    // This is a POST
-    /*const callable = this.fns.httpsCallable('api/cat');
-    callable({ name: 'some-data' }).subscribe(console.log);*/
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        body: { ...params, userId },
+      };
+
+      return this.http.delete('https://us-central1-yami-backend.cloudfunctions.net/api/decks', options).pipe(
+        take(1)
+      )
+    });
   }
+
+  async updateDeckOrGroup(params) {
+    const result = await this.auth.getUserIdOrCancel(userId => {
+
+     const options = {
+       headers: new HttpHeaders({
+         'Content-Type': 'application/json',
+       }),
+     };
+
+     const body = { ...params, userId }
+
+     return this.http.post('https://us-central1-yami-backend.cloudfunctions.net/api/decks', body, options).pipe(
+       take(1)
+     )
+   });
+ }
 }

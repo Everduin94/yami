@@ -17,9 +17,10 @@ export class GuidesComponent implements OnInit, OnDestroy {
 
   content =  [
       { title: 'What is Yami', key: 'yami', id: 1 },
-      { title: 'Adding Content', key: 'content', id: 2 },
+      { title: 'Your First Card', key: 'content', id: 2 },
       { title: 'Practicing', key: 'practicing', id: 3 },
-      { title: 'What is Markdown', key: 'markdown', id: 4 }
+      { title: 'What is Markdown', key: 'markdown', id: 4 },
+      { title: 'Contact Me', key: 'contact', id: 5 }
     ]
   
 

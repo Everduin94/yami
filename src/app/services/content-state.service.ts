@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { FirebaseAuthService } from './firebase-auth.service';
-import { map, shareReplay, switchMap, take, tap, switchMapTo } from 'rxjs/operators';
-import { Observable, of, Subject, combineLatest } from 'rxjs';
+import { map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
 import { DocumentReference } from '@angular/fire/firestore';
 
 
@@ -73,8 +73,8 @@ export class ContentStateService {
 
   constructor(private fs: FirestoreService, private auth: FirebaseAuthService) { }
 
+  // TODO: Not used
   fsAddGroup(entry): Promise<DocumentReference> {
-    console.log('Creating a new group')
     return this.auth.getUserIdOrCancel(userId => this.fs.createItemsEntryById("groups", userId, entry));
   }
 
@@ -99,14 +99,14 @@ export class ContentStateService {
 
   fsSelectAggregateDecks(): Observable<any[]> {
     return this.auth.selectUserIdOrCancel(auth => this.fs.selectAggregateDecks(auth)).pipe(
-      map(d => d.decks),
-      shareReplay(1)
+      tap(v => console.log('refreshing')),
+      map(d => d.decks)
     )
   }
 
 
   /* 
-  
+  // TODO: This won't really work anymore -- Group is not maintained
   dataFix$ = combineLatest([this.deckRef$, this.groupRef$]).pipe(
     map(([decks, groups]) => {
       console.log(decks, groups)

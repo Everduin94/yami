@@ -1,15 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding, OnInit } from '@angular/core';
 import { FormControllerDirective } from '../form-controller.directive';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-manage-container',
   template: `
     <form style="display:contents" [formGroup]="fc.form" (ngSubmit)="fc.onSubmit(flashCardsEntity.activeCard)" autocomplete="off">
+        
+
+    
         <app-actions-drawer 
         [flashCardsEntity]="flashCardsEntity"
         [deck]="fc.selectedDeck$ | async"
         [aggregatedDecks]="fc.aggregatedDecks$ | async"
-        (actionEvent)="fc.consumeActionEvent($event)">
+        [isOpen]="isOpen"
+        (actionEvent)="fc.consumeActionEvent($event)"
+        (resizeEvent)="resize()">
         </app-actions-drawer>
 
         <app-question-input 
@@ -54,6 +60,7 @@ import { FormControllerDirective } from '../form-controller.directive';
             </div>
           </div>
         </div>
+
     </form>
   `,
   styles: [`
@@ -64,6 +71,10 @@ import { FormControllerDirective } from '../form-controller.directive';
         grid-template-rows: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
         height: 100%;
         width: 100%;
+        -webkit-transition: all 1s;
+        -moz-transition: all 1s;
+        -o-transition: all 1s;
+        transition: all 1s;
     }
 
     .container__details {
@@ -94,6 +105,10 @@ import { FormControllerDirective } from '../form-controller.directive';
       margin-bottom: 10px;
     }
 
+    .isOpen {
+      background: var(--background-color);
+    }
+
     .add-button {
         box-shadow: -6px 6px 1px var(--primary-color);
     }
@@ -104,14 +119,49 @@ import { FormControllerDirective } from '../form-controller.directive';
 
     app-filter-list {
         border-bottom: var(--box-shadow) 1px solid;
-    }                    
+    }      
+    
+    @media (max-width: 768px) { 
+    
+      :host {
+        display: block;
+      }
+
+    }
+    
   `],
   styleUrls: ['../../common-styles.css']
 })
-export class ManageContainerComponent {
+export class ManageContainerComponent implements OnInit {
+  
 
   @Input() flashCardsEntity;
+  @HostBinding('style.grid-template-columns') columns;
+  isOpen;
 
-  constructor(public fc: FormControllerDirective) { }
+  constructor(public fc: FormControllerDirective, private sanitzer: DomSanitizer) { }
+
+  ngOnInit(): void {
+    this.isOpen = this.isLocalOpen();
+    this.columns = this.resizeColumns();
+  }
+
+  isLocalOpen(): boolean {
+    if (!localStorage) return true;
+    const isPanelOpen = localStorage.getItem('panelOpen');
+    if (isPanelOpen == "false") return false;
+    else return true;
+  }
+
+  resize(): void {
+    this.isOpen = !this.isOpen;
+    this.columns = this.resizeColumns();
+    if (localStorage) localStorage.setItem('panelOpen', JSON.stringify(this.isOpen));
+  }
+
+  resizeColumns(): SafeStyle {
+    if (this.isOpen) return this.sanitzer.bypassSecurityTrustStyle(`2fr minmax(255px, 2fr) 6fr`);
+    if (!this.isOpen) return this.sanitzer.bypassSecurityTrustStyle(`100px minmax(255px, 2fr) 6fr`);
+  }
 
 }

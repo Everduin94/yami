@@ -8,3 +8,7 @@
     overflow-y: auto;
     box-shadow:  0 4px 3px -3px var(--box-shadow);
 }
+
+.question-content > img {
+    width: 100%;
+}

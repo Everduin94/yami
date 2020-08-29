@@ -8,7 +8,7 @@
 
 
       <div>
-        <button color="primary" [routerLink]="['/login']" mat-raised-button>Get Started</button>
+        <button color="primary" (click)="loginClickEvent()" mat-raised-button>Get Started</button>
         <button color="accent" [routerLink]="['/guides']" mat-raised-button>Read the Guides</button>
       </div>
     </div>
@@ -25,7 +25,7 @@
 
 <ng-template #loading>
   <div class="loader">
-    <app-loading></app-loading>
+    <mat-spinner [diameter]="30"></mat-spinner>
   </div>
  
 </ng-template>

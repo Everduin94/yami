@@ -19,9 +19,12 @@
         <app-practicing-guide></app-practicing-guide>
       </ng-container>
   
-  
       <ng-container *ngIf="activeGuideContent?.key === 'markdown'">
         <app-markdown-guide></app-markdown-guide>
+      </ng-container>
+
+      <ng-container *ngIf="activeGuideContent?.key === 'contact'">
+        <app-contact-guide></app-contact-guide>
       </ng-container>
     </div>
 

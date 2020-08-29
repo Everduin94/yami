@@ -4,22 +4,32 @@
     <!-- use a disabled button to provide padding for tree leaf -->
     <span class="left">
       <button mat-icon-button disabled></button>
-      <span>{{node.name}}</span>
+      <input #updateOne type="text" class="node-input" [value]="node.name" (change)="updateItem(node, updateOne.value)">
     </span>
     <span class="right">
-      <mat-icon class="mat-icon-rtl-mirror delete-button" (click)="removeItem(node)">
+      <mat-icon class="mat-icon-rtl-mirror delete-button" *ngIf="loading !== node?.id" (click)="removeItem(node)">
         {{'delete'}}
       </mat-icon>
+      <mat-spinner [diameter]="30" *ngIf="loading === node?.id"></mat-spinner>
     </span>
   </mat-tree-node>
   <!-- This is the tree node template for expandable nodes -->
   <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+    <span class="left">
     <button mat-icon-button matTreeNodeToggle
             [attr.aria-label]="'toggle ' + node.name">
       <mat-icon class="mat-icon-rtl-mirror">
         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
       </mat-icon>
     </button>
-    {{node.name}}
+    <input #updateTwo type="text" class="node-input" [value]="node.name" (change)="updateItem(node, updateTwo.value)">
+  </span>
+  <span class="right">
+    <mat-icon class="mat-icon-rtl-mirror delete-button" *ngIf="loading !== node?.id" (click)="removeItem(node)">
+      {{'delete'}}
+    </mat-icon>
+
+    <mat-spinner [diameter]="30" *ngIf="loading === node?.id"></mat-spinner>
+  </span>
   </mat-tree-node>
 </mat-tree>

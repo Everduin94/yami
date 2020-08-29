@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as marked from 'marked';
 import * as DOMPurify from 'dompurify';
+import { MarkdownPostProcessor } from './markdown-post-processor';
 import { MarkdownPreProcessor } from './markdown-pre-processor';
 import { DomSanitizer } from '@angular/platform-browser';
 import hljs from 'highlight.js';
@@ -14,7 +15,8 @@ export class MdToHtmlPipe implements PipeTransform {
 
   transform(value: any, type:string, givenAnswers?: any): any {
 
-    let parser = MarkdownPreProcessor.selectParser(type);
+    let preParser = MarkdownPreProcessor.selectParser(type);
+    let parser = MarkdownPostProcessor.selectParser(type);
 
     marked.setOptions({
       langPrefix: 'hljs ',
@@ -22,10 +24,13 @@ export class MdToHtmlPipe implements PipeTransform {
         const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
         const highlights = hljs.highlight(validLanguage, code).value;
         return highlights;
-      }
+      },
     });
 
-    return this.sanitizer.bypassSecurityTrustHtml((DOMPurify.sanitize(parser(marked(value), givenAnswers))));
+    const { parsed, answers } = preParser(value, givenAnswers) // TODO: I don't think i need given answers here.
+    const html = DOMPurify.sanitize(parser(marked(parsed), givenAnswers, answers));
+
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
 }

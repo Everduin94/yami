@@ -23,6 +23,8 @@ import { MdTextareaModule } from '@components/components-lib/md-textarea/md-text
 import { DeckInputComponent } from './sub-components/deck-input/deck-input.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
 import { LoadingModule } from '@components/components-lib/loading/loading.module';
 import { ActionsDrawerComponent } from 'src/app/components/components-manage/sub-components/actions-drawer.component';
 import { QuestionInputComponent } from '@components/components-manage/sub-components/question-input.component';
@@ -71,6 +73,8 @@ const routes: Routes = [
     MatInputModule,
     MatButtonModule,
     MatTreeModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
     MatIconModule,
     LoadingModule,
     FormsModule,

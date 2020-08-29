@@ -27,6 +27,7 @@ import { FormComponentsModule } from './components/components-lib/form-component
 import { LandingComponent } from './components/components-app/landing/landing.component';
 import { MatButtonModule } from '@angular/material/button';
 import { LoadingModule } from './components/components-lib/loading/loading.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { LoadingModule } from './components/components-lib/loading/loading.modul
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
@@ -57,7 +59,7 @@ import { LoadingModule } from './components/components-lib/loading/loading.modul
     HttpClientModule
   ],
   providers: [
-    { provide: FUNCTIONS_ORIGIN, useValue: 'http://localhost:5000' }
+    { provide: FUNCTIONS_ORIGIN, useValue: 'https://us-central1-yami-backend.cloudfunctions.net' }
   ],
   bootstrap: [AppComponent]
 })

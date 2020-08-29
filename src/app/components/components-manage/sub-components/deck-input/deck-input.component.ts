@@ -17,7 +17,6 @@ export class DeckInputComponent  {
   allGroups = [];
   _groups;
   @Input() set groups (update) {
-    console.log('update', update)
     this._groups = update;
     this.allGroups = this._groups.groups.map(g => ({value: g.value, id: g.value}));
     

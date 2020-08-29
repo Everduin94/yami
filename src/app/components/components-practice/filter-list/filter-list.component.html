@@ -2,7 +2,7 @@
   <app-header-span dataCy="filters-header" label="Filters"></app-header-span>
   <div class="header__content">
 
-    <mat-form-field style="margin-right: 5px;">
+    <mat-form-field style="margin: 5px; margin-left: 0;">
       <mat-label>Deck</mat-label>
       <mat-select data-cy="filter-deck" (selectionChange)="changeCategory($event)" [value]="category">
 
@@ -22,7 +22,7 @@
 </div>
 
 <div class="filter__body">
-  <app-header-span dataCy="content-header" label="Content"></app-header-span>
+  <app-header-span dataCy="content-header" label="Cards"></app-header-span>
   <div class="body__content">
     <ng-container *ngIf="content; else choose">
       <ng-container *ngIf=""></ng-container>

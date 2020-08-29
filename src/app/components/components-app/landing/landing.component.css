@@ -11,7 +11,6 @@
   
   .two {
     
-  
     display: grid;
     height: 100%;
     width: 100%;
@@ -91,6 +90,29 @@
     justify-self: center;
     align-self: center;
   }
+
+
+  @media (max-width: 768px) { 
+    
+    :host {
+      height: 100%;
+    }
+
+    .two {
+      display: block;
+      padding-top: 2rem;
+      font-size: 1rem;
+      height: 94vh;
+    }
+
+    .four {
+      margin-top: 25px;
+      height: initial;
+    }
+    
+  }
+
+
   
 
 

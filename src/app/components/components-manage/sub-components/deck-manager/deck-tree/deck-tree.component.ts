@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ContentStateService } from 'src/app/services/content-state.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { DeckManagerUtil } from '../deck-manager-util';
+import { FunctionsService } from 'src/app/services/functions.service';
 
 
 /**
@@ -27,6 +28,7 @@ interface DeckOrGroupNode {
   name: string;
   level: number;
   type: string;
+  id: string;
 }
 
 @Component({
@@ -34,15 +36,19 @@ interface DeckOrGroupNode {
   templateUrl: './deck-tree.component.html',
   styleUrls: ['./deck-tree.component.css']
 })
-export class DeckTreeComponent implements OnInit {
+export class DeckTreeComponent implements OnInit, OnChanges {
+  
 
   @Input() aggregateGroupData;
+
+  loading: string = '';
 
   private _transformer = (node: DeckOrGroupNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
+      id: node.id,
       type: node.type,
     };
   }
@@ -50,19 +56,36 @@ export class DeckTreeComponent implements OnInit {
   treeFlattener = new MatTreeFlattener(this._transformer, node => node.level, node => node.expandable, node => node.children);
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private cs: ContentStateService) {
+  constructor(private cs: ContentStateService, private fs: FunctionsService) {
     
   }
 
+  // TODO: Replace with pipe?
   ngOnInit(): void {
+    this.dataSource.data = DeckManagerUtil.buildTreeData(this.aggregateGroupData);
+  }
+
+  ngOnChanges(): void {
     this.dataSource.data = DeckManagerUtil.buildTreeData(this.aggregateGroupData);
   }
 
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
-  removeItem(node) {
-    console.log(node);
+  async removeItem(node) {
+    let message = node.type === 'deck' ? 
+    'Are you sure you want to delete this deck?\nThis will delete all cards associated with this deck.' :
+    'Are you sure you want to delete this group?\nThis will move all decks associated with this group to default (no group)'
+    const confirm = window.confirm(message);
+    if (confirm) {
+      this.loading = node.id;
+      await this.fs.removeDeckOrGroup({name: node.name, id: node.id, type: node.type});
+      this.loading = '';
+    }
+  }
+
+  updateItem(node, update) {
+    this.fs.updateDeckOrGroup({name: node.name, id: node.id, type: node.type, update})
   }
   
 }

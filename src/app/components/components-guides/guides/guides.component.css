@@ -7,7 +7,6 @@
     grid-row: 1 / -1;
     min-height: 0;
     overflow: hidden;
-    font-size: 24px;
 }
 
 .container {
@@ -27,6 +26,7 @@
     overflow: auto;
     padding: 40px;
     border: 1px solid var(--box-shadow);
+    font-size: 24px;
 }
 
 .container__markdown__center {
@@ -34,3 +34,18 @@
     width: 100%;
     max-width: 1000px;
 }
+
+
+
+@media (max-width: 768px) { 
+    
+    .container {
+      display: block;
+      overflow: hidden;
+    }
+
+    .container__markdown {
+        height: inherit;
+    }
+    
+  }
