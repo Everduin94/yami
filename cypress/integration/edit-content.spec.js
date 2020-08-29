@@ -16,12 +16,12 @@ describe('Starter', () => {
     })
 
 
-    it('should find the category drop-down', () => {
+    it('should find the deck drop-down', () => {
     
         cy.get('[data-cy=filters-header').should('be.visible');
-        cy.get('[data-cy=category]').should('be.visible');
+        cy.get('[data-cy=filter-deck]').should('be.visible');
         cy.wait(750); // Hack, until we figure out server firebase mocking
-        cy.get('[data-cy=category]').click();
+        cy.get('[data-cy=filter-deck]').click();
         cy.get('span.mat-option-text').contains(' DEMO ')
             .then(option => option[0].click());
         cy.get('[data-cy=card-0]').should('be.visible'); // Side effect of select
@@ -46,7 +46,7 @@ describe('Starter', () => {
         cy.get('[data-cy=form-select-deck]').click();
         cy.get('span.mat-option-text').contains(' DEMO ')
             .then(option => option[0].click()); // Side effect - Form Updates. 
-        // TODO: Add whole new category
+        // TODO: Add whole new deck
         cy.get('[data-cy=submit-content-button]').click();
         cy.get('[data-cy=form-text-input-title]').should('have.value', ''); // Reset Form
         cy.wait(250);
@@ -71,7 +71,7 @@ describe('Starter', () => {
 
     it('Details', () => {
         cy.get('[data-cy=details-header-info]').should('have.text', ' - Adding New Card');
-        cy.get('[data-cy=category]').click();
+        cy.get('[data-cy=filter-deck]').click();
         cy.get('span.mat-option-text').contains(' DEMO ')
             .then(option => option[0].click());
         cy.wait(250);

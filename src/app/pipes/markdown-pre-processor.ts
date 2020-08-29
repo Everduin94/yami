@@ -1,25 +1,18 @@
 export class MarkdownPreProcessor {
-    static questionParser(md: string): string {
+    static preParser(md: string): {parsed: string, answers: string[]} {
         let index = 0;
+        const answers = [];
         const re = new RegExp(/FIB(.*?)FIB/g);
-        return md.replace(re, (match, group) => `<input type="text" class="fill-in-blank" data-cy="fib-${index}" id="fib-${index++}" autocomplete="off" name="noautofill">`);
+        const parsed = md.replace(re, (match, group) => {
+            answers.push(group);
+            return `FIB${index++}FIB`
+        });
+
+        return {parsed, answers};
     }
 
-    static answerParser(md: string, givenAnswers: any[]): string {
-        let index = 0;
-        const re = new RegExp(/FIB(.*?)FIB/g);
-        return md.replace(re, (match, group) => `<input readonly type="text" data-cy="fib-answer-${index}" class="fill-in-blank-answer ${givenAnswers[index++]}" value="${group}">`);
-    }
-
-    private parser(fn) { // TODO: Practice functional more
-        let index = 0;
-        const re = new RegExp(/FIB(.*?)FIB/g);
-        return fn;
-    }
-
-    static selectParser(type: string): (n, a) => string {
-        if (type === 'question') return (n, a) => MarkdownPreProcessor.questionParser(n);
-        if (type === 'answer') return (n, a) => MarkdownPreProcessor.answerParser(n, a);
-        if (type === 'guide') return (n, a) => n;
+    static selectParser(type: string): (n, a) => {parsed: string, answers: string[]}  {
+        if (type === 'guide') return (n) => n;
+        else return (n) => MarkdownPreProcessor.preParser(n);
     }
 }

@@ -13,21 +13,21 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN } from '@angular/fire/functions';
 
 import { environment } from '../environments/environment';
-import { PageNotFoundComponent } from './appComponents/page-not-found/page-not-found.component';
-import { LoginComponent } from './appComponents/login/login.component';
-import { ShellComponent } from './appComponents/header/shell.component';
-import { MainComponent } from './appComponents/main/main.component';
+import { PageNotFoundComponent } from './components/components-app/page-not-found/page-not-found.component';
+import { LoginComponent } from './components/components-app/login/login.component';
+import { ShellComponent } from './components/components-app/header/shell.component';
+import { MainComponent } from './components/components-app/main/main.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { PrototypeModule } from './appComponents/prototype/prototype.module';
+import { PrototypeModule } from './components/components-app/prototype/prototype.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StartModule } from './featureComponents/start/start.module';
 import { MdToHtmlModule } from './pipes/md-to-html.module';
-import { FilterListModule } from './featureComponents/filter-list/filter-list.module';
-import { FormComponentsModule } from './formComponents/form-components.module';
-import { LandingComponent } from './appComponents/landing/landing.component';
+import { FilterListModule } from './components/components-practice/filter-list/filter-list.module';
+import { FormComponentsModule } from './components/components-lib/form-components.module';
+import { LandingComponent } from './components/components-app/landing/landing.component';
 import { MatButtonModule } from '@angular/material/button';
-import { LoadingModule } from './libraryComponents/loading/loading.module';
+import { LoadingModule } from './components/components-lib/loading/loading.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -42,6 +42,7 @@ import { LoadingModule } from './libraryComponents/loading/loading.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
@@ -52,14 +53,13 @@ import { LoadingModule } from './libraryComponents/loading/loading.module';
     LoadingModule,
     MatButtonModule,
     PrototypeModule,
-    StartModule,
     FilterListModule,
     MdToHtmlModule,
     FormComponentsModule,
     HttpClientModule
   ],
   providers: [
-    { provide: FUNCTIONS_ORIGIN, useValue: 'http://localhost:5000' }
+    { provide: FUNCTIONS_ORIGIN, useValue: 'https://us-central1-yami-backend.cloudfunctions.net' }
   ],
   bootstrap: [AppComponent]
 })

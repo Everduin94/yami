@@ -8,11 +8,11 @@ describe('Starter', () => {
         cy.wait(1000);
     })
 
-    it('should find the category drop-down', () => {
+    it('should find the deck drop-down', () => {
         cy.get('[data-cy=filters-header').should('be.visible');
-        cy.get('[data-cy=category]').should('be.visible');
+        cy.get('[data-cy=filter-deck]').should('be.visible');
         cy.wait(750); // Hack, until we figure out server firebase mocking
-        cy.get('[data-cy=category]').click();
+        cy.get('[data-cy=filter-deck]').click();
         cy.get('span.mat-option-text').contains(' FIB-TEST ')
             .then(option => option[0].click());
         cy.get('[data-cy=card-0]').should('be.visible').should('have.class', 'filter-body__content--active');
@@ -37,7 +37,7 @@ describe('Starter', () => {
     })
 
     it('should work when a card does not have fib', () => {
-        cy.get('[data-cy=category]').click();
+        cy.get('[data-cy=filter-deck]').click();
         cy.get('span.mat-option-text').contains(' History ')
             .then(option => option[0].click());
     });

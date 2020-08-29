@@ -1,0 +1,69 @@
+<form style="display: contents" [formGroup]="form">
+  <ng-container *ngIf="!fc.showAddDeck">
+    
+    <mat-form-field style="margin-right: 5px;">
+      <mat-label>Deck *</mat-label>
+      <mat-select formControlName="deck" data-cy="form-select-deck" autocomplete="off">
+
+        <mat-option *ngFor="let defaultDeck of groups?.defaultDecks" [value]="defaultDeck.id">
+          {{defaultDeck.value}}        
+        </mat-option>
+        <mat-optgroup *ngFor="let group of groups?.groups" [label]="group.value">
+          <mat-option *ngFor="let deck of group.decks" [value]="deck.id">
+            {{deck.value}}
+          </mat-option>
+        </mat-optgroup>
+
+      </mat-select>
+    </mat-form-field>
+
+    <button class="hover-button add-button" style="grid-row: 1 / span 1" 
+    (click)="fc.showAddDeck = !fc.showAddDeck; clearForm(); $event.preventDefault();">
+      <fa-icon title="Add New Deck" [icon]="addIcon"></fa-icon>
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="fc.showAddDeck">
+
+    <fieldset class="new-deck-fieldset">
+      <legend>New Deck</legend>
+
+      <div class="add-container">
+
+        <mat-form-field>
+          <input matInput placeholder="Deck *" appAutofocus formControlName="deck" autocomplete="off">
+        </mat-form-field>
+    
+        <button class="hover-button return-button" style="grid-row: 1 / span 1" 
+        (click)="fc.showAddDeck = !fc.showAddDeck; clearForm(); returnToForm(); $event.preventDefault();">
+          <fa-icon title="Return to Dropdown" [icon]="backIcon"></fa-icon>
+        </button>
+    
+    
+        <ng-container *ngIf="fc.showAddGroup">
+          <mat-form-field class="group-input">
+            <input #addGroupInput matInput appAutofocus placeholder="Group (Optional)" formControlName="group" autocomplete="off">
+          </mat-form-field>
+    
+          <button class="hover-button return-button" 
+          (click)="fc.showAddGroup = !fc.showAddGroup; clearGroup(); $event.preventDefault();">
+            <fa-icon title="Return to Dropdown" [icon]="backIcon"></fa-icon>
+          </button>
+        </ng-container>
+    
+    
+        <ng-container *ngIf="!fc.showAddGroup">
+          <app-form-select class="group-select" [form]="form" [selectData]="allGroups" label="Group (Optional)"
+            controlName="group">
+          </app-form-select>
+    
+          <button class="hover-button add-button" 
+          (click)="fc.showAddGroup = !fc.showAddGroup; clearGroup(); $event.preventDefault();">
+            <fa-icon title="Add New Group" [icon]="addIcon"></fa-icon>
+          </button>
+        </ng-container>
+  
+      </div>
+    </fieldset>
+  </ng-container>
+</form>

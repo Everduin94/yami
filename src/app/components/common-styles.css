@@ -1,0 +1,34 @@
+.hover-button--cancel:hover {
+    background: var(--cancel-color);
+}
+
+.hover-button--warn:hover {
+    background: var(--warn-color);
+}
+/* dup */
+.submit-content-button, .hover-button, .hover-button--warn, .hover-button--cancel {
+    background: var(--box-color);
+}
+
+.submit-content-button:hover, .hover-button:hover {
+    background: var(--primary-color);
+}
+
+.scroll-div {
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.basic-block {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.basic-header-block {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-rows: min-content minmax(0,1fr);
+    border-top: 1px solid var(--box-shadow);
+}

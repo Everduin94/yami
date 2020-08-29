@@ -1,0 +1,51 @@
+:host {
+    /* TODO: Extract to base component */
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.container {
+    display: grid;
+    overflow: auto;
+    grid-template-columns: 2fr 8fr;
+    grid-template-rows: minmax(0, 1fr);
+    height: 100%;
+    width: 100%;
+    
+}
+
+.container__markdown {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    overflow: auto;
+    padding: 40px;
+    border: 1px solid var(--box-shadow);
+    font-size: 24px;
+}
+
+.container__markdown__center {
+    height: 100%;
+    width: 100%;
+    max-width: 1000px;
+}
+
+
+
+@media (max-width: 768px) { 
+    
+    .container {
+      display: block;
+      overflow: hidden;
+    }
+
+    .container__markdown {
+        height: inherit;
+    }
+    
+  }

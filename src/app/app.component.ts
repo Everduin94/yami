@@ -1,11 +1,10 @@
-import { Component, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-   
+  template: `
+    <router-outlet></router-outlet>
+  `
 })
 export class AppComponent {
 

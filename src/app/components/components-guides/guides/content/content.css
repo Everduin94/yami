@@ -1,0 +1,40 @@
+div {
+    margin-bottom: 20px;
+}
+
+a {
+    color: var(--primary-color);
+}
+
+.mat-spinner-container {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.inset {
+    background: var(--box-color);
+    padding: 10px;
+    border: var(--background-color) 1px inset;
+}
+
+.center {
+    margin-left: 25%;
+    max-width: 50%;
+}
+
+.box-shadow {
+      padding: 0;
+      overflow: hidden;
+      box-sizing: border-box;
+      border-radius: .25rem!important;
+      -webkit-box-shadow: -3px 3px 20px 0px var(--box-shadow);
+      -moz-box-shadow: -3px 3px 20px 0px var(--box-shadow);
+      box-shadow: -3px 3px 20px 0px var(--box-shadow);
+}
+
+h1 { 
+    border-bottom: solid 3px var(--primary-color);
+}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable, merge, asyncScheduler, of } from 'rxjs';
 import { startWith, scan, map, switchMap, shareReplay, observeOn, take } from 'rxjs/operators';
-import { FibUtil } from '../featureComponents/add-base/fib-util';
+import { FibUtil } from '../components/components-manage/fib-util';
 import { ContentStateService } from './content-state.service';
 
 export interface FlashCardEntity {

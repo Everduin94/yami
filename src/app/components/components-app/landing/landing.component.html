@@ -1,0 +1,31 @@
+<div class="two">
+  <div class="three">
+    <div>
+      <h1>Flash Cards for Developers</h1>
+      <div class="summary">
+        Create, save, and practice flash cards with<br>  Markdown, Syntax Highlighting, and Fill in the Blanks.
+      </div>
+
+
+      <div>
+        <button color="primary" (click)="loginClickEvent()" mat-raised-button>Get Started</button>
+        <button color="accent" [routerLink]="['/guides']" mat-raised-button>Read the Guides</button>
+      </div>
+    </div>
+  </div>
+  <div class="four">
+    <div class=" embed-responsive" *ngIf="landingVideo | async as videoSrc; else loading">
+        <video controls="" controlslist="nodownload" disablepictureinpicture="" autoplay="" loop="" muted="" class="embed-responsive-item">
+          <source [src]="videoSrc" type="video/mp4">
+        </video>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #loading>
+  <div class="loader">
+    <mat-spinner [diameter]="30"></mat-spinner>
+  </div>
+ 
+</ng-template>

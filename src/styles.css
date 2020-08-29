@@ -3,12 +3,8 @@
     --secondary-color: #1de9b6;
     --dark-secondary-color: #00b686;
     --warn-color: #ff1744;
-    --yellow: #ffea00;
-    --purple: #d500f9;
-    --red: #ff1744;
-    --orange: #ff3d00;
-    --indigo: #3d5afe;
     --background-color: #212834;
+    --dark-background-color: #1e2530;
     --box-color: #11111170;
     --text-color: #ffffff;
     --border-color:#ffffff;
@@ -33,12 +29,16 @@ body {
 }
 html { height: 100%; }
 
-body > * {
+body > *, div {
     box-sizing: border-box;
 }
 
 pre {
     box-shadow: 0 2px 4px rgba(0,0,0,0.38);
+}
+
+img {
+    width: 100%;
 }
 
 .fill-in-blank, .fill-in-blank-answer {
@@ -76,6 +76,23 @@ pre {
 
 
 /* Material Overrides */
+/* <div class="mat-form-field-underline ng-tns-c16-6 ng-star-inserted" style="
+    color:  blue;
+    background: blue;
+"><span class="mat-form-field-ripple"></span></div> */
+
+mat-dialog-container.mat-dialog-container {
+    padding: 0;
+}
+
+.mat-form-field-underline {
+    transition: background .3s linear;
+}
+
+div:hover > .mat-form-field-underline {
+    background: var(--primary-color) !important; 
+}
+
 .mat-form-field-flex {
     height: 100%;
 }
@@ -108,6 +125,7 @@ label.mat-optgroup-label {
 
 textarea {
     font-size: 1.2rem;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 /* Chromium */
@@ -137,4 +155,19 @@ table, td, th {
     padding: 5px;
     border-collapse: collapse;
     border: 1px solid var(--primary-color);
+}
+
+/* TODO: Not sure how to fix this. 
+Problems:
+1) On the landing page, there is a void area that cannot be colored and cannot be removed
+1.1) even if I somehow make the height 100% to cover the area, I then get a 1 inch scroll for now reason
+2) On the guides screen, I keep getting a shitty looking scroll bar. When I'd rather have the body scroll*/
+@media (max-width: 768px) { 
+    
+    body {
+      display: block;
+      height: 100%;
+      max-height: 100%;
+    }
+
 }

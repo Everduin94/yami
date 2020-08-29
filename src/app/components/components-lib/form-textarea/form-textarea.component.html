@@ -1,0 +1,10 @@
+<form style="display: contents" [formGroup]="form">
+    <textarea #inputEl 
+    class="textarea"
+    (keydown.enter)="$event.stopPropagation();"
+    (keydown.shift.enter)="$event.stopPropagation();"
+    (keydown.control.enter)="$event.stopPropagation();"
+    [class.disabled]="disabled" [placeholder]="placeholder" [formControlName]="controlName" [attr.data-cy]="'form-textarea-' + controlName"></textarea>
+</form>
+
+<!-- Added even stop propagation because of last pass spamming errors -->

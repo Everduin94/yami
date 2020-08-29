@@ -1,0 +1,7 @@
+
+<ng-container *ngIf="aggregateGroupData$ | async as aggregateGroupData; else loading">
+  <app-deck-tree [aggregateGroupData]="aggregateGroupData"></app-deck-tree>
+</ng-container>
+<ng-template #loading>
+  <app-loading size="2x"></app-loading>
+</ng-template>
