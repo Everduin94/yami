@@ -13,7 +13,6 @@ export class ContentStateService {
 
   aggregatedDecks$ = this.fsSelectAggregateDecks().pipe(
     map(decks => {
-
       const groupMapping = new Map();
       decks.forEach(d => {
         if (d.group && groupMapping.has(d.group)) groupMapping.set(d.group, [...groupMapping.get(d.group), { value: d.value, id: d.id, group: d.group }])
@@ -99,8 +98,7 @@ export class ContentStateService {
 
   fsSelectAggregateDecks(): Observable<any[]> {
     return this.auth.selectUserIdOrCancel(auth => this.fs.selectAggregateDecks(auth)).pipe(
-      tap(v => console.log('refreshing')),
-      map(d => d.decks)
+      map(d => d ? d.decks : [])
     )
   }
 

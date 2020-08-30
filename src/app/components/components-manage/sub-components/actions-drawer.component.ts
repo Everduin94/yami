@@ -142,7 +142,6 @@ import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
       :host {
         border-top: solid 1px var(--box-shadow);
         margin: 0;
-        padding: 6px;
       }
     
       .icon-container {
@@ -152,6 +151,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
         overflow-x: auto;
         align-self: center;
         justify-self: center;
+        padding: 6px;
       }
 
       .icon-container > button {
