@@ -9,6 +9,7 @@
     background: var(--box-color);
     box-shadow:  0 4px 3px -3px var(--box-shadow);
     padding: 5px;
+    align-items: center;
 }
 
 button {
@@ -26,4 +27,9 @@ fa-icon {
 
 fa-icon:hover {
     color: var(--primary-color);
+}
+
+.text-icon {
+    color: var(--text-color);
+    font-weight: 900;
 }

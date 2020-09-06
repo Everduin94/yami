@@ -8,7 +8,8 @@
     action.token); 
     $event.preventDefault();
     applyFocus(textarea.inputElement.nativeElement.selectionStart)">
-    <fa-icon [icon]="action.icon"></fa-icon>
+    <ng-container *ngIf="!action.alt"><fa-icon [icon]="action.icon"></fa-icon></ng-container>    
+    <ng-container *ngIf="action.alt"><span class="text-icon">{{action.alt}}</span></ng-container>
   </button>
 
 </div>

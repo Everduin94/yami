@@ -28,6 +28,19 @@ legend {
     background: transparent;
 }
 
+.info-container {
+    display: inline-flex;
+    align-items: center;
+    background: var(--primary-color);
+    grid-column: 1 / span 2;
+    padding: 4px;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.info-container .info-icon {
+    margin-right: 4px;
+}
 
 .group-select, .group-input {
     grid-row: 2 / span 1;
