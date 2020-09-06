@@ -17,6 +17,11 @@ mat-tree-node:nth-child(even) {
     background: var(--dark-background-color);
 }
 
+.empty-message {
+    padding: 4px;
+    text-align: center;
+}
+
 .node-input {
     background: transparent;
     appearance: none;
@@ -54,3 +59,9 @@ mat-spinner, .delete-button {
 .delete-button:hover {
     color: var(--warn-color)
 }
+
+@media (max-width: 768px) { 
+    :host {
+        width: 100%;
+    }
+  }

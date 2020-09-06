@@ -60,7 +60,7 @@ export class DeckTreeComponent implements OnInit, OnChanges {
     
   }
 
-  // TODO: Replace with pipe?
+  // TODO: Replace with pipe? 
   ngOnInit(): void {
     this.dataSource.data = DeckManagerUtil.buildTreeData(this.aggregateGroupData);
   }

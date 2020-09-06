@@ -67,14 +67,23 @@ export class FormControllerDirective {
 
     // This is the same emission #2
     const activeContentSub = this.client.flashCards$.subscribe((v:any) => {
-      if (v.activeCard && v.activeCard.id) this.form.patchValue(v.activeCard, {emitEvent: false})
+      if (v.activeCard && v.activeCard.id) {
+        this.form.patchValue(v.activeCard, {emitEvent: false})
+        this.showAddDeck = false;
+        this.showAddGroup = false;
+      }
     });
 
     const saveFlashCard = this.cs.saveFlashCard$.subscribe();
 
+    const showAddDeckIfNoDecks = this.deckRef$.subscribe(deckRef => {
+      if (deckRef && deckRef.length === 0) this.showAddDeck = true;
+    })
+
     this.formSubscriptions.add(clientDeckSub);
     this.formSubscriptions.add(activeContentSub);
     this.formSubscriptions.add(saveFlashCard);
+    this.formSubscriptions.add(showAddDeckIfNoDecks);
   }
 
   ngOnDestroy(): void {
