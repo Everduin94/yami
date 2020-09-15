@@ -37,11 +37,13 @@ import { ManageComponent } from './manage.component';
 import { DeckManagerComponent } from './sub-components/deck-manager/deck-manager.component';
 import { DeckTreeComponent } from './sub-components/deck-manager/deck-tree/deck-tree.component';
 import { DeckSelectComponent } from './sub-components/deck-select.component';
+import { DirtyGuard } from 'src/app/guards/dirty.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ManageComponent,
+    canDeactivate: [DirtyGuard]
   },
   {
     path: 'table',

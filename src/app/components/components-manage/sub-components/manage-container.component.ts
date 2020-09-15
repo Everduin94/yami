@@ -1,14 +1,14 @@
-import { Component, Input, HostBinding, OnInit } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, HostListener } from '@angular/core';
 import { FormControllerDirective } from '../form-controller.directive';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-manage-container',
   template: `
-    <form style="display:contents" [formGroup]="fc.form" (ngSubmit)="fc.onSubmit(flashCardsEntity.activeCard)" autocomplete="off">
+    <form style="display:contents" [formGroup]="fc.form" (ngSubmit)="fc.onSubmit(flashCardsEntity?.activeCard)" autocomplete="off">
         
-
-    
         <app-actions-drawer 
         [flashCardsEntity]="flashCardsEntity"
         [deck]="fc.selectedDeck$ | async"
@@ -53,7 +53,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
                 mat-raised-button data-cy="cancel-content-button">
                 Cancel
               </button> 
-              <button mat-raised-button [disabled]="!fc.form.valid" color="primary" data-cy="submit-content-button"
+              <button mat-raised-button [disabled]="!(isDirty$ | async) || !fc.form.valid" color="primary" data-cy="submit-content-button"
                 class="submit-content-button">
                 Save
               </button>
@@ -137,13 +137,20 @@ export class ManageContainerComponent implements OnInit {
 
   @Input() flashCardsEntity;
   @HostBinding('style.grid-template-columns') columns;
+  isDirty$: Observable<boolean>;
   isOpen;
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    return this.isDirty$.pipe(take(1)).subscribe(isDirty => isDirty ? $event.returnValue = true : undefined)
+  }
 
   constructor(public fc: FormControllerDirective, private sanitzer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.isOpen = this.isLocalOpen();
     this.columns = this.resizeColumns();
+    this.isDirty$ = this.fc.isDirty$;
   }
 
   isLocalOpen(): boolean {
