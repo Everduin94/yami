@@ -89,13 +89,12 @@ export class FormControllerDirective {
       map(([v, snapshot]) =>{
         const activeCard:any = snapshot.activeCard;
         if (!activeCard) return false;
-        // TODO: I think on a new form, any edit makes this always dirty because empty string.
-        return v.title !== activeCard.title
-          || v.type !== activeCard.type
-          || v.question !== activeCard.question
-          || v.answer !== activeCard.answer
-          || v.deck !== activeCard.deck
-          || v.group !== activeCard.group;   
+        return v.title != activeCard.title
+          || v.type != activeCard.type
+          || v.question != activeCard.question
+          || v.answer != activeCard.answer
+          || v.deck != activeCard.deck
+          || v.group != activeCard.group;   
       }),
       tap(v => this.isDirty.emit(v)),
       shareReplay({
@@ -148,7 +147,13 @@ export class FormControllerDirective {
   }
 
   addRow() {
-    this.client.setActiveFlashcard({});
+    this.client.setActiveFlashcard({
+      flashcard: {
+        deck: this.deck.value,
+        group: this.group.value,
+        type: this.type.value,
+      }
+    });
     const deck = this.deck.value;
     const group = this.group.value;
     const type = this.type.value;

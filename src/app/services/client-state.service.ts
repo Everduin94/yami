@@ -11,6 +11,7 @@ export interface FlashCardEntity {
 }
 
 export interface ActiveUpdate {
+  flashcard: {};
   index: number;
   id: string;
   fn: (flashCards) => {};
@@ -39,7 +40,8 @@ export class ClientStateService {
     switchMap(flashCards => this.activateFlashcard$.pipe(
       map(v => {
         let activeCard = {};
-        if (!flashCards.length) activeCard = {}
+        if (v.flashcard) activeCard = v.flashcard
+        else if (!flashCards.length) activeCard = {}
         else if (v.index != null) activeCard = flashCards[v.index];
         else if (v.id) activeCard = flashCards.find(f => f.id === v.id);
         else if (v.fn) activeCard = v.fn(flashCards);
