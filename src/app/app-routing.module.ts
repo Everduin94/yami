@@ -5,6 +5,7 @@ import { LoginComponent } from './components/components-app/login/login.componen
 import { ShellComponent } from './components/components-app/header/shell.component';
 import { FlashCardsGuard } from './guards/flash-cards.guard';
 import { LandingComponent } from './components/components-app/landing/landing.component';
+import { DirtyGuard } from './guards/dirty.guard';
 
 const routes: Routes = [
   {
@@ -21,7 +22,7 @@ const routes: Routes = [
         path: 'manage',
         loadChildren: () => import('./components/components-manage/manage.module').then(mod => mod.ManageModule),
         canLoad: [FlashCardsGuard],
-        canActivate: [FlashCardsGuard]
+        canActivate: [FlashCardsGuard],
       },
       {
         path: 'guides',

@@ -41,6 +41,10 @@ img {
     width: 100%;
 }
 
+a {
+    color: var(--primary-color);
+}
+
 .fill-in-blank, .fill-in-blank-answer {
     background: var(--primary-color);
     border: none;

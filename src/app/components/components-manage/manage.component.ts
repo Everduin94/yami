@@ -8,6 +8,7 @@ import { ClientStateService } from 'src/app/services/client-state.service';
         <app-manage-container appFormController
             [activeContent]="flashCardsEntity?.activeCard"
             [flashCardsEntity]="flashCardsEntity"
+            (isDirty)="isDirty = $event"
         ></app-manage-container>
     </ng-container>
   `,
@@ -23,6 +24,7 @@ import { ClientStateService } from 'src/app/services/client-state.service';
 })
 export class ManageComponent {
 
+  isDirty;
   constructor(public client: ClientStateService) { }
 
 }

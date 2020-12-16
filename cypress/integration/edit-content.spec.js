@@ -77,7 +77,7 @@ describe('Starter', () => {
         cy.wait(250);
         cy.get('[data-cy=card-0]').should('be.visible');
         cy.get('[data-cy=card-0]').click(); // TODO: Fragile
-        cy.get('[data-cy=submit-content-button]').should('be.enabled');
+        cy.get('[data-cy=submit-content-button]').should('be.disabled'); // Disable because no changes
         cy.get('[data-cy=details-header-info]').should('be.visible');
         cy.get('[data-cy=form-select-type]').click();
         cy.get('span.mat-option-text').contains(' Fill in Blank (Cloze) ')
