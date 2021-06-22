@@ -35,7 +35,6 @@ export class QuestionContentComponent implements AfterViewInit {
     this.subs.add(this.scrollSync.scrollPosition$.subscribe(v => {
       this.scrollTop = v;
       this.cd.detectChanges();
-      console.log('setting')
     }));
   }
 

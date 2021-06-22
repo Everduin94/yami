@@ -27,9 +27,7 @@ export class MdTextareaUtil {
     return lines[lineNumber - 1];
   }
 
-  public static easyEdit(el: ElementRef) {
-
-  }
+  public static easyEdit(el: ElementRef) {}
 
   public static insertToken(
     text: string,
@@ -96,13 +94,11 @@ export class MdTextareaUtil {
         const numberOfSpaces = lineText.search(/\S/);
         const startsWithDash = lineText[numberOfSpaces] === "-";
         if (startsWithDash) {
-            console.log(numberOfSpaces)
-            const test = [...Array(numberOfSpaces).keys()].map((v) => " ").reduce((acc, curr) => acc + curr, "");
-          lines2.splice(
-            currentLineNumber2,
-            0,
-            `${test}${token} `
-          );
+          //@ts-ignore
+          const spacing = [...Array(numberOfSpaces).keys()]
+            .map((v) => " ")
+            .reduce((acc, curr) => acc + curr, "");
+          lines2.splice(currentLineNumber2, 0, `${spacing}${token} `);
         } else {
           lines2[currentLineNumber2 - 1] = `${token} ${
             lines2[currentLineNumber2 - 1]

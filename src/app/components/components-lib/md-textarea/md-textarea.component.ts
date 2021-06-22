@@ -53,7 +53,6 @@ export class MdTextareaComponent implements OnInit, OnDestroy {
     const updatedValue = MdTextareaUtil.insertToken(text, token, start, end);
     const [previousLength,updatedLength] = [text.length,updatedValue.length];
     const insertCursor = end + (updatedLength - previousLength + overrideInsert);
-    console.log(updatedLength, previousLength);
     this.textarea.inputElement.nativeElement.value = updatedValue; // SE
     this.form.get(this.controlName).patchValue(updatedValue); // SE
     this.textarea.inputElement.nativeElement.focus();
