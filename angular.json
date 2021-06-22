@@ -33,6 +33,7 @@
             "styles": [
               "src/styles.css",
               "src/custom-theme.scss",
+              "node_modules/highlight.js/styles/dracula.css",
               {
                 "input": "./node_modules/highlight.js/styles/dracula.css",
                 "bundleName": "dark-theme",

@@ -12,7 +12,7 @@
     display: grid;
     overflow-y: auto;
     overflow-x: hidden;
-    grid-template-columns: 2fr 4fr 4fr;
+    grid-template-columns: min-content 2fr 4fr 4fr;
     grid-template-rows: minmax(0,1fr);
     height: 100%;
     width: 100%;
@@ -33,7 +33,7 @@
 
 .filler__question, .filler__answer {
     display: grid;
-    grid-template-rows: min-content minmax(0,1fr) 75px;
+    grid-template-rows: min-content minmax(0,1fr);
 }
 
 .show-answer-button, .next-button {
@@ -47,6 +47,7 @@
 
 app-filter-list {
     border-right: 1px solid var(--box-shadow);
+    border-left: 1px solid var(--box-shadow);
 }
 
 

@@ -1,6 +1,7 @@
 describe('Practice Route', () => {
 
-    before(() => {
+    // These are no longer valid since large UI changes.
+    /* before(() => {
         cy.visit('http://localhost:4200/flashCards');
         cy.login();
     });
@@ -23,6 +24,6 @@ describe('Practice Route', () => {
             .then(option => option[0].click());
         cy.wait(250);
         cy.get('[data-cy=details-header-info]').should('have.text', ' - Adding New Card');
-    });
+    }); */
 
 });

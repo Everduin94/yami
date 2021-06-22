@@ -17,7 +17,7 @@
 .container {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
-    background: var(--box-color);   
+    background: var(--box-color); 
 }
 
 

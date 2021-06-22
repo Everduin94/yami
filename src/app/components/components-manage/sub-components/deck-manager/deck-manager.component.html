@@ -1,7 +1,15 @@
-
-<ng-container *ngIf="aggregateGroupData$ | async as aggregateGroupData; else loading">
-  <app-deck-tree [aggregateGroupData]="aggregateGroupData"></app-deck-tree>
+<ng-container *ngIf="deckRef$ | async as decks; else loading">
+  <ng-container *ngIf="aggregateGroupData$ | async as aggregateGroupData; else loading">
+    <app-header-span class="indent" label="Add"></app-header-span>
+    <app-add-deck-form [groups]="aggregateGroupData"></app-add-deck-form>
+    <div class="left-aligned">
+      <button class="hover-button" (click)="$event.stopPropagation(); saveDeck()" mat-raised-button>Add Deck</button>
+    </div>
+    <app-header-span style="margin-bottom: 4px;" class="indent" label="Edit"></app-header-span>
+    <app-deck-tree [aggregateGroupData]="aggregateGroupData"></app-deck-tree>
+  </ng-container>
 </ng-container>
+
 <ng-template #loading>
   <app-loading size="2x"></app-loading>
 </ng-template>

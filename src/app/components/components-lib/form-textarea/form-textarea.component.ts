@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { MdTextareaUtil } from '../md-textarea/md-textarea-util';
 
 @Component({
   selector: 'app-form-textarea',
@@ -11,6 +12,7 @@ export class FormTextareaComponent implements OnInit {
   @Input() controlName;
   @Input() placeholder;
   @Input() disabled;
+  @Output() enterEvent = new EventEmitter();
   @ViewChild('inputEl', {static: true}) inputElement;
 
   constructor() { }
@@ -18,4 +20,7 @@ export class FormTextareaComponent implements OnInit {
   ngOnInit() {
   }
 
+  easyEdit(event) {
+    this.enterEvent.emit(event);
+  }
 }

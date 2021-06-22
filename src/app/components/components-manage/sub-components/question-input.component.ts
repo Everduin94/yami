@@ -6,7 +6,7 @@ import { FormControllerDirective } from '../form-controller.directive';
   template: `
     <app-md-textarea-with-preview 
     controlName="question"
-    label="Question *"
+    label="Question"
     [form]="form"
     [value]="value"
     [practicePreview]="practicePreview"

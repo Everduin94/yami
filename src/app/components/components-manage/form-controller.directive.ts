@@ -35,8 +35,10 @@ export class FormControllerDirective {
   public readonly groupRef$ = this.cs.groupRef$;
   public readonly selectedDeck$ = this.client.deck$;
   public readonly aggregatedDecks$ = this.cs.aggregatedDecks$
+  public readonly navigation$ = this.client.navigation$; 
+  public readonly isEditing$ = this.client.isEditingCard$;
   @Output() isDirty = new EventEmitter(); // Workaround for Dirty Guard -- Emits isDirty$ Emissions
-  public isDirty$; 
+  public isDirty$;
 
   showAddDeck = false;
   showAddGroup = false;
@@ -51,7 +53,7 @@ export class FormControllerDirective {
 
     this.form = this.fb.group({
       title: new FormControl('', [Validators.required]),
-      question: new FormControl('', [Validators.required]),
+      question: new FormControl(''),
       answer: new FormControl(''),
       previewMode: new FormControl(false),
       group: new FormControl(''),
@@ -103,10 +105,13 @@ export class FormControllerDirective {
       })
     );
 
+    const addDeckSub = this.cs.saveDeckListener$.subscribe();
+
     this.formSubscriptions.add(clientDeckSub);
     this.formSubscriptions.add(activeContentSub);
     this.formSubscriptions.add(saveFlashCard);
     this.formSubscriptions.add(showAddDeckIfNoDecks);
+    this.formSubscriptions.add(addDeckSub);
   }
 
   ngOnDestroy(): void {
@@ -202,6 +207,16 @@ export class FormControllerDirective {
   returnToForm() {
     this.deck.patchValue(this.activeContent.deck);
     this.group.patchValue(this.activeContent.group);
+  }
+
+  clearActiveCard() {
+    this.client.setActiveFlashcard({});
+    this.deck.reset();
+    this.cancel({});
+  }
+
+  updateNavigation(panel: string) {
+    this.client.updateNavigation(panel);
   }
 
   /* Getters */

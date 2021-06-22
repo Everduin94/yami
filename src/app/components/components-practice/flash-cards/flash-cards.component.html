@@ -1,58 +1,86 @@
-<div class="container">
-    <ng-container *ngIf="client.flashCards$ | async as flashCardsEntity">
-        <ng-container *ngIf="client.answers$ | async as answers">
-            <ng-container *ngIf="client.isAnswerShowing$ | async as isAnswerShowing">
-                <app-filter-list 
-                [content]="flashCardsEntity.entities" 
-                [category]="client.deck$ | async"
-                [groups]="cs.aggregatedDecks$ | async" 
-                [activeContent]="flashCardsEntity.activeCard"
-                (clickedEvent)="updateAnswer('hide')" 
-                (contentLoadedEvent)="flashCardsEntity.activeCard?.id ? null : client.setActiveFlashcard({index: 0})">
-                </app-filter-list>
+<div class="container" appScrollSync>
+  <ng-container *ngIf="client.flashCards$ | async as flashCardsEntity">
+    <ng-container *ngIf="client.answers$ | async as answers">
+      <ng-container *ngIf="client.isAnswerShowing$ | async as isAnswerShowing">
+        <app-icon-action-bar>
+          <ng-template #buttons>
+            <app-icon-button
+              text="Answer"
+              [icon]="answerIcon"
+              [disabled]="!flashCardsEntity.activeCard?.id"
+              (clicked)="updateAnswer(toggleAnswer(isAnswerShowing))"
+              title="Hotkey: (CTRL+Enter)"
+            ></app-icon-button>
+            <app-icon-button
+              text="Next"
+              [icon]="nextIcon"
+              [disabled]="!flashCardsEntity.activeCard?.id"
+              (clicked)="
+                updateAnswer('hide'); setNextActiveFlashcard(flashCardsEntity)
+              "
+              title="Hotkey: (CTRL+SHIFT+Enter)"
+            ></app-icon-button>
+          </ng-template>
+        </app-icon-action-bar>
 
-                <div class="filler filler__question" [appShowListener]="isAnswerShowing"
-                    [appNextListener]="flashCardsEntity">
-                    <app-header-span dataCy="question-header" label="Question"></app-header-span>
-                    <ng-container *ngIf="flashCardsEntity.activeCard?.title; else fillerDiv">
-                        <!-- TODO: Refactor title fillers -->
-                        <app-question-content [activeContent]="flashCardsEntity.activeCard"
-                            (initInputs)="updateAnswers($event)">
-                        </app-question-content>
-                    </ng-container>
-                    <button title="Hotkey: (CTRL+Enter)" (click)="updateAnswer(toggleAnswer(isAnswerShowing))"
-                        [disabled]="!flashCardsEntity.activeCard?.id" mat-raised-button data-cy="show-answer-button"
-                        class="show-answer-button">
-                        <ng-container *ngIf="!activeAnswer; else hideAnswer">
-                            <h3>Show Answer</h3>
-                        </ng-container>
-                    </button>
-                </div>
+        <app-filter-list
+          [content]="flashCardsEntity.entities"
+          [category]="client.deck$ | async"
+          [groups]="cs.aggregatedDecks$ | async"
+          [activeContent]="flashCardsEntity.activeCard"
+          (clickedEvent)="updateAnswer('hide')"
+          (contentLoadedEvent)="
+            flashCardsEntity.activeCard?.id
+              ? null
+              : client.setActiveFlashcard({ index: 0 })
+          "
+        >
+        </app-filter-list>
 
-                <div class="filler filler__answer">
-                    <app-header-span dataCy="answer-header" label="Answer"></app-header-span>
+        <div
+          class="filler filler__question"
+          [appShowListener]="isAnswerShowing"
+          [appNextListener]="flashCardsEntity"
+        >
+          <app-header-span
+            dataCy="question-header"
+            label="Question"
+          ></app-header-span>
+          <ng-container
+            *ngIf="flashCardsEntity.activeCard?.title; else fillerDiv"
+          >
+            <!-- TODO: Refactor title fillers -->
+            <app-question-content
+              [activeContent]="flashCardsEntity.activeCard"
+              (initInputs)="updateAnswers($event)"
+            >
+            </app-question-content>
+          </ng-container>
+        </div>
 
-                    <ng-container *ngIf="isShowing(isAnswerShowing); else fillerDiv">
-                        <app-answer-content [answers]="answers" [activeContent]="flashCardsEntity.activeCard">
-                        </app-answer-content>
-                    </ng-container>
+        <div class="filler filler__answer">
+          <app-header-span
+            dataCy="answer-header"
+            label="Answer"
+          ></app-header-span>
 
-                    <button mat-raised-button title="Hotkey: (CTRL+SHIFT+Enter)"
-                        (click)="updateAnswer('hide'); setNextActiveFlashcard(flashCardsEntity);"
-                        [disabled]="!flashCardsEntity.activeCard?.id" data-cy="next-button" class="next-button">
-                        <h3>Next</h3>
-                    </button>
-                </div>
-            </ng-container>
-        </ng-container>
+          <ng-container *ngIf="isShowing(isAnswerShowing); else fillerDiv">
+            <app-answer-content
+              [answers]="answers"
+              [activeContent]="flashCardsEntity.activeCard"
+            >
+            </app-answer-content>
+          </ng-container>
+        </div>
+      </ng-container>
     </ng-container>
-
+  </ng-container>
 </div>
 
 <ng-template #hideAnswer>
-    <h3>Hide Answer</h3>
+  <h3>Hide Answer</h3>
 </ng-template>
 
 <ng-template #fillerDiv>
-    <div class="filler_answer--no-answer"></div>
+  <div class="filler_answer--no-answer"></div>
 </ng-template>

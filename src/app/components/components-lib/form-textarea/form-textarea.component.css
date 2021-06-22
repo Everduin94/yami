@@ -16,6 +16,7 @@
     padding: 10px;
     padding-left: 15px;
     transition: border-color .3s linear;
+    margin-bottom: 1px; /* Show bottom border */
 }
 
 .textarea:active, .textarea:hover, .textarea:focus {
