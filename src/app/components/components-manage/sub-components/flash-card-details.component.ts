@@ -5,7 +5,7 @@ import { tap, filter } from 'rxjs/operators';
 @Component({
   selector: 'app-flash-card-details',
   template: `
-      <app-form-text-input #title [form]="formController.form" label="Name *" controlName="title">
+      <app-form-text-input #title [form]="formController.form" label="Card Name *" controlName="title">
       </app-form-text-input>
 
        <ng-container *ngIf="formController.deckRef$ | async as decks">
@@ -18,7 +18,7 @@ import { tap, filter } from 'rxjs/operators';
           </ng-container>
       </ng-container>
             
-      <app-form-select [form]="formController.form" [selectData]="types" label="Type" controlName="type">
+      <app-form-select [form]="formController.form" [selectData]="types" label="Card Type *" controlName="type">
       </app-form-select>
 
       <ng-container *ngIf="focusTitle$ | async"></ng-container>
@@ -39,16 +39,16 @@ import { tap, filter } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlashCardDetailsComponent {
-  
+
 
   @HostBinding('class') scrollDiv = 'scroll-div'
   @ViewChild('title', { static: false }) titleElement;
-  readonly types = [{id: 'basic', value: 'Basic'}, {id: 'fib', value: 'Fill in Blank (Cloze)'}]
+  readonly types = [{ id: 'basic', value: 'Basic' }, { id: 'fib', value: 'Fill in Blank (Cloze)' }]
   readonly focusTitle$ = this.formController.addEvent$.pipe(
     filter(_ => this.titleElement && this.titleElement.inputElement),
     tap(_ => this.titleElement.inputElement.nativeElement.focus())
   );
 
   constructor(public formController: FormControllerDirective) { }
-  
+
 }

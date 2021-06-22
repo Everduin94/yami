@@ -2,8 +2,9 @@
 
 describe('Starter', () => {
 
+    // These are no longer valid since large UI changes.
 
-    before(() => {
+    /*before(() => {
         cy.login();
 
 
@@ -91,7 +92,7 @@ describe('Starter', () => {
         cy.get('[data-cy=preview-question]').should('be.visible');
 
 
-    });
+    });*/
 
 
 });

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { FirebaseAuthService } from './firebase-auth.service';
-import { map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
-import { Observable, of, Subject } from 'rxjs';
+import { filter, map, mapTo, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { DocumentReference } from '@angular/fire/firestore';
 
+type DeckPayload = {payload: { deck: string, group: string }}
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,8 @@ export class ContentStateService {
   );
 
   saveFlashCard = new Subject<any>();
-  saveFlashCard$ = this.saveFlashCard.asObservable().pipe(
+  saveFlashCard$ = this.saveFlashCard.pipe(
+    filter(v => v && v.payload.deck && v.payload.title),
     switchMap(event => this.deckRef$.pipe(
       take(1),
       switchMap(deckRefs => {
@@ -54,6 +56,21 @@ export class ContentStateService {
       else return this.fsAddFlashcard(payload);
     })
   );
+
+  
+  private saveDeckDispatcher = new ReplaySubject<DeckPayload>(1);
+  public saveDeckListener$: Observable<void> = this.saveDeckDispatcher.pipe(
+    switchMap(event => this.deckRef$.pipe(
+      take(1),
+      switchMap(deckRefs => {
+        const deckRef = deckRefs.find(d => d.id === event.payload.deck || d.value === event.payload.deck);
+        if (deckRef) return of(deckRef.id);
+        else return this.fsAddDeck({ active: true, value: event.payload.deck, group: event.payload.group });
+      }),
+      mapTo(undefined)
+    )),
+  );
+  public dispatchSaveDeck = (deck: DeckPayload) => this.saveDeckDispatcher.next(deck);  
 
   fsAddDeck(entry): Promise<any> {
     return this.fsSelectAggregateDecks().pipe(
@@ -102,29 +119,4 @@ export class ContentStateService {
     )
   }
 
-
-  /* 
-  // TODO: This won't really work anymore -- Group is not maintained
-  dataFix$ = combineLatest([this.deckRef$, this.groupRef$]).pipe(
-    map(([decks, groups]) => {
-      console.log(decks, groups)
-      const aggregateDecks = decks.map(d => d.group ? 
-
-        {id: d.id, value: d.value, group: groups.find(g => g.value === d.group).value} 
-
-        : 
-        
-        {id: d.id, value: d.value, group: d.group});
-
-      return {decks: aggregateDecks};
-    }),
-    tap(console.log),
-   switchMap(val => 
-      this.auth.getUserIdOrCancel(auth => this.fs.testSave('aggregateDeck', auth, val))
-    ),
-    switchMapTo(this.fsSelectAggregateDecks()),
-    tap(console.log),
-  )
-  
-  */
 }

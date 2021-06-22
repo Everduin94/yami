@@ -8,17 +8,25 @@ import { FormTextInputComponent } from './form-text-input/form-text-input.compon
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormTextareaComponent } from './form-textarea/form-textarea.component';
+import { PreviewComponent } from './preview.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconButtonComponent } from './icon-button.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
     FormSelectComponent,
     FormTextInputComponent,
-    FormTextareaComponent
+    FormTextareaComponent,
+    PreviewComponent,
+    IconButtonComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
     FormsModule,
+    MatButtonModule,
     MatSelectModule,
     MatOptionModule,
     MatInputModule,
@@ -33,7 +41,9 @@ import { FormTextareaComponent } from './form-textarea/form-textarea.component';
     MatFormFieldModule,
     FormSelectComponent,
     FormTextInputComponent,
-    FormTextareaComponent
+    FormTextareaComponent,
+    PreviewComponent,
+    IconButtonComponent
   ]
 })
 export class FormComponentsModule { }

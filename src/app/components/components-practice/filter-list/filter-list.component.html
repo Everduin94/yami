@@ -1,5 +1,5 @@
 <div class="filter__header">
-  <app-header-span dataCy="filters-header" label="Filters"></app-header-span>
+  <app-header-span class="indent" dataCy="filters-header" label="Search"></app-header-span>
   <div class="header__content">
 
     <mat-form-field style="margin: 5px; margin-left: 0;">
@@ -22,10 +22,9 @@
 </div>
 
 <div class="filter__body">
-  <app-header-span dataCy="content-header" label="Cards"></app-header-span>
+  <app-header-span class="indent" dataCy="content-header" label="Cards"></app-header-span>
   <div class="body__content">
     <ng-container *ngIf="content; else choose">
-      <ng-container *ngIf=""></ng-container>
       <div class="filter__body__card" *ngFor="let card of content; let i = index">
         <button [ngClass]="activeContent?.id === card?.id ? 'filter-body__content--active' : 'filter-body__content'"
           (click)="raiseClickedEvent(card); $event.preventDefault();" mat-raised-button [attr.data-cy]="'card-' + i">

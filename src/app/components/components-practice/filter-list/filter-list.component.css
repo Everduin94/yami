@@ -5,6 +5,11 @@
     grid-template-rows: min-content minmax(0,1fr);
 }
 
+.indent {
+    padding: 5px;
+    text-indent: 8px;
+}
+
 .filter__header {
     border-top: var(--box-shadow) 1px solid;
     border-bottom: var(--box-shadow) 1px solid;
@@ -41,8 +46,9 @@
 }
 
 .filter-body__content {
-    background: var(--secondary-color);
-    color: #111111;
+    background: var(--box-color);
+    color: var(--text-color);
+    transition: all .3s linear;
 }
 
 .filter-body__content--active, .filter-body__content:hover {

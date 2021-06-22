@@ -38,6 +38,9 @@ import { DeckManagerComponent } from './sub-components/deck-manager/deck-manager
 import { DeckTreeComponent } from './sub-components/deck-manager/deck-tree/deck-tree.component';
 import { DeckSelectComponent } from './sub-components/deck-select.component';
 import { DirtyGuard } from 'src/app/guards/dirty.guard';
+import { EditCardsComponent } from './sub-components/edit-cards.component';
+import { SaveListenerDirective } from './save-listener.directive';
+import { AddDeckFormComponent } from './sub-components/add-deck-form.component';
 
 const routes: Routes = [
   {
@@ -55,6 +58,7 @@ const routes: Routes = [
   declarations: [
     ManageComponent,
     ActionsDrawerComponent,
+    EditCardsComponent,
     QuestionInputComponent,
     MdTextareaWithPreviewComponent,
     AnswerInputComponent,
@@ -64,7 +68,9 @@ const routes: Routes = [
     DeckInputComponent,
     DeckManagerComponent,
     DeckTreeComponent,
-    DeckSelectComponent
+    DeckSelectComponent,
+    SaveListenerDirective,
+    AddDeckFormComponent
   ],
   imports: [
     CommonModule,

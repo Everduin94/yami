@@ -11,6 +11,9 @@ import { QuestionContentModule } from '../question-content/question-content.modu
 import { AnswerContentModule } from '../answer-content/answer-content.module';
 import { NextListenerDirective } from './next-listener.directive';
 import { ShowListenerDirective } from './show-listener.directive';
+import { IconActionBarModule } from '../icon-action-bar.component';
+import { FormComponentsModule } from '@components/components-lib/form-components.module';
+import { ScrollSyncDirective } from './scroll-sync.directive';
 
 const FLASHCARD_ROUTES: Routes = [
   {
@@ -21,7 +24,7 @@ const FLASHCARD_ROUTES: Routes = [
 ];
 
 @NgModule({
-  declarations: [FlashCardsComponent, NextListenerDirective, ShowListenerDirective],
+  declarations: [FlashCardsComponent, NextListenerDirective, ShowListenerDirective, ScrollSyncDirective],
   imports: [
     CommonModule,
     FormsModule,
@@ -31,6 +34,8 @@ const FLASHCARD_ROUTES: Routes = [
     MdToHtmlModule,
     QuestionContentModule,
     AnswerContentModule,
+    IconActionBarModule,
+    FormComponentsModule,
     RouterModule.forChild(FLASHCARD_ROUTES)
   ]
 })

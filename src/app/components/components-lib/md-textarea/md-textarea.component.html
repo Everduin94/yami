@@ -1,20 +1,39 @@
-
 <div class="buttons-bar">
-
-  <button *ngFor="let action of actions" (click)="applyToken(
-    textarea.inputElement.nativeElement.value,
-    textarea.inputElement.nativeElement.selectionStart,
-    textarea.inputElement.nativeElement.selectionEnd,
-    action.token); 
-    $event.preventDefault();
-    applyFocus(textarea.inputElement.nativeElement.selectionStart)">
-    <ng-container *ngIf="!action.alt"><fa-icon [icon]="action.icon"></fa-icon></ng-container>    
-    <ng-container *ngIf="action.alt"><span class="text-icon">{{action.alt}}</span></ng-container>
+  <button
+    *ngFor="let action of actions"
+    (click)="
+      applyToken(
+        textarea.inputElement.nativeElement.value,
+        textarea.inputElement.nativeElement.selectionStart,
+        textarea.inputElement.nativeElement.selectionEnd,
+        action.token
+      );
+      $event.preventDefault()
+    "
+  >
+    <ng-container *ngIf="!action.alt"
+      ><fa-icon [icon]="action.icon"></fa-icon
+    ></ng-container>
+    <ng-container *ngIf="action.alt"
+      ><span class="text-icon">{{ action.alt }}</span></ng-container
+    >
   </button>
-
 </div>
-<app-form-textarea 
- (keyup)="cd.detectChanges()"
- (mouseup)="cd.detectChanges()"
-#textarea [form]="form" [placeholder]="placeholder" [controlName]="controlName" [disabled]="disabled">
+<app-form-textarea
+  (keyup)="cd.detectChanges()"
+  (mouseup)="cd.detectChanges()"
+  (enterEvent)="
+    newLine(
+      textarea.inputElement.nativeElement.value,
+      textarea.inputElement.nativeElement.selectionStart,
+      textarea.inputElement.nativeElement.selectionEnd,
+      $event
+    )
+  "
+  #textarea
+  [form]="form"
+  [placeholder]="placeholder"
+  [controlName]="controlName"
+  [disabled]="disabled"
+>
 </app-form-textarea>

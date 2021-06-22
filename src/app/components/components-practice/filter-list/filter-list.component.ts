@@ -29,7 +29,10 @@ export class FilterListComponent implements OnInit {
 
   raiseClickedEvent(content) {
     this.clickedEvent.emit(content);
-    if (this.activeContent !== content) this.client.setActiveFlashcard({id: content.id});
+    if (this.activeContent !== content) { 
+      this.client.setActiveFlashcard({id: content.id});
+      this.client.updateNavigation('edit');
+    }
   }
 
   changeCategory(c) {

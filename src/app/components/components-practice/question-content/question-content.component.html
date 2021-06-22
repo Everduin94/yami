@@ -1,2 +1,5 @@
-<div class="question-content" data-cy="question-content" *ngIf="activeContent" [innerHTML]="activeContent.question | mdToHtml:'question'"> <!-- Wrapper div for now til we figure out innerHTML Host-Binding-->
+<div #question class="question-content" data-cy="question-content" *ngIf="activeContent" 
+[scrollTop]="scrollTop"
+(scroll)="logme($event)"
+[innerHTML]="activeContent.question | mdToHtml:'question'"> <!-- Wrapper div for now til we figure out innerHTML Host-Binding-->
 </div>
